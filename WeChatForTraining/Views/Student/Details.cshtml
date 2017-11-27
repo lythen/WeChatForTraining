@@ -1,0 +1,199 @@
+﻿@model WeChatForTraining.ViewModel.StudentDetail
+@{
+    ViewBag.Title = "学生详细信息";
+}
+<style>
+    .d-line {
+        float:left;
+        width:auto;
+        height: 30px;
+        line-height: 30px;
+        margin-right:35px;
+    }
+    .d-line div{
+        width:auto;
+        padding:3px 5px 3px 5px;
+        float:left;
+        font-size:16px;
+    }
+    .d-line div:first-child{
+        font-weight:bold;
+    }
+    img{
+        max-width:140px;
+    }
+    @@media (min-width: 992px){
+        .d-line {
+            width:40%;
+        }
+        img{
+        max-width:160px;
+    }
+    }
+
+</style>
+<h4>学生详细信息</h4>
+
+<div>
+    <hr />
+    <div class="d-line" style="width:100%;height:auto;">
+        <div>
+            <img id="stuphoto" />
+            @Html.HiddenFor(model => model.student_Info.photo)
+        </div>
+    </div>
+    <div class="d-line">
+        <div>
+            @Html.DisplayNameFor(model => model.student_Info.id)：
+        </div>
+
+        <div>
+            @Html.DisplayFor(model => model.student_Info.id)
+        </div>
+    </div>
+    <div class="d-line">
+        <div>
+            @Html.DisplayNameFor(model => model.student_Info.name)：
+        </div>
+
+        <div>
+            @Html.DisplayFor(model => model.student_Info.name)
+        </div>
+    </div>
+    <div class="d-line">
+
+        <div>
+            @Html.DisplayNameFor(model => model.student_Info.sex)：
+        </div>
+
+        <div>
+            @Html.DisplayFor(model => model.student_Info.sex)
+        </div>
+    </div>
+    <div class="d-line">
+        <div>
+            @Html.DisplayNameFor(model => model.student_Info.birthday)：
+            @Html.HiddenFor(model => model.student_Info.birthday)
+        </div>
+
+        <div id="birthday">
+
+        </div>
+    </div>
+    <div class="d-line">
+        <div>
+            @Html.DisplayNameFor(model => model.student_Info.phone)：
+        </div>
+
+        <div>
+            @Html.DisplayFor(model => model.student_Info.phone)
+        </div>
+    </div>
+    <div class="d-line">
+        <div>
+            @Html.DisplayNameFor(model => model.student_Info.email)：
+        </div>
+
+        <div>
+            @Html.DisplayFor(model => model.student_Info.email)
+        </div>
+    </div>
+    <div class="d-line">
+        <div>
+            @Html.DisplayNameFor(model => model.student_Info.school_name)：
+        </div>
+
+        <div>
+            @Html.DisplayFor(model => model.student_Info.school_name)
+        </div>
+    </div>
+    <div class="d-line">
+        <div>
+            @Html.DisplayNameFor(model => model.student_Info.grade_name)：
+        </div>
+
+        <div>
+            @Html.DisplayFor(model => model.student_Info.grade_name)
+        </div>
+    </div>
+    <div class="d-line">
+        <div>
+            @Html.DisplayNameFor(model => model.student_Info.address)：
+        </div>
+
+        <div>
+            @Html.DisplayFor(model => model.student_Info.address)
+        </div>
+    </div>
+    <div class="d-line d-table" style="width:100%;">
+        <table class="table">
+            <tr>
+                <th>
+                    科目
+                </th>
+                <th>
+                    课程
+                </th>
+                <th>
+                    季度
+                </th>
+                <th>
+                    上课时间
+                </th>
+                <th>
+                    课程状态
+                </th>
+                <th>
+                    操作
+                </th>
+            </tr>
+@if (Model.stu_courses != null)
+{
+            foreach (var item in Model.stu_courses)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(itemModel => item.subject)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(itemModel => item.course_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(itemModel => item.season)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(itemModel => item.time)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(itemModel => item.state)
+                    </td>
+                    <td>
+                        @Html.ActionLink("详细", "CourseEdit", new { id = item.student, course = item.course }) |
+                        @Html.ActionLink("删除", "CourseDelete", new { id = item.student, course = item.course })
+                    </td>
+                </tr>
+            }
+}
+        </table>
+    </div>
+    <div class="d-line" style="width:100%;">
+        <div style="height:auto;">@Html.ActionLink("编辑学生基本信息", "Edit", new { id = Model.student_Info.id }, new { @class = "btn btn-success" }) </div>
+        <div style="height:auto;">@Html.ActionLink("返回", "DetailBack", null, new { @class = "btn btn-warning" })</div>
+    </div>
+</div>
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(function () {
+        $('.studentlist').addClass('active');
+        var bir = $('#student_Info_birthday');
+        var ft = bir.val().split(' ');
+        $('#birthday').text(ft[0]);
+        $('#stuphoto').attr('src', '../../images/stu/' + $('#student_Info_photo').val() + '?t=' + Math.random());
+        var h=$('.table').height();
+        $('.d-table').height(h+17);
+    });
+    window.onresize = function () {
+        var h = $('.table').height();
+        $('.d-table').height(h + 17);
+    }
+</script>

@@ -1,0 +1,89 @@
+﻿@model WeChatForTraining.ViewModel.ParentsModel
+
+@{
+    ViewBag.Title = "家长管理界面";
+}
+<style>
+    ul{
+        list-style:none;
+        padding:20px 0px 0px 0px;
+    }
+    li{line-height:300%;}
+    .col-sm-10{width:auto;}
+    div{
+        float:left;
+    }
+    label{float:left;}
+    .col-sm-10 label{font-size:15px;}
+    .form-group{
+        width:100%;
+        font-size:15px;
+    }
+    body{margin-top:15px;font-size:15px;}
+</style>
+@using (Html.BeginForm("Index", "Parents", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">家长姓名：</label>
+        <div class="col-sm-10">
+           <label class="label label-info">@Model.name</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">上一次登陆：</label>
+        <div class="col-sm-10">
+            <label class="label label-info">@Model.lastTime</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">登陆次数：</label>
+        <div class="col-sm-10">
+            <label class="label label-info">@Model.times</label>
+        </div>
+    </div>
+      <div class="form-group">
+          <label class="col-sm-2 control-label">子女列表</label>
+          <div class="col-sm-10" style="width:100%;">
+    <ul>
+              @if (Model.guardianships.Count() > 0) {
+                  foreach (var item in Model.guardianships)
+                  {
+        <li style="padding:5px 5px 5px 10px;float:left;width:auto;">
+            <a href="./Student/Details/@{@item.id} " class="alert-link">
+                <div class="text-center left" style="width: 100px;height: 140px; margin-left:5px;line-height:90%;">
+                    <figure style="width: 100px;height: 140px;">
+                        <img class="img-circle img-responsive thumbnail" src="~/Images/stu/@{@item.photo} " />
+                    </figure>
+                    <br />
+                    <p>@item.name</p>
+                    <p>@item.id</p>
+
+                </div>
+            </a>
+        </li>
+    }
+    }else{
+              <li style="padding:5px 5px 5px 10px;width:100%;">
+                  当前未绑定任何被监护人。
+              </li>
+              }
+    </ul></div>
+          </div>
+           @Html.RouteLink("登出", new { controller = "Login", action = "LogOut" }, new { onclick = "return confirm('是否退出当前登陆？')",@class= "btn btn-warning", @style= "font-size:18px;width:100%;text-align:center;position:relative;margin-top:150px;" })
+}
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(function () {
+        var fgs = $('.form-group .control-label');
+        var w = $(fgs[1]).width();
+        $(fgs[0]).width(w);
+        $(fgs[2]).width(w);
+        $(fgs[3]).width(w);
+    });
+    function LogOut() {
+        if (confirm('是否退出当前登陆？'))
+            $('#btnOut').text().click();
+    }
+</script>

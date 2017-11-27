@@ -1,0 +1,51 @@
+﻿@model IEnumerable<WeChatForTraining.ViewModel.ViewSysSchool>
+
+@{
+    ViewBag.Title = "校区列表";
+}
+@Html.ActionLink("添加校区", "SysSchool", null, new { @class = "btn btn-success" })
+<hr />
+<table class="table">
+    <tr>
+        <th>
+            校区名称
+        </th>
+        <th>
+           校区电话
+        </th>
+
+        <th>
+            校区地址
+        </th>
+        <th>操作</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.phone)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.address)
+            </td>
+           
+            <td>
+                @Html.ActionLink("详细", "SysSchool", new { id = item.id }) |
+                @Html.ActionLink("删除", "SysSchoolDelete", new { id = item.id },new { onclick = "return confirm('是否删除当前校区？删除将无法恢复！')" })
+            </td>
+        </tr>
+    }
+
+</table>
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(function () {
+        $('.sysschool').addClass('active');
+    });
+</script>

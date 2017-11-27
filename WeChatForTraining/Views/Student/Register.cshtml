@@ -1,0 +1,120 @@
+﻿@model WeChatForTraining.ViewModel.RegisterModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<h4>学生报名</h4>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.student, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.student, new { htmlAttributes = new { @class = "form-control",@placeholder="请输入学生姓名或者编号" } })
+                @Html.ValidationMessageFor(model => model.student, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.subject, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.subject, ViewBag.Subjects as List<SelectListItem>, "---请选择---", new { @class = "select form-control" })
+                @Html.ValidationMessageFor(model => model.subject, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.course, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.course, ViewBag.Courses as List<SelectListItem>, "---请选择---", new { @class = "select form-control" })
+                @Html.ValidationMessageFor(model => model.course, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">课程收费</label>
+            <div class="col-md-10">
+                <input class="form-control text-box single-line" id="cost" name="cost" type="number" readonly value="">
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.pay, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.pay, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                @Html.ValidationMessageFor(model => model.pay, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.info, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.info, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.info, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+
+            <div class="col-md-10 msg" style="color:red;">
+                @ViewBag.msg
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="录   入" onclick="return CheckPay();" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $(function () {
+        $('.courseregister').addClass('active');
+        $('#subject').change(function () {
+            $.post("../Student/CreateSelect3", { subject: $('#subject').val() }, function (data) {
+                var course = $('#course');
+                course.html('');
+                course.append($('<option value="0">---请选择---</option>'));
+                $.each(data, function (i, item) {
+                    course.append($('<option value="' + item.id + '">' + item.text + '</option>'));
+                });
+            });
+        });
+        $('#course').change(function () {
+            $.post("@Url.RouteUrl(new { controller="Course",action= "GetCourseCost" })", { course: $('#course').val() }, function (data) {
+                if (data && data.state == 1) {
+                    $('#cost').val(data.data);
+                } else $('#cost').val('价格查询出错。');
+            });
+        });
+        $('#student').blur(function () {
+            var stu = this.value;
+            $('.msg').text('');
+            if (stu)
+                $.post("@Url.RouteUrl(new { controller = "Student", action = "CheckStudent" })", { student: stu }, function (data) {
+                    if (!data || data.state != 1)
+                        $('.msg').text('没有查到该学生信息。');
+            });
+        });
+    });
+    function CheckPay() {
+        var cost = $('#cost').val();
+        if (!$.isNumeric(cost)) {
+            $('.msg').text('该课程没有价格，无法报名。');
+            return false;
+        }
+        var pay = $('#pay').val();
+        if (!$.isNumeric(pay)) {
+            $('.msg').text('报名金额输入不正确。');
+            return false;
+        }
+        var i_cost = parseInt((parseFloat(cost) * 100).toString());
+        var i_pay = parseInt((parseFloat(pay) * 100).toString());
+        if (i_cost != i_pay) {
+            return confirm("输入金额与课程价格不一致，是否已审核该收费正确？");
+        }
+        return true;
+    }
+</script>

@@ -1,0 +1,73 @@
+﻿@model IEnumerable<WeChatForTraining.ViewModel.UserModel>
+
+@{
+    ViewBag.Title = "教师列表";
+}
+<h4>教师列表</h4>
+<hr />
+<table class="table">
+    <tr>
+        <th>
+            教师ID
+        </th>
+        <th>
+            姓名
+        </th>
+
+        <th>
+            角色
+        </th>
+        <th>
+            电话
+        </th>
+        <th>
+            登陆次数
+        </th>
+        <th>操作</th>
+    </tr>
+    @if (Model != null)
+    {
+    foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.user_id)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.user_name)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.role_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.user_phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.user_login_times)
+            </td>
+            <td>
+                @if (ViewBag.isedit == 1)
+                {
+                    @Html.ActionLink("编辑", "Edit", new { id = item.user_id })
+                }
+                
+                @Html.ActionLink("详细", "Details", new { id = item.user_id }) 
+
+                @if (ViewBag.isdelete == 1)
+                {
+                @Html.ActionLink("删除", "Delete", new { id = item.user_id })
+                }
+            </td>
+        </tr>
+    }
+    }
+</table>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(function () {
+        $('.teacherlist').addClass('active');
+    });
+</script>

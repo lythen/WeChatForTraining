@@ -1,0 +1,213 @@
+﻿@model WeChatForTraining.ViewModel.TeachersModel
+
+@{
+    ViewBag.Title = "教师管理界面";
+    WeChatForTraining.ViewModel.TeacherSearch searchInfo = (WeChatForTraining.ViewModel.TeacherSearch)ViewData["search"];
+}
+<style>
+    @@media (min-width: 992px) {
+        .btn-warning,.btn-info,.th-n,.lit-none {display:none;}
+    }
+    @@media (max-width: 991px) {
+        .col-sm-10 {
+        width: auto;
+    }
+
+    div {
+        float: left;
+    }
+
+    label {
+        float: left;
+    }
+
+    .col-sm-10 label {
+        font-size: 15px;
+    }
+
+    .form-group {
+        width: 100%;
+        font-size: 15px;
+    }
+
+    body {
+        margin-top: 15px;
+        font-size: 15px;
+    }
+
+    html {
+        width: 100%;
+        background: none;
+    }
+
+    .form-horizontal .form-group {
+        margin-right: 0px;
+        margin-left: 0px;
+    }
+
+    .col-sm-10 {
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+        .lit-none {
+            display: inline;
+        }
+
+        .th-tr {
+            display: none;
+        }
+
+        .table2 td {
+            float: left;
+            width: 100%;
+            border: none;
+            padding: 5px;
+            border: none;
+            background-color: #f8efc0;
+            text-align: right;
+            margin-top: 2px;
+            height: 31px;
+        }
+
+        .table2 .td-first {
+            height: auto;
+            text-align: left;
+            padding: 10px;
+            margin-top: 15px;
+            background-image: linear-gradient(to bottom,#dff0d8 0,#c8e5bc 100%);
+            background-repeat: repeat-x;
+        }
+
+        .lit-display {
+            display: none;
+        }
+    }
+</style>
+
+@using (Html.BeginForm("Index", "Teacher", searchInfo, FormMethod.Post, new { @class = "form-horizontal", @id = "form1" }))
+{
+    <h4 style="float:left;">个人信息</h4>
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(search => searchInfo.id);
+    <div class="form-group">
+        <div class="col-sm-10" style="width:100%;">
+            <table class="table">
+                <tr>
+                    <td style="text-align:left;">
+                        姓名：
+                    </td>
+                    <td style="text-align:right">
+                        @Model.name
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align:left;">
+                        角色：
+                    </td>
+                    <td style="text-align:right">
+                        @Session["LoginRole"]
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align:left;">上一次登陆：</td>
+                    <td style="text-align:right">@Model.lastTime</td>
+                </tr>
+                <tr>
+                    <td style="text-align:left;">登陆次数：</td>
+                    <td style="text-align:right">@Model.times</td>
+                </tr>
+                <tr>
+                    <td style="text-align:left;">
+                        @Html.ActionLink("编辑信息", "Edit", new { id = searchInfo.id },new { @class="btn btn-info" })
+                    </td>
+                    <td style="text-align:right"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <h2 style="float:left;">课程列表</h2>
+
+    <div class="form-group" style="text-align:right;margin-bottom:0;">
+        <div class="col-sm-10" style="width:100%;">
+            @Html.CheckBoxFor(search => searchInfo.isAll, new { @id = "cbkThis", @style = "display:inline" })
+            <label for="cbkThis" style="display:inline;float:none;">全部</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-10" style="width:100%;">
+            <table class="table2 table">
+                <tr class="th-tr">
+                    <th>科目</th>
+                    <th>课程</th>
+                    <th>上课时间</th>
+                    <th>上课地点</th>
+                    <th>学生人数</th>
+                    <th>助教老师</th>
+                    <th class="th-n">操作</th>
+                </tr>
+                @if (Model.courses.Count() > 0)
+                {
+                    foreach (var item in Model.courses)
+                    {
+                        <tr>
+                            <td class="lit-display">
+                                @Html.DisplayFor(itemModel => item.subjectName)
+                            </td>
+                            <td class="td-first">
+                                @Html.DisplayFor(itemModel => item.name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(itemModel => item.timeInfo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(itemModel => item.schoolName)&nbsp;@Html.DisplayFor(itemModel => item.roomName)
+                            </td>
+
+                            <td>
+                                <literal class="lit-none">人数&nbsp;</literal>  @Html.DisplayFor(itemModel => item.stunum) 人
+                            </td>
+                            <td>
+                                <literal class="lit-none">助教&nbsp;</literal> @Html.DisplayFor(itemModel => item.assistantName)
+                            </td>
+                            <td  class="th-n">
+                                @if (item.cvt != 0)
+                                {
+                                    @Html.RouteLink("点名", new { controller = "Student", action = "Rollcall", courseTime = item.cvt })
+                                }
+                                else
+                                {
+                                    <span>点名</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        没有分配任何课程。
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+    @Html.RouteLink("登出", new { controller = "Login", action = "LogOut" }, new { onclick = "return confirm('是否退出当前登陆？')", @class = "btn btn-warning", @style = "font-size:18px;width:100%;text-align:center;position:relative;margin-top:150px;" })
+}
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(function () {
+        //var fgs = $('.form-group .control-label');
+        //var w = $(fgs[1]).width();
+        //$(fgs[0]).width(w);
+        //$(fgs[2]).width(w);
+        //$(fgs[3]).width(w);
+        $('#cbkThis').change(function () {
+            $('#form1').submit();
+        });
+    });
+    function LogOut() {
+        if (confirm('是否退出当前登陆？'))
+            $('#btnOut').text().click();
+    }
+
+</script>

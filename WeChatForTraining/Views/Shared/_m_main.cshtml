@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <script src="~/scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/scripts/bootstrap.min.js"></script>
+    <style>
+        .container-fluid{
+            margin-top:70px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">导航条</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" style="padding: 10px 15px;" href="">
+                    <img alt="广州市跃飞艺术培训机构" style="width:80px;height: 26px;" src="~/content/images/logo.jpg" />
+                </a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav" id="nav-list">
+                    <li class="active"><a href="@Url.RouteUrl(new { controller = "Home",action="Index" })">首页</a></li>
+                    <li><a href="@Url.RouteUrl(new { controller = "Teacher",action="TeacherCourses" })">课程</a></li>
+                    <li><a href="@Url.RouteUrl(new { controller = "Course",action= "RollcallList" })">点名</a></li>
+                    <li><a href="@Url.RouteUrl(new { controller = "Login", action = "Logout" })">注销</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        @RenderBody()
+    </div>
+
+    @RenderSection("scripts", false)
+</body>
+</html>

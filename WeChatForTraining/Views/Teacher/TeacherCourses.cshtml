@@ -1,0 +1,161 @@
+﻿@model WeChatForTraining.ViewModel.TeacherSearch
+@{
+    ViewBag.Title = "排课信息";
+    List<WeChatForTraining.ViewModel.TeacherCourse> cList = (List<WeChatForTraining.ViewModel.TeacherCourse>)ViewData["TeacherCourse"];
+}
+<style>
+        @@media (min-width: 992px) {
+        .btn-warning,.btn-info,.th-n,.lit-none {display:none;}
+         td{max-width:200px;min-width:55px;}
+         .cbk-display{
+            display:inline;
+        }
+    }
+   @@media (max-width: 991px) {
+        .col-sm-10 {
+        width: auto;
+    }
+    label {
+        float: left;
+    }
+
+    .col-sm-10 label {
+        font-size: 15px;
+    }
+
+    .form-group {
+        width: 100%;
+        font-size: 15px;
+    }
+
+    body {
+        margin-top: 15px;
+        font-size: 15px;
+    }
+
+    html {
+        width: 100%;
+        background: none;
+    }
+
+    .form-horizontal .form-group {
+        margin-right: 0px;
+        margin-left: 0px;
+    }
+
+    .col-sm-10 {
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+        .lit-none {
+            display: inline;
+        }
+
+        .th-tr {
+            display: none;
+        }
+
+        .table2 td {
+            float: left;
+            width: 100%;
+            border: none;
+            padding: 5px;
+            border: none;
+            background-color: #f8efc0;
+            text-align: right;
+            margin-top: 2px;
+            height: 31px;
+        }
+
+        .table2 .td-first {
+            height: auto;
+            text-align: left;
+            padding: 10px;
+            margin-top: 15px;
+            background-image: linear-gradient(to bottom,#dff0d8 0,#c8e5bc 100%);
+            background-repeat: repeat-x;
+        }
+
+        .lit-display {
+            display: none;
+        }
+        .cbk-display{
+            display:none;
+        }
+    }
+</style>
+@using (Html.BeginForm(FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+<h4>课程列表</h4>
+
+<div class="form-group" style="margin-bottom:0;">
+    <div class="col-sm-10" style="width:100%;">
+        选择主讲老师或助教 @Html.DropDownListFor(model=> model.id,ViewBag.Teachers as List<SelectListItem>,"----请选择----",new { @class="select"})
+        @Html.ValidationMessageFor(model => model.id, "请选择主讲老师或助教老师", new { @class = "text-danger" })
+        @Html.CheckBoxFor(model => model.isAll, new {@class= "cbk-display" })
+        @Html.ValidationMessageFor(model => model.isAll, "", new { @class = "text-danger" })
+        <label for="isAll" class="lit-display" style="float:none;">全部</label>
+    </div>
+</div>
+<hr />
+<div class="form-group">
+    <div class="col-sm-10" style="width:100%;">
+        <table class="table2 table">
+            <tr class="th-tr">
+                <th>科目</th>
+                <th style="max-width:200px;">课程</th>
+                <th>上课时间</th>
+                <th>上课地点</th>
+                <th>学生人数</th>
+                <th>助教老师</th>
+            </tr>
+            @if (cList != null && cList.Count() > 0)
+            {
+                foreach (var item in cList)
+                {
+                    <tr>
+                        <td class="lit-display">
+                            @Html.DisplayFor(itemModel => item.subjectName)
+                        </td>
+                        <td class="td-first">
+                            @Html.DisplayFor(itemModel => item.name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(itemModel => item.timeInfo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(itemModel => item.schoolName)&nbsp;@Html.DisplayFor(itemModel => item.roomName)
+                        </td>
+
+                        <td>
+                            <literal class="lit-none">人数&nbsp;</literal>  @Html.DisplayFor(itemModel => item.stunum) 人
+                        </td>
+                        <td>
+                            <literal class="lit-none">助教&nbsp;</literal> @Html.DisplayFor(itemModel => item.assistantName)
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7">没有分配任何课程。</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(function () {
+        $('.teachercourse').addClass('active');
+        $('select').change(function () {
+            $('form').submit();
+        });
+        $('#isAll').change(function () {
+            $('form').submit();
+        });
+    });
+    </script>

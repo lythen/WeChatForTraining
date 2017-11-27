@@ -1,0 +1,64 @@
+﻿@model IEnumerable<WeChatForTraining.Models.Student_Info>
+
+@{
+    ViewBag.Title = "学生信息";
+}
+<style>
+    ul {
+        list-style: none;
+        margin-top:20px;
+    }
+
+    li {
+        line-height: 300%;
+        width:100%;
+    }
+    .stu-subject,.stu-subject li{
+        padding:0px;
+    }
+    .stu-subject td,th{
+        padding:5px 5px 5px 5px;
+    }
+</style>
+<ul class="stu-info" style="display:none;">
+    <li style="text-align:center;">
+            <figure style="width: 100px;height: 100px;margin:0;">
+                <img class="img-circle img-responsive " src="~/Images/20170912171417.png" />
+            </figure>
+    </li>
+    <li>
+        学生编号：201702154125
+    </li>
+    <li>
+        学生姓名：小红
+    </li>
+    <li>
+        当前上课：2017秋季看图说话
+    </li>
+    <li style="height:100px;">
+        <div style="height:50px;float:left;">下一节课：</div><div style="height:50px;float:left;">
+    2017年8月10日 9:00<br />
+    2017秋季看图说话
+</div>
+    </li>
+    <li>
+        <input type="button" value="查看所有课程" />
+    </li>
+</ul>
+<ul class="stu-subject">
+    <li>当前已报科目：</li>
+    <li class="col-md-6">
+
+        <table class="table">
+            <tr>
+                <th>课程</th>
+                <th>上课时间</th>
+            </tr>
+            <tr onclick="">
+                <td>2017秋季看图说话</td>
+                <td>每星期三9:00</td>
+            </tr>
+        </table>
+
+    </li>
+</ul>

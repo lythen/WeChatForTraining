@@ -1,0 +1,38 @@
+﻿@model IEnumerable<WeChatForTraining.ViewModel.RollCallList>
+@{
+    ViewBag.Title = "待点名课程";
+}
+<style>
+    a{margin-top:10px;}
+    .list-group-item:last-child {
+        margin-bottom: 0;
+        border-bottom-right-radius: 0px;
+        border-bottom-left-radius: 0px;
+}
+    .list-group-item:first-child {
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+}
+</style>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<h4>待点名课程</h4>
+    <hr />
+    if (Model != null&& Model.Count()>0)
+    {
+        foreach (var item in Model)
+        {
+            <a class="list-group-item active" href="@Url.RouteUrl(new { controller="Course",action="Rollcall",courseTime=item.id})">
+                <h4 class="list-group-item-heading">@Html.DisplayFor(modelItem => item.name)</h4>
+                <p class="list-group-item-text">@Html.DisplayFor(modelItem => item.strTime)</p>
+            </a>
+        }
+    }
+    else
+    {
+        <div class="list-group-item active">当前无可点名课程</div>
+
+    }
+}

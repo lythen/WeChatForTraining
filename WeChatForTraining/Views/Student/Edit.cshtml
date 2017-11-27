@@ -1,0 +1,217 @@
+﻿@model WeChatForTraining.ViewModel.StudentsModel
+
+@{
+    ViewBag.Title = "修改学生信息";
+}
+<style>
+
+</style>
+<h4>修改学生信息</h4>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+        <div style="width:70%;float:left;">
+            <div class="form-group">
+                @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.cardType, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.cardType, ViewBag.CardTypes as List<SelectListItem>, new { @class = "select form-control" })
+                    @Html.ValidationMessageFor(model => model.cardType, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.IdCard, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.IdCard, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.IdCard, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.sex, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.sex, ViewBag.SexList as List<SelectListItem>, new { @class = "select form-control" })
+                    @Html.ValidationMessageFor(model => model.sex, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.birthday, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.birthday, new { htmlAttributes = new { @class = "form-control form_date" } })
+                    @Html.ValidationMessageFor(model => model.birthday, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.school, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.school, ViewBag.Schools as List<SelectListItem>, "----请选择----", new { @class = "select form-control" })
+                    @Html.ValidationMessageFor(model => model.school, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.grade, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.grade, ViewBag.Grades as List<SelectListItem>, "----请选择----", new { @class = "select form-control" })
+                    @Html.ValidationMessageFor(model => model.grade, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.address, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.address, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.address, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+
+                <div class="col-md-10" style="color:red;">
+                    @ViewBag.msg
+                </div>
+            </div>
+            
+        </div>
+        <div style="width:25%;float:left;min-width:200px">
+            <div class="col-md-10">
+                <img style="max-width:200px" id="stuphoto" />
+            </div>
+            <div class="col-md-10" style="padding-top:10px;">
+                @Html.HiddenFor(model => model.photo)
+                <input type="button" value="选择图片" onclick="OpenUpFile();" class="btn btn-primary" />
+                <input type="file" style="display:none" onchange="UpFile(this)" id="upFile" name="upFile" />
+                <p>请使用小一寸或大一寸证件照片</p>
+            </div>
+        </div>
+        <div style="width:70%;float:left;min-width:200px;">
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="录   入" class="btn btn-success" />
+                    @Html.ActionLink("返回列表", "ViewList", null, new { @class = "btn btn-warning" })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/scripts/bootstrap.min.js"></script>
+<script src="~/scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/scripts/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<link href="~/content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<script>
+    $(function () {
+        $('.studentlist').addClass('active');
+        var bir = $('#birthday');
+        var ft = bir.val().split(' ');
+        bir.val(ft[0]);
+        $('.form_date').change(function () {
+            var ft = this.value.split(' ');
+            this.value = ft[0];
+        });
+        $('#stuphoto').attr('src', '../../images/stu/'+$('#photo').val()+'?t='+Math.random());
+    });
+    function OpenUpFile() {
+        $('#upFile').click();
+    }
+    function UpFile(obj) {
+        if (obj.files == null) {
+            alert("没有选择文件。");
+            return;
+        }
+        if (!checkfile(obj)) return;
+        var file = obj.files[0];
+        if (file.size > 1048576) {
+            alert("请上传大小小于1M的照片。");
+            return;
+        }
+        var formdata = new FormData();
+        
+        formdata.append("data", file);
+        formdata.append("name", file.name);
+        $.ajax({
+            url: "../UploadPicture/",
+            type: "post",
+            data: formdata,
+            async: true,
+            processData: false, //不对form进行处理
+            contentType: false, //指定为false才能形成正确的Content-Type
+            success: function (data, textStatus) {
+                if (data.state == 1) {
+                    $('#stuphoto').attr('src', '../../images/temp/' + data.data);
+                    $('#photo').val(data.data);
+                }
+                else if (data.state == 0) {
+                    //发生错误，重新上传
+                    alert(data.msg_text);
+                } else {
+                    alert("发生错误，重新上传");
+                }
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                //发生错误，重新上传
+                alert("发生错误，重新上传");
+            }
+        });
+    }
+    $('.form_date').datetimepicker({
+        language: 'zh-CN',
+        weekStart: 1,
+        todayBtn: 0,
+        autoclose: 1,
+        todayHighlight: 0,
+        startView: 2,
+        minView: 2,
+        forceParse: 0,
+        startDate: "2008-01-01"
+    });
+    function TxtChange(obj) {
+        var ft = obj.value.split(' ');
+        $(obj).val(ft[0]);
+    }
+    function checkfile(obj) {
+        var validExts = new Array(".jpg");
+        var fileExt = obj.files[0].name;
+        fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+        if (validExts.indexOf(fileExt) < 0) {
+            obj.files = null;
+            alert("文件选择出错, 请选择 " + validExts.toString() + "类型文件。");
+            return false;
+        }
+        else return true;
+    }
+   
+</script>

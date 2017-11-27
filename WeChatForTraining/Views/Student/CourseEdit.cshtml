@@ -1,0 +1,151 @@
+﻿@model WeChatForTraining.ViewModel.StudentCourseDetails
+@{
+    ViewBag.Title = "课程详细信息";
+}
+<style>
+    .d-line {
+        float: left;
+        width: auto;
+        height: 30px;
+        line-height: 30px;
+        margin-right: 35px;
+    }
+
+        .d-line div {
+            width: auto;
+            padding: 3px 5px 3px 5px;
+            float: left;
+            font-size: 16px;
+        }
+
+            .d-line div:first-child {
+                font-weight: bold;
+            }
+
+    img {
+        max-width: 140px;
+    }
+    .c-div{
+        float:left;
+        width:auto;
+        height:28px;
+        line-height:28px;
+        padding:2px 5px 2px 5px;
+        margin:5px 15px 5px 5px;
+        font-weight:normal;
+        font-size:14px;
+    }
+    @@media (min-width: 992px) {
+        .d-line {
+            width: 40%;
+        }
+
+        img {
+            max-width: 160px;
+        }
+    }
+</style>
+
+<h4>课程详细信息</h4>
+
+<div>
+    <hr />
+    @ViewBag.msg
+    <div class="d-line">
+        <div>
+            @Html.DisplayNameFor(model => model.StuCourse.season)：
+        </div>
+
+        <div>
+            @Html.DisplayFor(model => model.StuCourse.season)
+        </div>
+    </div>
+    <div class="d-line">
+        <div>
+            @Html.DisplayNameFor(model => model.StuCourse.subject)：
+        </div>
+
+        <div>
+            @Html.DisplayFor(model => model.StuCourse.subject)
+        </div>
+    </div>
+    <div class="d-line">
+
+        <div>
+            @Html.DisplayNameFor(model => model.StuCourse.course_name)：
+        </div>
+
+        <div>
+            @Html.DisplayFor(model => model.StuCourse.course_name)
+        </div>
+    </div>
+    <div class="d-line">
+        <div>
+            @Html.DisplayNameFor(model => model.StuCourse.state)：
+        </div>
+
+        <div>
+            @Html.DisplayFor(model => model.StuCourse.state)
+        </div>
+    </div>
+    <div class="d-line">
+        <div>
+            @Html.DisplayNameFor(model => model.StuCourse.time)：
+        </div>
+
+        <div>
+            @Html.DisplayFor(model => model.StuCourse.time)
+        </div>
+    </div>
+    <div class="d-line">
+        <div>
+            @Html.DisplayNameFor(model => model.StuCourse.cost)：
+        </div>
+
+        <div>
+            @Html.DisplayFor(model => model.StuCourse.cost)
+        </div>
+    </div>
+    <div class="d-line">
+        <div>
+            @Html.DisplayNameFor(model => model.StuCourse.pay)：
+        </div>
+
+        <div>
+            @Html.DisplayFor(model => model.StuCourse.pay)
+        </div>
+    </div>
+    <div class="d-line d-table" style="width:100%;">
+        
+            @if (Model.details != null)
+            {
+                string ct= "label-info";
+                foreach (var item in Model.details)
+                {
+                    if (item.svct == 1) { ct = "label-info"; }
+                    else if (item.svct == 2) { ct = "label-success"; }
+                    else if (item.svct == 3) { ct = "label-warning"; }
+                    else if (item.svct == 4) { ct = "label-danger"; }
+                        <div class="label @ct c-div" style="padding:2px 5px 2px 5px;font-size:14px;" title="@item.rcname">
+                            @Html.DisplayFor(itemModel => item.name)
+                            @Html.HiddenFor(itemModel=>item.svct)
+                        </div>
+                }
+            }
+        <div class="d-line" style="width:100%;padding:0px;">
+            <div style="height:auto;">@Html.ActionLink("返回", "Details", new { id=Model.StuCourse.student}, new { @class = "btn btn-warning" })</div>
+        </div>
+    </div>
+
+</div>
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(function () {
+        var h=$('.table').height();
+        $('.d-table').height(h+17);
+    });
+    window.onresize = function () {
+        var h = $('.table').height();
+        $('.d-table').height(h + 17);
+    }
+</script>

@@ -1,0 +1,135 @@
+﻿@model WeChatForTraining.ViewModel.TeacherEditModel
+
+@{
+    ViewBag.Title = "修改信息";
+}
+<style>
+    @@media(max-width: 991px){
+        .form-group .l-fl{
+            width:auto;float:left;
+        }
+    }
+    @@media(min-width: 992px){
+        .form-group .l-fl{
+            padding-top:7px;
+        }
+    }
+</style>
+<h4>修改信息</h4>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.user_id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.user_name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.user_name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.user_name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.user_phone, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.user_phone, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.user_phone, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.user_email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.user_email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.user_email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.user_password, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.user_password, new { htmlAttributes = new { @class = "form-control", @placeholder = "不修改密码，不需要输入" } })
+                @Html.ValidationMessageFor(model => model.user_password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.user_password2, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.user_password2, new { htmlAttributes = new { @class = "form-control", @placeholder = "不修改密码，不需要输入" } })
+                @Html.ValidationMessageFor(model => model.user_password2, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.user_home_address, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.user_home_address, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.user_home_address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.user_info, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.user_info, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.user_info, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.user_add_time, htmlAttributes: new { @class = "control-label col-md-2 l-fl",  })
+            <div class="col-md-10 l-fl">
+                @Html.DisplayFor(model => model.user_add_time, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.user_add_time, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.user_add_user, htmlAttributes: new { @class = "control-label col-md-2 l-fl" })
+            <div class="col-md-10 l-fl">
+                @Html.DisplayFor(model => model.user_add_user, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.user_add_user, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.user_update_time, htmlAttributes: new { @class = "control-label col-md-2 l-fl" })
+            <div class="col-md-10 l-fl">
+                @Html.DisplayFor(model => model.user_update_time, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.user_update_time, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.user_update_user, htmlAttributes: new { @class = "control-label col-md-2 l-fl" })
+            <div class="col-md-10 l-fl">
+                @Html.DisplayFor(model => model.user_update_user, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.user_update_user, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.user_login_times, htmlAttributes: new { @class = "control-label col-md-2 l-fl" })
+            <div class="col-md-10 l-fl">
+                @Html.DisplayFor(model => model.user_login_times,new { @class = "form-control"})
+                @Html.ValidationMessageFor(model => model.user_login_times, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="保存" class="btn btn-success" />
+                &nbsp;&nbsp;@Html.ActionLink("返回", "Index",new { id = Model.user_id },new { @class= "btn btn-warning" })
+            </div>
+        </div>
+        <div class="form-group">
+
+            <div class="col-md-10" style="color:red;">
+                @ViewBag.msg
+            </div>
+        </div>
+    </div>
+}
+

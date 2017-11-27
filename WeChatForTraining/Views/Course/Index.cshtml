@@ -1,0 +1,275 @@
+﻿@model IEnumerable<WeChatForTraining.ViewModel.CourseModel>
+
+@{
+    ViewBag.Title = "课程列表";
+    WeChatForTraining.ViewModel.PageInfo pageinfo = (WeChatForTraining.ViewModel.PageInfo)ViewData["search"];
+}
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script src="~/scripts/bootstrap.min.js"></script>
+<style>
+    .div-key{
+        display:inline-block;
+        width:auto;
+        margin-right:15px;
+        padding-bottom:10px;
+    }
+    .div-key select{
+        width:auto;
+        display:inline-block;
+    }
+    .div-key input{
+        width:auto;
+        display:inline-block;
+    }
+    .col-md-10{
+        width:100%;
+    }
+    @@media(max-width:991px){
+        .m-none{
+            display:none;
+        }
+    }
+        @@media(min-width:992px){
+        .nt-none{
+            display:none;
+        }
+        .tb-out{
+            width:100%;
+            overflow-x:scroll;
+        }
+        .tb-out table{
+            width:2000px;
+        }
+    }
+</style>
+@using (Html.BeginForm("Index", "Course", pageinfo, FormMethod.Post,new { @id = "indexForm" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>课程列表</h4>
+    <hr />
+    <div class="form-group">
+        <div class="col-md-10">
+                <div class="div-key">
+                   季度：@Html.DropDownListFor(page=> pageinfo.season, ViewBag.Seasons as List<SelectListItem>, "----请选择----", new { @class = "select form-control", @id = "season" })
+                </div>
+                <div class="div-key">
+                    科目：@Html.DropDownListFor(page => pageinfo.subject, ViewBag.Subjects as List<SelectListItem>, "----请选择----", new { @class = "select form-control", @id = "subject" })
+                </div>
+                <div class="div-key">
+                    上课地址：
+                    @Html.DropDownListFor(page => pageinfo.school, ViewBag.SysSchools as List<SelectListItem>, "----请选择----", new { @class = "select form-control", @id = "school", @style = "width:auto;display:inline" })
+                    @Html.DropDownListFor(page => pageinfo.room, new List<SelectListItem>(), "", new { @class = "select form-control", @id = "room", @style = "width:auto;display:inline" })
+                </div>
+                <div class="div-key">
+                    课程类别：
+                    @Html.DropDownListFor(page => pageinfo.type, ViewBag.CourseTypes as List<SelectListItem>, "----请选择----", new { @class = "select form-control", @id = "type" })
+                </div>
+                <div class="div-key">
+                    主讲老师：
+                    @Html.DropDownListFor(page => pageinfo.teacher, ViewBag.Teachers as List<SelectListItem>, "----请选择----", new { @class = "select form-control", @id = "teacher" })
+                </div>
+                <div class="div-key">
+                    课各名称：
+                    @Html.EditorFor(page => pageinfo.keyword, new { htmlAttributes = new { @class = "form-control", @id = "name" } })
+                </div>
+                <div class="div-key">
+                    <input type="button" onclick="goTo(1);" class="btn btn-info" value="搜  索"/>
+                    &nbsp;@Html.ActionLink("新建课程", "Create", null, new { @class = "btn btn-success m-none" })
+                </div>
+        </div>
+    </div>
+    <div class="tb-out">
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.season)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.subject)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.cost)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.max)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.type)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.teacher)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.assistant)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.beginDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.room)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.timeInfo)
+                </th>
+                <th>操作</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td style="width:150px">
+                        @Html.DisplayFor(modelItem => item.name)
+                    </td>
+                    <td style="width:100px">
+                        @Html.DisplayFor(modelItem => item.seasonName)
+                    </td>
+                    <td style="width:80px">
+                        @Html.DisplayFor(modelItem => item.subjectName)
+                    </td>
+                    <td style="width:80px">
+                        @Html.DisplayFor(modelItem => item.cost)
+                    </td>
+                    <td style="width:80px">
+                        @Html.DisplayFor(modelItem => item.max)
+                    </td>
+                    <td style="width:100px">
+                        @Html.DisplayFor(modelItem => item.typeName)
+                    </td>
+                    <td style="width:100px">
+                        @Html.DisplayFor(modelItem => item.teacherName)
+                    </td>
+                    <td style="width:100px">
+                        @Html.DisplayFor(modelItem => item.assistantName)
+                    </td>
+                    <td style="width:100px">
+                        @Html.DisplayFor(modelItem => item.beginDate)
+                    </td>
+                    <td style="width:100px">
+                        @Html.DisplayFor(modelItem => item.roomName)
+                    </td>
+                    <td style="width:100px">
+                        @Html.DisplayFor(model => item.timeInfo)
+                    </td>
+                    <td style="width:100px">
+                        @Html.ActionLink("修改", "Edit", new { id = item.id }) |
+                        <a href="javascript:void(0);" onclick="deleteCourse(@item.id)">删除</a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+    @Html.HiddenFor(page=> pageinfo.pageindex,new { @id = "hid-pageindex" })
+    @Html.HiddenFor(page => pageinfo.pagesize, new { @id = "hid-pagesize" })
+    if (pageinfo.pages > 1)
+    {
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            @if (pageinfo.pageindex==1){
+            <li class="disabled">
+                <span>
+                    <span aria-hidden="true">&laquo;</span>
+                </span>
+            </li>
+            }
+            else
+            {
+                <li>
+                    <a href="javascript:void(0);" onclick="Previous();" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            }
+            @for (var i = 1; i <= pageinfo.pages; i++)
+            {
+                if (i == pageinfo.pageindex)
+                {
+                    <li class="active"><a href="#">@i<span class="sr-only">(current)</span></a></li>
+                }
+                else
+                {
+                    <li><a href="javascript:void(0);" onclick="goTo(@i);">@i</a></li>
+                }
+
+            }
+            @if (pageinfo.pageindex == pageinfo.pages)
+            {
+                <li class="disabled">
+                    <span>
+                        <span aria-hidden="true">&raquo;</span>
+                    </span>
+                </li>
+            }
+            else
+            {
+            <li>
+                <a href="javascript:void(0);" aria-label="Next" onclick="Next();">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            }
+        </ul>
+    </nav>
+        }
+    }
+<script>
+    $(function(){
+        $('#school').change(function () {
+            var room = new Object();
+            room.id = this.value;
+            $.post("./course/GetRoom", room, function (data, status) {
+                if (data) {
+                    var course = $('#room');
+                    course.html('');
+                    course.append($('<option value="0">---请选择---</option>'));
+                    $.each(data, function (i, item) {
+                        course.append($('<option value="' + item.id + '">' + item.text + '</option>'));
+                    });
+                    if(pageinfo.room){
+                        $('#room').val(pageinfo.room);
+                    }
+                }
+            });
+        });
+        if($('#school').val())
+            $('#school').change();
+    });
+    var pagesize = 10;
+    function goTo(pageindex) {
+        $('#hid-pageindex').val(pageindex);
+        $('#hid-pagesize').val(pagesize);
+        $('#indexForm').submit();
+    }
+    function Next(){
+        var pageindex=$('#hid-pageindex').val();
+        if(pageindex==(@pageinfo.pages)){
+            alert('已是最后一页。');
+            return;
+        }
+        pageindex++;
+        goTo(pageindex);
+    }
+    function Previous() {
+        var pageindex=$('#hid-pageindex').val();
+        if(pageindex==1){
+            alert('已是第一页。');
+            return;
+        }
+        pageindex--;
+        goTo(pageindex);
+    }
+    function deleteCourse(i){
+        if(!confirm('删除后将无法恢复，是否确定删除该课程？'))return;
+        $.post("./course/DeleteConfirmed", {'id':i}, function (data, status) {
+            if (data.state==1) {
+                alert('删除成功。');
+                setTimeout(function(){
+                    window.location.reload();
+                },2000);
+            }else alert(data.msg_text);
+        });
+    }
+</script>

@@ -1,0 +1,52 @@
+﻿@model IEnumerable<WeChatForTraining.ViewModel.ViewSubject>
+
+@{
+    ViewBag.Title = "科目列表";
+}
+
+@Html.ActionLink("添加科目", "SysSubject",null, new { @class="btn btn-success" })
+<hr />
+<table class="table">
+    <tr>
+        <th>
+            科目ID
+        </th>
+        <th>
+            科目名称
+        </th>
+
+        <th>
+            科组长
+        </th>
+        <th>操作</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.manager_name)
+            </td>
+
+            <td>
+                @Html.ActionLink("详细", "SysSubject", new { id = item.id }) |
+                @Html.ActionLink("删除", "SysSubjectDelete", new { id = item.id }, new { onclick = "return confirm('是否删除当前科目？删除将无法恢复！')" })
+            </td>
+        </tr>
+    }
+
+</table>
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(function () {
+        $('.syssubject').addClass('active');
+    });
+</script>

@@ -1,0 +1,40 @@
+﻿@model IList<WeChatForTraining.ViewModel.RollCallModel>
+@{
+    ViewBag.Title = "课堂点名";
+}
+<style>
+    .cbk-div{
+        float:left;
+        width:auto;
+        height:40px;
+        line-height:100%;
+        margin-right:20px;
+        overflow:hidden;
+    }
+</style>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<h2>课堂点名</h2>
+<h5>@ViewBag.LessonName</h5>
+    <hr />
+        for (var i=0;i<Model.Count();i++)
+        {
+
+            <div class="cbk-div">
+                @Html.HiddenFor(modelItem => modelItem[i].student)
+                @Html.HiddenFor(modelItem => modelItem[i].name)
+                @Html.CheckBoxFor(modelItem => modelItem[i].state,new { @id=Model[i].student})
+                @Html.LabelFor(modelItem => modelItem[i].name, Model[i].name, new { @for = Model[i].student })
+            </div>
+    }
+    <div style="width:100%;float:left;color:red;">
+        @ViewBag.msg
+    </div>
+    <div style="width:100%;float:left;">
+        <input type="submit" class="btn btn-success" value="确认点名" />
+        &nbsp;
+        <a href="@Url.RouteUrl(new { controller = "Course",action= "RollcallList" })" class="btn btn-warning">返回</a>
+    </div>
+}

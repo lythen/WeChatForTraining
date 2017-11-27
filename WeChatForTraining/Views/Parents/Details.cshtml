@@ -1,0 +1,130 @@
+﻿@model WeChatForTraining.Models.User_Info
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>User_Info</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.user_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.user_photo_path)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user_photo_path)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.user_phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user_phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.user_info)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user_info)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.user_email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user_email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.user_password)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user_password)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.user_Occupation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user_Occupation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.user_home_address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user_home_address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.user_work_unit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user_work_unit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.user_add_time)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user_add_time)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.user_add_user)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user_add_user)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.user_update_time)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user_update_time)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.user_update_user)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user_update_user)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.user_login_times)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user_login_times)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.user_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

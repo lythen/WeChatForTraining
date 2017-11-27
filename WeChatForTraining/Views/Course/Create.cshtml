@@ -1,0 +1,764 @@
+﻿@model WeChatForTraining.ViewModel.CourseModel
+@{
+    ViewBag.Title = "新建课程";
+}
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script src="~/scripts/bootstrap.min.js"></script>
+<script src="~/scripts/bootstrap-datetimepicker.js"></script>
+<script src="~/scripts/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="~/scripts/dateformat.js"></script>
+<link href="~/content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<style>
+    .d-line {
+        float: left;
+        width: auto;
+        height: 30px;
+        line-height: 30px;
+        margin-right: 35px;
+    }
+
+        .d-line div {
+            width: auto;
+            padding: 3px 5px 3px 5px;
+            float: left;
+            font-size: 16px;
+        }
+
+            .d-line div:first-child {
+                font-weight: bold;
+            }
+
+    img {
+        max-width: 140px;
+    }
+
+    .c-div {
+        float: left;
+        width: auto;
+        height: 28px;
+        line-height: 28px;
+        padding: 2px 5px 2px 5px;
+        margin: 5px 15px 5px 5px;
+        font-weight: normal;
+        font-size: 14px;
+    }
+
+    .label {
+        cursor: pointer;
+    }
+
+    .debtn {
+        display: inline;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: .25em;
+    }
+
+    dt {
+        height: 27px;
+        line-height: 27px;
+    }
+
+    #select_school, #select_room {
+        width: auto;
+        display: inline;
+    }
+
+    @@media (min-width: 992px) {
+        .d-line {
+            width: 40%;
+        }
+
+        img {
+            max-width: 160px;
+        }
+    }
+</style>
+<h2>新建课程</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.id)
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", @id = "name" } })
+                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cost, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cost, new { htmlAttributes = new { @class = "form-control", @type = "number", @id = "cost" } })
+                @Html.ValidationMessageFor(model => model.cost, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.max, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.max, new { htmlAttributes = new { @class = "form-control", @id = "max" } })
+                @Html.ValidationMessageFor(model => model.max, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.season, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.season, ViewBag.Seasons as List<SelectListItem>, "----请选择----", new { @class = "select form-control", @id = "season" })
+                @Html.ValidationMessageFor(model => model.season, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.subject, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.subject, ViewBag.Subjects as List<SelectListItem>, "----请选择----", new { @class = "select form-control", @id = "subject" })
+                @Html.ValidationMessageFor(model => model.subject, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.type, ViewBag.CourseTypes as List<SelectListItem>, "----请选择----", new { @class = "select form-control", @id = "type" })
+                @Html.ValidationMessageFor(model => model.type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.school, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.school, ViewBag.SysSchools as List<SelectListItem>, "----请选择----", new { @class = "select form-control", @id = "school", @style = "width:auto;display:inline" })
+                @Html.ValidationMessageFor(model => model.school, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.room, new List<SelectListItem>(), "", new { @class = "select form-control", @id = "room", @style = "width:auto;display:inline" })
+                @Html.ValidationMessageFor(model => model.room, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.teacher, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.teacher, ViewBag.Teachers as List<SelectListItem>, "----请选择----", new { @class = "select form-control", @id = "teacher" })
+                @Html.ValidationMessageFor(model => model.teacher, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.assistant, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.assistant, ViewBag.Assistants as List<SelectListItem>, "----请选择----", new { @class = "select form-control", @id = "assistant" })
+                @Html.ValidationMessageFor(model => model.assistant, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.introduce, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.introduce, new { @class = "form-control", @id = "introduce" })
+                @Html.ValidationMessageFor(model => model.introduce, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="beginDate">上课时间</label>
+            <div class="col-md-10 ">
+                <p>
+                    <a id="abtnadd" href="javascript:AddDayCourse()" class="btn btn-info">添加上课时间段</a>
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="beginDate"></label>
+
+            <div class="col-md-10 ">
+                @if (Model.ListTimes != null)
+                {
+                    var i = 0;
+                    foreach (var item in Model.ListTimes)
+                    {
+                        <div class="form-control time-div" style="height:auto;" id="group@{@item.cgroup} ">
+                            @Html.HiddenFor(iteeModel => item.cgroup, new { @class = "cgroup" })
+                            <p id="daycourse" class="daycourse">
+                                每周&nbsp;
+                                @Html.DropDownListFor(itemModel => item.day, item.day, ViewBag.Week as List<SelectListItem>, "请选择", new Dictionary<string, object> { { "class", "select day" }, { "id", "Week" + i } })<SelectListItem>
+                                    <string, object>
+                                        <SelectListItem>
+                                            <string, object>
+                                                <SelectListItem>
+                                                    <string, object>
+                                                        <SelectListItem>
+                                                            <string, object>
+                                                                @Html.ValidationMessageFor(itemModel => item.day, "", new { @class = "text-danger" })
+                                                                &nbsp;
+                                                                @Html.EditorFor(itemModel => item.time, new { htmlAttributes = new { @class = "form_time", @onchange = "SetAllCourseTime(this)", @readonly = "readonly", @style = "width:80px" } })
+                                                                @Html.ValidationMessageFor(itemModel => item.lessonTime, "", new { @class = "text-danger" })
+                                                                @Html.HiddenFor(itemModel => item.lessonTime, new { @class = "lessonTime" })
+                                                                &nbsp;
+                                                                &nbsp;，每节课时长&nbsp;
+                                                                @Html.EditorFor(itemModel => item.lastlong, new { htmlAttributes = new { @class = "form_time lastlong", @type = "number", @style = "width:80px" } })
+                                                                @Html.ValidationMessageFor(itemModel => item.lastlong, "", new { @class = "text-danger" })
+                                                                课时&nbsp;
+                                                                @Html.EditorFor(itemModel => item.count, new { htmlAttributes = new { @type = "number", @class = "count", @readonly = "readonly", @style = "width:80px" } })
+                                                                @Html.ValidationMessageFor(itemModel => item.count, "", new { @class = "text-danger" })
+                                                                。
+                                                                &nbsp;
+                                                                <a href="javascript:void()" onclick="DeleteDayCourse(@Model.id,@item.cgroup)" class="btn-link navbar-link">删除当前上课时间</a>&nbsp;&nbsp;
+                            </p>
+                            @if (item.times == null || item.times.Count() == 0)
+                            {
+                                <p>
+                                    <a href="#" class="btn-link" onclick="ViewTime(this)">预览</a>
+                                </p>
+                            }
+                            <div class="d-line d-table" style="width:100%;">
+
+                                @if (item.times != null)
+                                {
+                                    string ct = "label-info";
+                                    foreach (var titem in item.times)
+                                    {
+                                        if (titem.state == 1) { ct = "label-info"; }
+                                        else if (titem.state == 2) { ct = "label-success"; }
+                                        else if (titem.state == 3) { ct = "label-warning"; }
+                                        else if (titem.state == 4) { ct = "label-danger"; }
+                                        <div class="label @ct c-div" style="padding:2px 5px 2px 5px;font-size:14px;" title="@titem.stateName">
+                                            <span id="div@{ @titem.id}" title="@titem.stateName" data-toggle="modal" data-target="#detailTime" onclick="onOpen(this)">
+                                                @Html.DisplayFor(itemModel => titem.timeStr)
+                                                @Html.HiddenFor(itemModel => titem.timeStr, new { @class = "timeStr" })
+                                                @Html.HiddenFor(itemModel => titem.id, new { @class = "id" })
+                                                @Html.HiddenFor(itemModel => titem.info, new { @class = "info" })
+                                                @Html.HiddenFor(itemModel => titem.state, new { @class = "state" })
+                                                @Html.HiddenFor(itemModel => titem.isextra, new { @class = "isextra" })
+                                                @Html.HiddenFor(itemModel => titem.school, new { @class = "school" })
+                                                @Html.HiddenFor(itemModel => titem.room, new { @class = "room" })
+                                            </span>
+
+                                            <a class="glyphicon glyphicon-remove" href="javascript:deleteLessonTime(@titem.id)"></a>
+
+                                        </div>
+        }
+    }<a href="#" onclick="onCreateOpen(this)" class="debtn label-info c-div" style="width:146px;" data-toggle="modal" id="btnAdd@{@item.cgroup}" data-target="#detailTime">添加上课时间</a>
+                            </div>
+                        </div>
+        }
+    }
+                <div id="day-div" class="form-control" style="height:auto;">
+                    <p id="pTime">
+                        停课日期&nbsp;
+                        @if (Model.SuspendDays != null)
+                        {
+                            foreach (var item2 in Model.SuspendDays)
+                            {
+                                var strDay = item2.ToString("yyyy年MM月dd日");
+                                <span style="margin-right:15px;">
+
+                                    @Html.EditorFor(itemModel => item2, new { htmlAttributes = new { @class = "form_date SuspendDays", @readonly = "readonly", @size = "16", @id = @strDay, @style = "margin-left:3px;margin-right:3px;border:none;width:110px;" } })
+                                    @Html.ValidationMessageFor(itemModel => item2, "", new { @class = "text-danger" })
+                                    <a class="glyphicon glyphicon-remove" href="javascript:void(0);" onclick="deleteTime(this);"></a>
+                                </span>
+                            }
+                        }
+                        &nbsp; <input class="form_date" size="16" type="text" value="" name="form_date" onchange="TxtChange(this);" readonly>
+                    </p>
+                    <p>
+                        第一节课上课时间&nbsp;
+                        @Html.EditorFor(model => model.beginDate, new { htmlAttributes = new { @class = "form_date beginDate", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.beginDate, "", new { @class = "text-danger" })
+
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+
+            <div class="col-md-offset-2 col-md-10" id="msg">
+                @ViewBag.msg
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="button" id="myButton" onclick="Add(this)" data-loading-text="加载中..." class="btn btn-primary" autocomplete="off">
+                    录  入
+                </button>
+                &nbsp;
+                @Html.ActionLink("返回列表", "Index", null, new { @class = "btn btn-warning" })
+            </div>
+        </div>
+    </div>
+    }
+
+<div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="detailTime">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="hid" value="" />
+                <dl class="dl-horizontal form-group">
+                    <dt>上课时间：</dt>
+                    <dd>
+                        <input type="text" class="form-control" id="inpTime" readonly style="height: 25px;line-height: 25px;" />
+                    </dd>
+                    <dt>是否补课：</dt>
+                    <dd>
+                        <input type="checkbox" id="cbkIsMissing" style="height: 25px;line-height: 25px;" />
+                    </dd>
+                    <dt>当前状态：</dt>
+                    <dd>
+                        <select class="select form-control" id="select_state" style="height: 25px;line-height: 25px;font-size: 9px;padding: 1px 2px 1px 2px;">
+                            <option value="1">正常</option>
+                            <option value="2">进行中</option>
+                            <option value="3">已结课</option>
+                            <option value="4">停课</option>
+                        </select>
+                    </dd>
+                    <dt>上课地点：</dt>
+                    <dd>
+                        <select class="select form-control" id="select_school" style="height: 25px;line-height: 25px;font-size: 9px;padding: 1px 2px 1px 2px;" onchange="SetRoom(this)">
+                            <option value="0">---请选择---</option>
+                            <option value="1">佳信花园校区</option>
+                            <option value="2">聚德路校区</option>
+                        </select>
+                        <select class="select form-control" id="select_room" style="height: 25px;line-height: 25px;font-size: 9px;padding: 1px 2px 1px 2px;"></select>
+                    </dd>
+                    <dt>
+                        说明：
+                    </dt>
+                    <dd>
+                        <textarea class="form-control" id="txtInfo" style="line-height: 30px;"></textarea>
+                    </dd>
+                </dl>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="onClose(0)">关闭</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="onClose(1)">确定</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+    $(function () {
+        $('.form_time').datetimepicker({
+            language: 'zh-CN',
+            weekStart: 1,
+            todayBtn: 0,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 1,
+            minView: 0,
+            maxView: 1,
+            forceParse: 0,
+            startDate: "2017-09-01"
+        });
+        $('.form_datetime').datetimepicker({
+            language: 'zh-CN',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            showMeridian: 1,
+            startDate: "2017-09-01"
+        });
+        $('.form_date').datetimepicker({
+            language: 'zh-CN',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0,
+            startDate: "2017-09-01"
+        });
+        $('#school').change(function () {
+            var room = new Object();
+            room.id = this.value;
+            $.post("./GetRoom", room, function (data, status) {
+                if (data) {
+                    var course = $('#room');
+                    course.html('');
+                    course.append($('<option value="0">---请选择---</option>'));
+                    $.each(data, function (i, item) {
+                        course.append($('<option value="' + item.id + '">' + item.text + '</option>'));
+                    });
+                    $('#room').val(@Model.room);
+                }
+            });
+        });
+        $('#beginDate').change(function(){
+            var d=new Date(this.value);
+            this.value=d.Format('yyyy年MM月dd日');
+        });
+        $('#beginDate').val('');
+    });
+    window.onresize = function () {
+        setHeight();
+    }
+    function setHeight() {
+        var divs = $('.time-div');
+        var dlen = divs.length;
+        for (var i = 0; i < dlen; i++) {
+            var w = $(divs[i]).width();
+            var w2 = 177;//$('.label').width() + 30;
+            var b = Math.ceil(w / w2);
+            var count = $(divs[i]).find('.label').length;
+            var l = Math.ceil(count / b) + 2.5;
+            $(divs[i]).height(38 * l + 30);
+        }
+    }
+    function TxtChange(obj) {
+        var ft = new Date(obj.value);
+        var txtTime = ft.Format('yyyy年MM月dd日');
+        var lab = $('<span style="margin-right:15px;"><input class="form_date SuspendDays text-box single-line" id="' + txtTime + '" name="item2.day" readonly="readonly" size="16" style="margin-left:3px;margin-right:3px;border:none;width: 110px;" type="text" value="' + txtTime + '" /><a class="glyphicon glyphicon-remove" href="javascript:deleteTime(\'' + txtTime + '\')"></a></span>');
+        lab.insertBefore(obj);
+        $(obj).val('');
+    }
+    function deleteTime(id) {
+        var lab;
+        if (typeof (id) == 'object') lab = $(id);
+        else
+            lab = $('#' + id);
+        lab.parent().remove();
+    }
+    var divNum=1;
+    function AddDayCourse() {
+        var id = 'day_div_' + divNum;
+        //var p = '<p id="' + id + '" class="daycourse">每周&nbsp;<select class="select" name="selectday"><option value="1">一</option><option value="2">二</option><option value="3">三</option><option value="4">四</option><option value="5">五</option><option value="6">六</option><option value="7">日</option></select>&nbsp;<input type="text" class="form_time" onchange="SetAllCourseTime(this)" name="beginTime" />&nbsp;&nbsp;，每节课时长&nbsp;<input type="number" name="textLastlong" />&nbsp;分钟，课时&nbsp;<input type="number" name="txtTimes" />。</p>'
+        var div = '<div class="form-control  time-div" style="height:auto;" id="' + id + '"><input class="cgroup" id="item_cgroup" name="item.cgroup" type="hidden" value="0"><p id="daycourse" class="daycourse">每周&nbsp;<select class="select day" id="item_day" name="item.day" select="Week0"><option value="">请选择</option><option selected="selected" value="0">日</option><option value="1">一</option><option value="2">二</option><option value="3">三</option><option value="4">四</option><option value="5">五</option><option value="6">六</option></select>&nbsp;&nbsp;<input class="form_time text-box single-line" id="item_beginTime" name="item.beginTime" onchange="SetAllCourseTime(this)" readonly type="text" value="" style="width:80px"><input class="lessonTime" id="item_lessonTime" name="item.lessonTime" type="hidden" value="">&nbsp;&nbsp;，每节课时长&nbsp;<input class="text-box single-line lastlong" id="item_lastlong" name="item.lastlong" type="number" value="" style="width:80px">&nbsp;课时&nbsp;<input class="text-box single-line count" id="item_count" name="item.count" type="number" value="" style="width:80px">。&nbsp; <a href="javascript:void()" onclick="DeleteDayCourse(\''+id+'\')" class="btn-link navbar-link">删除当前上课时间</a>&nbsp;&nbsp;</p><p><a href="javascript:void(0);" class="btn-link" onclick="ViewTime(this)">预览</a></p></div>'
+        divNum++;
+        var old = $('#day-div');
+        $(div).insertBefore(old);
+        $('body').on('focus', '.form_time', function () {
+            $('.form_time').datetimepicker({
+                language: 'zh-CN',
+                weekStart: 1,
+                todayBtn: 0,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 1,
+                minView: 0,
+                maxView: 1,
+                forceParse: 0,
+                startDate: "2017-09-01"
+            });
+        });
+    }
+    function SetAllCourseTime(obj) {
+        var ts = new Date(obj.value);
+        var tstr = ts.Format('hh:mm');
+        obj.value = tstr;
+        $(obj).parent().find('.lessonTime').val(tstr);
+    }
+    function Add(obj) {
+        var formdata = new Object();
+        //var formdata = new FormData();
+        formdata.id = $('#id').val();
+        //formdata.append("id", $('#id').val());
+
+        formdata.name = $('#name').val();
+        if (!formdata.name) {
+            alert('请输入课程名称。');
+            return;
+        }
+        formdata.introduce = $('#introduce').val();
+        formdata.cost = $('#cost').val();
+        if (!$.isNumeric(formdata.cost)||formdata.cost==0) {
+            alert('请输入课程收费。');
+            return;
+        }
+        formdata.max = $('#max').val();
+        if (!$.isNumeric(formdata.max)||formdata.max==0) {
+            alert('请输入最大容纳人数。');
+            return;
+        }
+        formdata.school = $('#school').val();
+        if (!$.isNumeric(formdata.school) || formdata.school==0) {
+            alert('请选择上课校区。');
+            return;
+        }
+        formdata.subject = $('#subject').val();
+        if (!$.isNumeric(formdata.subject) || formdata.subject == 0) {
+            alert('请选择科目。');
+            return;
+        }
+        formdata.season = $('#season').val();
+        if (!$.isNumeric(formdata.season) || formdata.season == 0) {
+            alert('请选择季度。');
+            return;
+        }
+        formdata.type = $('#type').val();
+        if (!$.isNumeric(formdata.type) || formdata.type == 0) {
+            alert('请选择课程类别。');
+            return;
+        }
+        formdata.teacher = $('#teacher').val();
+        if (!$.isNumeric(formdata.teacher) || formdata.teacher == 0) {
+            alert('请选择任课教师。');
+            return;
+        }
+        formdata.assistant = $('#assistant').val();
+        if (!$.isNumeric(formdata.assistant)) {
+            formdata.assistant=0;
+        }
+        formdata.beginDate = $('#beginDate').val();
+        if (!formdata.beginDate) {
+            alert('请选择第一节课上课时间。');
+            return;
+        }
+        formdata.room = $('#room').val();
+        if (!$.isNumeric(formdata.room) || formdata.room == 0) {
+            alert('请选择上课地点。');
+            return;
+        }
+        var wdiv = $('.time-div');
+        var wlen = wdiv.length;
+        if(wlen==0){
+            alert('请添加上课时间段。');
+            return;
+        }
+        var list1 = new Array();
+        for (var i = 0; i < wlen; i++) {
+            var formTimes = new Object();
+            var thisdiv = $(wdiv[i]);
+            formTimes.cgroup = thisdiv.find('.cgroup').val();
+            formTimes.day = thisdiv.find('.select').val();
+            formTimes.lessonTime = '2017-01-01 ' + thisdiv.find('.lessonTime').val();
+            if (!thisdiv.find('.lessonTime').val()) {
+                alert('请输入上课时间。');
+                return;
+            }
+            formTimes.lastlong = thisdiv.find('.lastlong').val();
+            if (!$.isNumeric(formTimes.lastlong) || formTimes.lastlong == 0) {
+                alert('请输入每节课时长。');
+                return;
+            }
+            formTimes.count = thisdiv.find('.count').val();
+            if (!$.isNumeric(formTimes.count) || formTimes.count == 0) {
+                alert('请输入总课时。');
+                return;
+            }
+            var labs = $(wdiv[i]).find(".label");
+            var lablen = labs.length;
+            var list2 = new Array();
+            for (var j = 0; j < lablen; j++) {
+                var formTimeDetails = new Object();
+                var thisdiv = $(labs[j]);
+                formTimeDetails.id = thisdiv.find('.id').val();
+                formTimeDetails.timeStr = thisdiv.find('.timeStr').val();
+                formTimeDetails.time = formTimeDetails.timeStr;
+                formTimeDetails.info = thisdiv.find('.info').val();
+                formTimeDetails.state = thisdiv.find('.state').val();
+                formTimeDetails.isextra = thisdiv.find('.isextra').val();
+                formTimeDetails.room = thisdiv.find('.room').val();
+                list2[j] = formTimeDetails;
+            }
+            formTimes.times = list2;
+            list1[i] = formTimes;
+        }
+        formdata.ListTimes = list1;
+        var suspends = $('.SuspendDays');
+        var len = suspends.length;
+        var list3 = new Array();
+        if (len > 0) {
+            for (var i = 0; i < len; i++) {
+                list3[i] = suspends[i].value + ' 00:00:00';
+            }
+        }
+        formdata.SuspendDays = list3;
+        var $btn = $(obj).button('loading');
+        $.post("./Create", formdata, function (data, status) {
+            if (data.state == '1') {
+                $('#msg').removeClass();
+                $('#msg').addClass('col-md-offset-2 col-md-10 alert alert-success');
+                $('#msg').text(data.msg_text);
+                setTimeout(function () {
+                    window.location.reload();
+                }, 3000);
+
+            } else {
+                $('#msg').removeClass();
+                $('#msg').addClass('col-md-offset-2 col-md-10 alert alert alert-danger');
+                $('#msg').text(data.msg_text);
+            }
+            $('#msg').slideDown();
+            setTimeout(function () {
+                $('#msg').slideToggle();
+            }, 5000);
+        }).complete(function () {
+            $btn.button('reset');
+        });
+    }
+    var thisdiv;
+    var fromdiv;
+    var ti = 0;
+    function onOpen(obj) {
+        var div = $(obj);
+        thisdiv = obj.id;
+        $('#inpTime').val(div.find('.timeStr').val());
+        var isextra = div.find('.isextra').val();
+        if (isextra == 'True')
+            $('#cbkIsMissing').get(0).checked = true;
+        $('#select_state').val(div.find('.state').val());
+        $('#select_school').val(div.find('.school').val());
+        $('#select_school').change();
+        setTimeout(function () {
+            $('#select_room').val(div.find('.room').val());
+        }, 300);
+        $('#txtInfo').val(div.find('.info').val());
+    }
+    function onClose(i) {
+        var div;
+        var ct = "label-info";
+        if (i == 1) {
+            if (thisdiv == 0) {
+                var id = 't' + ti;
+                var d = new Date($('#inpTime').val());
+                var dstr = d.Format("yyyy年MM月dd日 hh:mm");
+                var stateStr = $('#select_state').find(":selected").text();
+
+                div = $('<div style="padding:2px 5px 2px 5px;font-size:14px;" title="' + stateStr + '" ><span id=' + id + ' title="' + stateStr + '" data-toggle="modal" data-target="#detailTime" onclick="onOpen(this)">' + dstr + '<input class="id" id="titem_id" name="titem.id" type="hidden" value="0"><input class="info" id="titem_info" name="titem.info" type="hidden" value=""><input class="state" id="titem_state" name="titem.state" type="hidden" value="0"><input class="isextra" id="titem_isextra" name="titem.isextra" type="hidden" value="False"><input class="school" id="titem_school" name="titem.school" type="hidden" value="0"><input class="room" id="titem_room" name="titem.room" type="hidden" value="0"></span><a class="glyphicon glyphicon-remove" href="javascript:deleteLessonTime(\'' + id + '\')"></a></div>');
+                div.insertBefore($('#' + fromdiv))
+                ti++;
+                var count = div.parent().find('.label').length;
+                div.parent().parent().find('#daycourse').find('.count').val(count);
+                div.find('.timeStr').val(dstr);
+                setHeight();
+            } else div = $('#' + thisdiv).parent();
+
+            div.find('.info').val($('#txtInfo').val());
+            div.find('.state').val($('#select_state').val());
+            if ($('#cbkIsMissing').get(0).checked)
+                div.find('.isextra').val("True");
+            else div.find('.isextra').val("False");
+            div.find('.school').val($('#select_school').val());
+            div.find('.room').val($('#select_room').val());
+
+            var state = $('#select_state').val();
+            if (state == 2) { ct = "label-success"; }
+            else if (state == 3) { ct = "label-warning"; }
+            else if (state == 4) { ct = "label-danger"; }
+            div.removeClass();
+            div.addClass('label '+ct+' c-div');
+        }
+        
+        $('#inpTime').val('');
+        $('#cbkIsMissing').get(0).checked = false;
+        $('#select_state').val('');
+        $('#txtInfo').val('');
+        if (thisdiv == 0) {
+            var inp = $('#inpTime');
+            //inp.get(0).readOnly = 'readonly';
+            inp.removeClass('form_datetime');
+        }
+    }
+    function onCreateOpen(obj) {
+        thisdiv = 0;
+        fromdiv = obj.id;
+        var inp = $('#inpTime');
+        inp.addClass('form_datetime');
+        //inp.get(0).removeAttribute('readonly');
+        $('body').on('focus', '.form_datetime', function () {
+            $('.form_datetime').datetimepicker({
+                language: 'zh-CN',
+                weekStart: 1,
+                todayBtn: 1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                forceParse: 0,
+                showMeridian: 1,
+                startDate: "2017-09-01"
+            });
+        });
+        $('#select_school').val($('#school').val());
+        $('#select_school').change();
+        setTimeout(function () {
+            $('#select_room').val($('#room').val());
+        }, 300);
+    }
+    function SetRoom(obj) {
+        var room = new Object();
+        room.id = obj.value;
+        $.post("./GetRoom", room, function (data, status) {
+            if (data) {
+                var course = $('#select_room');
+                course.html('');
+                course.append($('<option value="0">---请选择---</option>'));
+                $.each(data, function (i, item) {
+                    course.append($('<option value="' + item.id + '">' + item.text + '</option>'));
+                });
+            }
+        });
+    }
+    function deleteLessonTime(i) {
+        var div;
+        if (typeof (i) == 'string') div = $('#' + i).parent();
+        else div = $('#div' + i).parent();
+        var count = div.parent().find('.label').length - 1;
+        div.parent().parent().find('#daycourse').find('.count').val(count);
+        div.remove();
+    }
+    function ViewTime(obj) {
+        var p = $(obj).parent().parent();
+        p.find('.d-line').remove();
+        var data = new Object();
+        var div = $('<div class="d-line d-table" style="width:100%;"></div>');
+        data.count = p.find('.count').val();
+        if (!$.isNumeric(data.count)) {
+            alert('请输入课时数。');
+            return;
+        }
+        data.beginDate = $('#beginDate').val();
+        if (!data.beginDate) {
+            alert('请选择第一节课上课时间。');
+            return;
+        }
+        data.lessonTime = p.find('.lessonTime').val();
+        if (!data.lessonTime) {
+            alert('请选择上课时间。');
+            return;
+        }
+        var suspends = $('.SuspendDays');
+        var len = suspends.length;
+        var list3 = new Array();
+        if (len > 0) {
+            for (var i = 0; i < len; i++) {
+                list3[i] = suspends[i].value+ ' 00:00:00';//.replace('年','-').replace('月','-').replace('日','')
+            }
+        }
+        data.SuspendDays = list3;
+
+        data.day = p.find('.day').val();
+        $.post('./getTimeDetail', data, function (data) {
+            if (data)
+                $.each(data, function (i, item) {
+                    var date = new Date(parseInt(item.slice(6)));
+                    //date.setDate(item.replace(/\//g, ''));
+                    var timeStr = date.Format('yyyy年MM月dd日 hh:mm');
+                    id = 'new' + i;
+                    var lab = $('<div class="label label-info c-div" style="padding:2px 5px 2px 5px;font-size:14px;" title="正常"><span id="' + id + '" title="正常" data-toggle="modal" data-target="#detailTime" onclick="onOpen(this)">' + timeStr + '<input class="timeStr" id="titem_timeStr" name="titem.timeStr" type="hidden" value="' + timeStr + '"><input class="id" id="titem_id" name="titem.id" type="hidden" value="0"><input class="info" id="titem_info" name="titem.info" type="hidden" value=""><input class="state" id="titem_state" name="titem.state" type="hidden" value="1"><input class="isextra" id="titem_isextra" name="titem.isextra" type="hidden" value="False"><input class="school" id="titem_school" name="titem.school" type="hidden" value="0"><input class="room" id="titem_room" name="titem.room" type="hidden" value="0"></span><a class="glyphicon glyphicon-remove" href="javascript:deleteLessonTime(' + id + ')"></a></div>');
+                    div.append(lab);
+                });
+        });
+        div.insertAfter($(obj));
+
+        var w = p.parent().width();
+        var w2 = 177;//$('.label').width() + 30;
+        var b = Math.ceil(w / w2);
+        var l = Math.ceil(data.count / b) + 2;
+        p.height(38 * l + 30);
+    }
+    function DeleteDayCourse(id) {
+        if(!confirm('删除该上课时间后将无法恢复，是否删除？'))return;
+        $('#'+id).remove();
+    }
+</script>

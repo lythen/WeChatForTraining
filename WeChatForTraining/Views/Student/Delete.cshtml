@@ -1,0 +1,96 @@
+﻿@model WeChatForTraining.Models.Studend_Info
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Studend_Info</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.stu_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.stu_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.stu_sex)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.stu_sex)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.stu_birthday)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.stu_birthday)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.stu_photo_path)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.stu_photo_path)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.stu_phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.stu_phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.stu_email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.stu_email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.stu_school_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.stu_school_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.stu_grade_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.stu_grade_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.stu_home_address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.stu_home_address)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
