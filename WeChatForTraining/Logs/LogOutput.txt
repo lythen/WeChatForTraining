@@ -77198,3 +77198,386 @@ SELECT
 -- Completed in 8 ms with result: SqlDataReader
 
 Closed connection at 2017/11/24 11:15:43 +08:00
+Opened connection at 2017/11/28 16:26:13 +08:00
+Closed connection at 2017/11/28 16:26:13 +08:00
+Opened connection at 2017/11/28 16:26:13 +08:00
+IF db_id(N'WeChatTrainingDB') IS NOT NULL SELECT 1 ELSE SELECT Count(*) FROM sys.databases WHERE [name]=N'WeChatTrainingDB'
+-- Executing at 2017/11/28 16:26:13 +08:00
+-- Completed in 23 ms with result: 1
+
+Closed connection at 2017/11/28 16:26:13 +08:00
+Opened connection at 2017/11/28 16:26:13 +08:00
+
+SELECT Count(*)
+FROM INFORMATION_SCHEMA.TABLES AS t
+WHERE t.TABLE_SCHEMA + '.' + t.TABLE_NAME IN ('dbo.Course_Info','dbo.Course_Season','dbo.Course_SuspendTime','dbo.Course_vs_Time','dbo.Dic_CardType','dbo.Dic_Course_State','dbo.Dic_Course_Type','dbo.Dic_Grade','dbo.Dic_Level','dbo.Dic_Relation','dbo.Dic_Roll_Call','dbo.Dic_School','dbo.Dic_Subject','dbo.Role_vs_Controller','dbo.Student_Info','dbo.Student_vs_Course','dbo.Student_vs_CTimes','dbo.Student_vs_Level','dbo.Sys_ClassRoom','dbo.Sys_Controller','dbo.Sys_Info','dbo.Sys_Log','dbo.Sys_Roles','dbo.Sys_School','dbo.User_Info','dbo.User_vs_Role','dbo.User_vs_Student','dbo.User_vs_Subject','dbo.User_vs_Wechat')
+    OR t.TABLE_NAME = 'EdmMetadata'
+-- Executing at 2017/11/28 16:26:13 +08:00
+-- Completed in 92 ms with result: 29
+
+Closed connection at 2017/11/28 16:26:14 +08:00
+Opened connection at 2017/11/28 16:26:14 +08:00
+SELECT 
+    [GroupBy1].[A1] AS [C1]
+    FROM ( SELECT 
+        COUNT(1) AS [A1]
+        FROM [dbo].[__MigrationHistory] AS [Extent1]
+        WHERE [Extent1].[ContextKey] = @p__linq__0
+    )  AS [GroupBy1]
+-- p__linq__0: 'WeChatForTraining.Migrations.Configuration' (Type = String, Size = 4000)
+-- Executing at 2017/11/28 16:26:14 +08:00
+-- Completed in 19 ms with result: SqlDataReader
+
+Closed connection at 2017/11/28 16:26:14 +08:00
+Opened connection at 2017/11/28 16:26:14 +08:00
+SELECT TOP (1) 
+    [Project1].[C1] AS [C1], 
+    [Project1].[MigrationId] AS [MigrationId], 
+    [Project1].[Model] AS [Model], 
+    [Project1].[ProductVersion] AS [ProductVersion]
+    FROM ( SELECT 
+        [Extent1].[MigrationId] AS [MigrationId], 
+        [Extent1].[Model] AS [Model], 
+        [Extent1].[ProductVersion] AS [ProductVersion], 
+        1 AS [C1]
+        FROM [dbo].[__MigrationHistory] AS [Extent1]
+        WHERE [Extent1].[ContextKey] = @p__linq__0
+    )  AS [Project1]
+    ORDER BY [Project1].[MigrationId] DESC
+-- p__linq__0: 'WeChatForTraining.Migrations.Configuration' (Type = String, Size = 4000)
+-- Executing at 2017/11/28 16:26:14 +08:00
+-- Completed in 1 ms with result: SqlDataReader
+
+Closed connection at 2017/11/28 16:26:14 +08:00
+Opened connection at 2017/11/28 16:26:14 +08:00
+SELECT 
+    [Limit1].[user_id] AS [user_id], 
+    [Limit1].[user_name] AS [user_name], 
+    [Limit1].[user_photo_path] AS [user_photo_path], 
+    [Limit1].[user_phone] AS [user_phone], 
+    [Limit1].[user_info] AS [user_info], 
+    [Limit1].[user_email] AS [user_email], 
+    [Limit1].[user_password] AS [user_password], 
+    [Limit1].[user_Occupation] AS [user_Occupation], 
+    [Limit1].[user_home_address] AS [user_home_address], 
+    [Limit1].[user_work_unit] AS [user_work_unit], 
+    [Limit1].[user_add_time] AS [user_add_time], 
+    [Limit1].[user_add_user] AS [user_add_user], 
+    [Limit1].[user_update_time] AS [user_update_time], 
+    [Limit1].[user_update_user] AS [user_update_user], 
+    [Limit1].[user_login_times] AS [user_login_times], 
+    [Limit1].[user_state] AS [user_state]
+    FROM ( SELECT TOP (1) 
+        [Extent1].[user_id] AS [user_id], 
+        [Extent1].[user_name] AS [user_name], 
+        [Extent1].[user_photo_path] AS [user_photo_path], 
+        [Extent1].[user_phone] AS [user_phone], 
+        [Extent1].[user_info] AS [user_info], 
+        [Extent1].[user_email] AS [user_email], 
+        [Extent1].[user_password] AS [user_password], 
+        [Extent1].[user_Occupation] AS [user_Occupation], 
+        [Extent1].[user_home_address] AS [user_home_address], 
+        [Extent1].[user_work_unit] AS [user_work_unit], 
+        [Extent1].[user_add_time] AS [user_add_time], 
+        [Extent1].[user_add_user] AS [user_add_user], 
+        [Extent1].[user_update_time] AS [user_update_time], 
+        [Extent1].[user_update_user] AS [user_update_user], 
+        [Extent1].[user_login_times] AS [user_login_times], 
+        [Extent1].[user_state] AS [user_state]
+        FROM  [dbo].[User_Info] AS [Extent1]
+        INNER JOIN [dbo].[User_vs_Role] AS [Extent2] ON [Extent1].[user_id] = [Extent2].[uvr_user_id]
+        WHERE ([Extent1].[user_name] = @p__linq__0) AND (([Extent1].[user_password] = @p__linq__1) OR (([Extent1].[user_password] IS NULL) AND (@p__linq__1 IS NULL)))
+    )  AS [Limit1]
+-- p__linq__0: '肖老师' (Type = String, Size = 4000)
+-- p__linq__1: 'E10ADC3949BA59ABBE56E057F20F883E' (Type = String, Size = 4000)
+-- Executing at 2017/11/28 16:26:14 +08:00
+-- Completed in 2 ms with result: SqlDataReader
+
+Closed connection at 2017/11/28 16:26:14 +08:00
+Opened connection at 2017/11/28 16:26:14 +08:00
+SELECT 
+    [Limit1].[uvr_user_id] AS [uvr_user_id], 
+    [Limit1].[role_id] AS [role_id], 
+    [Limit1].[role_name] AS [role_name]
+    FROM ( SELECT TOP (1) 
+        [Extent1].[uvr_user_id] AS [uvr_user_id], 
+        [Extent2].[role_id] AS [role_id], 
+        [Extent2].[role_name] AS [role_name]
+        FROM  [dbo].[User_vs_Role] AS [Extent1]
+        INNER JOIN [dbo].[Sys_Roles] AS [Extent2] ON [Extent1].[uvr_role_id] = [Extent2].[role_id]
+        WHERE [Extent1].[uvr_user_id] = @p__linq__0
+    )  AS [Limit1]
+-- p__linq__0: '3' (Type = Int32, IsNullable = false)
+-- Executing at 2017/11/28 16:26:14 +08:00
+-- Completed in 1 ms with result: SqlDataReader
+
+Closed connection at 2017/11/28 16:26:14 +08:00
+Opened connection at 2017/11/28 16:26:14 +08:00
+SELECT 
+    [Extent2].[rvc_controller] AS [rvc_controller]
+    FROM  [dbo].[Sys_Roles] AS [Extent1]
+    INNER JOIN [dbo].[Role_vs_Controller] AS [Extent2] ON [Extent1].[role_id] = [Extent2].[rvc_role_id]
+    WHERE [Extent1].[role_id] = @p__linq__0
+-- p__linq__0: '2' (Type = Int32, IsNullable = false)
+-- Executing at 2017/11/28 16:26:14 +08:00
+-- Completed in 1 ms with result: SqlDataReader
+
+Closed connection at 2017/11/28 16:26:14 +08:00
+Opened connection at 2017/11/28 16:26:14 +08:00
+Started transaction at 2017/11/28 16:26:14 +08:00
+UPDATE [dbo].[User_Info]
+SET [user_name] = @0, [user_photo_path] = NULL, [user_phone] = NULL, [user_info] = NULL, [user_email] = @1, [user_password] = @2, [user_Occupation] = NULL, [user_home_address] = NULL, [user_work_unit] = NULL, [user_add_time] = @3, [user_add_user] = @4, [user_update_time] = NULL, [user_update_user] = @5, [user_login_times] = @6, [user_state] = @7
+WHERE ([user_id] = @8)
+-- @0: '肖老师' (Type = String, Size = 50)
+-- @1: 'huoshanhuaguoshan@163.com' (Type = String, Size = 100)
+-- @2: 'E10ADC3949BA59ABBE56E057F20F883E' (Type = String, Size = 32)
+-- @3: '2017/11/24 11:09:35' (Type = DateTime2)
+-- @4: '1' (Type = Int32)
+-- @5: '0' (Type = Int32)
+-- @6: '4' (Type = Int32)
+-- @7: '1' (Type = Int32)
+-- @8: '3' (Type = Int32)
+-- Executing at 2017/11/28 16:26:14 +08:00
+-- Completed in 2 ms with result: 1
+
+INSERT [dbo].[Sys_Log]([log_user_ip], [log_time], [log_device], [log_info])
+VALUES (@0, @1, @2, @3)
+SELECT [log_user_id]
+FROM [dbo].[Sys_Log]
+WHERE @@ROWCOUNT > 0 AND [log_user_id] = scope_identity()
+-- @0: '192.168.1.100' (Type = String, Size = 128)
+-- @1: '2017/11/28 16:26:14' (Type = DateTime2)
+-- @2: 'chrome-Unknown-Unknown-WinNT-Chrome57' (Type = String, Size = 200)
+-- @3: '登陆' (Type = String, Size = -1)
+-- Executing at 2017/11/28 16:26:14 +08:00
+-- Completed in 5 ms with result: SqlDataReader
+
+Committed transaction at 2017/11/28 16:26:14 +08:00
+Closed connection at 2017/11/28 16:26:14 +08:00
+Opened connection at 2017/11/28 16:26:14 +08:00
+SELECT 
+    [Limit1].[user_id] AS [user_id], 
+    [Limit1].[user_name] AS [user_name], 
+    [Limit1].[user_login_times] AS [user_login_times]
+    FROM ( SELECT TOP (1) 
+        [Extent1].[user_id] AS [user_id], 
+        [Extent1].[user_name] AS [user_name], 
+        [Extent1].[user_login_times] AS [user_login_times]
+        FROM [dbo].[User_Info] AS [Extent1]
+        WHERE [Extent1].[user_id] = @p__linq__0
+    )  AS [Limit1]
+-- p__linq__0: '3' (Type = Int32, IsNullable = false)
+-- Executing at 2017/11/28 16:26:14 +08:00
+-- Completed in 0 ms with result: SqlDataReader
+
+Closed connection at 2017/11/28 16:26:14 +08:00
+Opened connection at 2017/11/28 16:26:14 +08:00
+SELECT TOP (1) 
+    [Project1].[log_user_id] AS [log_user_id], 
+    [Project1].[log_user_ip] AS [log_user_ip], 
+    [Project1].[log_time] AS [log_time], 
+    [Project1].[log_device] AS [log_device], 
+    [Project1].[log_info] AS [log_info]
+    FROM ( SELECT 
+        [Extent1].[log_user_id] AS [log_user_id], 
+        [Extent1].[log_user_ip] AS [log_user_ip], 
+        [Extent1].[log_time] AS [log_time], 
+        [Extent1].[log_device] AS [log_device], 
+        [Extent1].[log_info] AS [log_info]
+        FROM [dbo].[Sys_Log] AS [Extent1]
+        WHERE [Extent1].[log_user_id] = @p__linq__0
+    )  AS [Project1]
+    ORDER BY [Project1].[log_time] ASC
+-- p__linq__0: '3' (Type = Int32, IsNullable = false)
+-- Executing at 2017/11/28 16:26:14 +08:00
+-- Completed in 0 ms with result: SqlDataReader
+
+Closed connection at 2017/11/28 16:26:14 +08:00
+Opened connection at 2017/11/28 16:26:28 +08:00
+SELECT 
+    [GroupBy1].[A1] AS [C1]
+    FROM ( SELECT 
+        MIN([Extent2].[uvr_role_id]) AS [A1]
+        FROM  [dbo].[User_Info] AS [Extent1]
+        INNER JOIN [dbo].[User_vs_Role] AS [Extent2] ON [Extent1].[user_id] = [Extent2].[uvr_user_id]
+        WHERE [Extent1].[user_id] = @p__linq__0
+    )  AS [GroupBy1]
+-- p__linq__0: '3' (Type = Int32, IsNullable = false)
+-- Executing at 2017/11/28 16:26:28 +08:00
+-- Completed in 1 ms with result: SqlDataReader
+
+Closed connection at 2017/11/28 16:26:28 +08:00
+Opened connection at 2017/11/28 16:26:28 +08:00
+SELECT 
+    [Extent2].[sub_id] AS [sub_id]
+    FROM  [dbo].[User_vs_Subject] AS [Extent1]
+    INNER JOIN [dbo].[Dic_Subject] AS [Extent2] ON [Extent1].[uvs_sub_id] = [Extent2].[sub_id]
+    WHERE [Extent1].[uvs_user_id] = @p__linq__0
+-- p__linq__0: '3' (Type = Int32, IsNullable = false)
+-- Executing at 2017/11/28 16:26:28 +08:00
+-- Completed in 2 ms with result: SqlDataReader
+
+Closed connection at 2017/11/28 16:26:28 +08:00
+Opened connection at 2017/11/28 16:26:28 +08:00
+SELECT 
+    [Project4].[C1] AS [C1], 
+    [Project4].[C2] AS [C2], 
+    [Project4].[C3] AS [C3], 
+    [Project4].[C4] AS [C4], 
+    [Project4].[C5] AS [C5], 
+    [Project4].[C6] AS [C6], 
+    [Project4].[C7] AS [C7], 
+    [Project4].[C8] AS [C8]
+    FROM ( SELECT 
+        [Distinct1].[C1] AS [C1], 
+        [Distinct1].[C2] AS [C2], 
+        [Distinct1].[C3] AS [C3], 
+        [Distinct1].[C4] AS [C4], 
+        [Distinct1].[C5] AS [C5], 
+        [Distinct1].[C6] AS [C6], 
+        [Distinct1].[C7] AS [C7], 
+        [Distinct1].[C8] AS [C8]
+        FROM ( SELECT DISTINCT 
+            [UnionAll1].[C1] AS [C1], 
+            [UnionAll1].[user_id] AS [C2], 
+            [UnionAll1].[role_name] AS [C3], 
+            [UnionAll1].[role_id] AS [C4], 
+            [UnionAll1].[user_name] AS [C5], 
+            [UnionAll1].[user_phone] AS [C6], 
+            [UnionAll1].[user_photo_path] AS [C7], 
+            [UnionAll1].[user_login_times] AS [C8]
+            FROM  (SELECT 
+                1 AS [C1], 
+                [Extent1].[user_id] AS [user_id], 
+                [Extent3].[role_name] AS [role_name], 
+                [Extent3].[role_id] AS [role_id], 
+                [Extent1].[user_name] AS [user_name], 
+                [Extent1].[user_phone] AS [user_phone], 
+                [Extent1].[user_photo_path] AS [user_photo_path], 
+                [Extent1].[user_login_times] AS [user_login_times]
+                FROM    [dbo].[User_Info] AS [Extent1]
+                INNER JOIN [dbo].[User_vs_Role] AS [Extent2] ON [Extent1].[user_id] = [Extent2].[uvr_user_id]
+                INNER JOIN [dbo].[Sys_Roles] AS [Extent3] ON [Extent2].[uvr_role_id] = [Extent3].[role_id]
+                INNER JOIN [dbo].[User_vs_Subject] AS [Extent4] ON [Extent1].[user_id] = [Extent4].[uvs_user_id]
+                WHERE ([Extent1].[user_id] = @p__linq__0) OR (([Extent2].[uvr_role_id] > 2) AND ([Extent4].[uvs_sub_id] IN (2, 3)))
+            UNION ALL
+                SELECT 
+                1 AS [C1], 
+                [Extent5].[user_id] AS [user_id], 
+                [Extent7].[role_name] AS [role_name], 
+                [Extent7].[role_id] AS [role_id], 
+                [Extent5].[user_name] AS [user_name], 
+                [Extent5].[user_phone] AS [user_phone], 
+                [Extent5].[user_photo_path] AS [user_photo_path], 
+                [Extent5].[user_login_times] AS [user_login_times]
+                FROM    [dbo].[User_Info] AS [Extent5]
+                INNER JOIN [dbo].[User_vs_Role] AS [Extent6] ON [Extent5].[user_id] = [Extent6].[uvr_user_id]
+                INNER JOIN [dbo].[Sys_Roles] AS [Extent7] ON [Extent6].[uvr_role_id] = [Extent7].[role_id]
+                INNER JOIN [dbo].[User_vs_Subject] AS [Extent8] ON [Extent5].[user_id] = [Extent8].[uvs_user_id]
+                WHERE ([Extent5].[user_id] = @p__linq__1) OR (([Extent6].[uvr_role_id] > 2) AND ([Extent8].[uvs_sub_id] IN (2, 3)))) AS [UnionAll1]
+        )  AS [Distinct1]
+    )  AS [Project4]
+    ORDER BY [Project4].[C4] ASC, [Project4].[C5] ASC
+-- p__linq__0: '3' (Type = Int32, IsNullable = false)
+-- p__linq__1: '3' (Type = Int32, IsNullable = false)
+-- Executing at 2017/11/28 16:26:28 +08:00
+-- Completed in 9 ms with result: SqlDataReader
+
+Closed connection at 2017/11/28 16:26:28 +08:00
+Opened connection at 2017/11/28 16:26:38 +08:00
+SELECT TOP (2) 
+    [Extent1].[uvr_user_id] AS [uvr_user_id], 
+    [Extent1].[uvr_role_id] AS [uvr_role_id]
+    FROM [dbo].[User_vs_Role] AS [Extent1]
+    WHERE [Extent1].[uvr_user_id] = @p0
+-- p0: '3' (Type = Int32)
+-- Executing at 2017/11/28 16:26:38 +08:00
+-- Completed in 2 ms with result: SqlDataReader
+
+Closed connection at 2017/11/28 16:26:38 +08:00
+Opened connection at 2017/11/28 16:26:38 +08:00
+SELECT 
+    [Extent2].[sub_id] AS [sub_id]
+    FROM  [dbo].[User_vs_Subject] AS [Extent1]
+    INNER JOIN [dbo].[Dic_Subject] AS [Extent2] ON [Extent1].[uvs_sub_id] = [Extent2].[sub_id]
+    WHERE [Extent1].[uvs_user_id] = @p__linq__0
+-- p__linq__0: '3' (Type = Int32, IsNullable = false)
+-- Executing at 2017/11/28 16:26:38 +08:00
+-- Completed in 2 ms with result: SqlDataReader
+
+Closed connection at 2017/11/28 16:26:38 +08:00
+Opened connection at 2017/11/28 16:26:38 +08:00
+SELECT 
+    [Distinct1].[C1] AS [C1], 
+    [Distinct1].[C2] AS [C2], 
+    [Distinct1].[C3] AS [C3]
+    FROM ( SELECT DISTINCT 
+        [UnionAll1].[C1] AS [C1], 
+        [UnionAll1].[user_id] AS [C2], 
+        [UnionAll1].[user_name] AS [C3]
+        FROM  (SELECT 
+            1 AS [C1], 
+            [Extent1].[user_id] AS [user_id], 
+            [Extent1].[user_name] AS [user_name]
+            FROM   [dbo].[User_Info] AS [Extent1]
+            INNER JOIN [dbo].[User_vs_Subject] AS [Extent2] ON [Extent1].[user_id] = [Extent2].[uvs_user_id]
+            INNER JOIN [dbo].[User_vs_Role] AS [Extent3] ON [Extent1].[user_id] = [Extent3].[uvr_user_id]
+            WHERE ([Extent1].[user_id] = @p__linq__0) OR (([Extent3].[uvr_role_id] > @p__linq__1) AND ([Extent2].[uvs_sub_id] IN (2, 3)))
+        UNION ALL
+            SELECT 
+            1 AS [C1], 
+            [Extent4].[user_id] AS [user_id], 
+            [Extent4].[user_name] AS [user_name]
+            FROM   [dbo].[User_Info] AS [Extent4]
+            INNER JOIN [dbo].[User_vs_Subject] AS [Extent5] ON [Extent4].[user_id] = [Extent5].[uvs_user_id]
+            INNER JOIN [dbo].[User_vs_Role] AS [Extent6] ON [Extent4].[user_id] = [Extent6].[uvr_user_id]
+            WHERE ([Extent4].[user_id] = @p__linq__2) OR (([Extent6].[uvr_role_id] > @p__linq__3) AND ([Extent5].[uvs_sub_id] IN (2, 3)))) AS [UnionAll1]
+    )  AS [Distinct1]
+-- p__linq__0: '3' (Type = Int32, IsNullable = false)
+-- p__linq__1: '2' (Type = Int32, IsNullable = false)
+-- p__linq__2: '3' (Type = Int32, IsNullable = false)
+-- p__linq__3: '2' (Type = Int32, IsNullable = false)
+-- Executing at 2017/11/28 16:26:38 +08:00
+-- Completed in 5 ms with result: SqlDataReader
+
+Closed connection at 2017/11/28 16:26:38 +08:00
+Opened connection at 2017/11/28 16:26:38 +08:00
+SELECT 
+    [Limit1].[user_id] AS [user_id], 
+    [Limit1].[user_add_time] AS [user_add_time], 
+    [Limit1].[user_name1] AS [user_name], 
+    [Limit1].[user_email] AS [user_email], 
+    [Limit1].[user_home_address] AS [user_home_address], 
+    [Limit1].[user_info] AS [user_info], 
+    [Limit1].[user_login_times] AS [user_login_times], 
+    [Limit1].[user_name] AS [user_name1], 
+    [Limit1].[user_phone] AS [user_phone], 
+    [Limit1].[user_update_time] AS [user_update_time], 
+    [Limit1].[user_name2] AS [user_name2]
+    FROM ( SELECT TOP (1) 
+        [Extent1].[user_id] AS [user_id], 
+        [Extent1].[user_name] AS [user_name], 
+        [Extent1].[user_phone] AS [user_phone], 
+        [Extent1].[user_info] AS [user_info], 
+        [Extent1].[user_email] AS [user_email], 
+        [Extent1].[user_home_address] AS [user_home_address], 
+        [Extent1].[user_add_time] AS [user_add_time], 
+        [Extent1].[user_update_time] AS [user_update_time], 
+        [Extent1].[user_login_times] AS [user_login_times], 
+        [Extent2].[user_name] AS [user_name1], 
+        [Extent3].[user_name] AS [user_name2]
+        FROM   [dbo].[User_Info] AS [Extent1]
+        LEFT OUTER JOIN [dbo].[User_Info] AS [Extent2] ON [Extent1].[user_add_user] = [Extent2].[user_id]
+        LEFT OUTER JOIN [dbo].[User_Info] AS [Extent3] ON [Extent1].[user_update_user] = [Extent3].[user_id]
+        WHERE [Extent1].[user_id] = @p__linq__0
+    )  AS [Limit1]
+-- p__linq__0: '3' (Type = Int32)
+-- Executing at 2017/11/28 16:26:38 +08:00
+-- Completed in 2 ms with result: SqlDataReader
+
+Closed connection at 2017/11/28 16:26:38 +08:00
+
+
+
+
+

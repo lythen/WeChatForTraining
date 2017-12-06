@@ -47,13 +47,12 @@ namespace WeChatForTraining.Controllers
         {
             //List<SelectOption> options = DropDownList.SysRolesSelect();
             //ViewBag.ddlRoles = DropDownList.SetDropDownList(options);
-            if (Request.Cookies["checkCode"] == null)
+            if (Session["checkCode"] == null)
             {
                 ViewBag.msg = "验证码已过期，请点击验证码刷新后重新输入密码码。";
                 return View(model);
             }
-            string en_code = FormsAuthentication.HashPasswordForStoringInConfigFile(model.checkCode.ToUpper(), "MD5").ToUpper();
-            if(en_code!= Request.Cookies["checkCode"].Value)
+            if(model.checkCode!= Session["checkCode"].ToString())
             {
                 ViewBag.msg = "验证码不正确。";
                 return View(model);

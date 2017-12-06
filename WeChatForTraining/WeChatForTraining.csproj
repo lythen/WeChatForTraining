@@ -276,6 +276,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Common\IpHelper.cs" />
+    <Compile Include="Common\TokenProccessor.cs" />
     <Compile Include="Controllers\wxAuthorizeAttribute.cs" />
     <Compile Include="Common\DataCache.cs" />
     <Compile Include="Controllers\DropDownList.cs" />

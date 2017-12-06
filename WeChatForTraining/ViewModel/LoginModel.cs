@@ -14,7 +14,7 @@ namespace WeChatForTraining.ViewModel
         /// <summary>
         /// 密码
         /// </summary>
-        [Required(ErrorMessage = "请输入密码。"), StringLength(16)]
+        [Required(ErrorMessage = "请输入密码。"), StringLength(2000)]
         public string password { get; set; }
         /// <summary>
         /// 验证码

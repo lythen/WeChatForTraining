@@ -15,10 +15,7 @@ namespace WeChatForTraining.Controllers
         {
             //string code = GetRndStr();
             string code = GetNumAndStr(4);
-            string en_code = FormsAuthentication.HashPasswordForStoringInConfigFile(code.ToUpper(), "MD5").ToUpper();
-            HttpCookie cookie = new HttpCookie("checkCode", en_code);
-            cookie.Expires = DateTime.Now.AddMinutes(10);
-            Response.AppendCookie(cookie);
+            Session["checkCode"] = code;
             byte[] imageByte;
             using (Bitmap img = CreateImages(code, "ch"))
             {

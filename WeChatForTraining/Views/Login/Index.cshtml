@@ -137,7 +137,7 @@
             </div>
         </div>
     </header>
-    @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @class = "form-horizontal" }))
+    @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @class = "form-horizontal",@id="form1" }))
     {
         
         @Html.AntiForgeryToken()
@@ -199,5 +199,6 @@
                 var t = (new Date()).valueOf();
                 $("#imgCode").attr("src", '@Url.RouteUrl(new { controller = "ValidateCode", action = "GetCode"})?t=' + (new Date()).valueOf());
             });
+
         });
     </script>
