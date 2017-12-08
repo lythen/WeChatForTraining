@@ -749,6 +749,7 @@ namespace WeChatForTraining.Controllers
         public ActionResult Rollcall(IList<RollCallModel> modelList)
         {
             int cvt_id = PageValidate.FilterParam(Request.QueryString["courseTime"]);
+            
             string course = (from cvt in db.Course_vs_Times
                              join c in db.Course_Infos
                              on cvt.cvt_course_id equals c.course_id
@@ -757,19 +758,7 @@ namespace WeChatForTraining.Controllers
             if (string.IsNullOrEmpty(course)) return View();
             ViewBag.LessonName = course;
             StringBuilder sbmsg = new StringBuilder();
-            foreach (RollCallModel model in modelList)
-            {
-                var data = db.Student_vs_CTimess.Where(x => x.svct_cvt_id == cvt_id && x.svct_stu_id == model.student).First();
-                if (sbmsg == null)
-                {
-                    sbmsg.Append("未找到学生[").Append(model.name).Append("]的相关信息，可能被删除。");
-                    continue;
-                }
-                data.svct_roll_call = model.state ? 2 : 4;
-                db.Entry(data).State = EntityState.Modified;
-                db.SaveChanges();
-                model.state = data.svct_roll_call==2?true:false;
-            }
+            SetRollCall(cvt_id, sbmsg, modelList);
             if (sbmsg.Length > 0)
                 ViewBag.msg = sbmsg.ToString();
             else
@@ -807,6 +796,49 @@ namespace WeChatForTraining.Controllers
             }
             else list = (List<LiteCourse>)obj;
             return list;
+        }
+        public ActionResult AddRollCall()
+        {
+            //获取有权限的所有课程
+            return View();
+        }
+        public JsonResult GetCourseTime(int? id)
+        {
+            //获取课程下的上具体上课时间
+            BaseJsonData json = new BaseJsonData();
+            return Json(json,JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetStudentCourse(int? id)
+        {
+            //获取具体上课时间的考生列表。
+            BaseJsonData json = new BaseJsonData();
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult AddRollCall(IList<RollCallModel> modelList)
+        {
+            //补录点名信息
+            BaseJsonData json = new BaseJsonData();
+
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+        void SetRollCall(int cvt_id,StringBuilder sbmsg, IList<RollCallModel> modelList)
+        {
+            foreach (RollCallModel model in modelList)
+            {
+                var data = db.Student_vs_CTimess.Where(x => x.svct_cvt_id == cvt_id && x.svct_stu_id == model.student).First();
+                if (sbmsg == null)
+                {
+                    sbmsg.Append("未找到学生[").Append(model.name).Append("]的相关信息，可能被删除。");
+                    continue;
+                }
+                data.svct_roll_call = model.state ? 2 : 4;
+                data.svct_roll_call_info = model.info==null?"":model.info;
+                db.Entry(data).State = EntityState.Modified;
+                db.SaveChanges();
+                model.state = data.svct_roll_call == 2 ? true : false;
+            }
         }
         public void RemoveCache(int sub_id)
         {

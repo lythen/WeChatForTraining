@@ -22,29 +22,29 @@
                         <li role="presentation">
                             <a href="@Url.RouteUrl(new { controller = "Home",action="Index" })" title="首页">首页</a>
                         </li>
-                        @if(Session["LoginRole"] != null){ 
-                        if(((string[])Session["LoginRole"]).Contains("Sys_Info"))
+                        @if(Session["ControlRoles"] != null){ 
+                        if(((string[])Session["ControlRoles"]).Contains("Sys_Info"))
                         {
                             <li role="presentation">
                                 <a href="@Url.RouteUrl(new { controller = "Sys_Info", action = "Index", id = 1 })" title="系统设置" target="_top" onclick="_hmt.push(['_trackEvent', 'main-navigation', 'click', '系统设置'])">系统设置</a>
                             </li>
                         }
-                        if (((string[])Session["LoginRole"]).Contains("Teacher"))
+                        if (((string[])Session["ControlRoles"]).Contains("Teacher"))
                         {
                             <li role="presentation"><a href="@Url.RouteUrl(new { controller = "Teacher",action="Index" })" title="教师管理" target="_top" onclick="_hmt.push(['_trackEvent', 'main-navigation', 'click', '教师管理'])">教师管理</a></li>
                         }
-                        if (((string[])Session["LoginRole"]).Contains("Parents"))
+                        if (((string[])Session["ControlRoles"]).Contains("Parents"))
                         {
                         <li role="presentation"><a href="@Url.RouteUrl(new { controller = "Parents",action="Index" })" title="家长管理" target="_top" onclick="_hmt.push(['_trackEvent', 'main-navigation', 'click', '家长管理'])">家长管理</a></li>
                         }
-                        if (((string[])Session["LoginRole"]).Contains("Student"))
+                        if (((string[])Session["ControlRoles"]).Contains("Student"))
                         {
                         <li role="presentation"><a href="@Url.RouteUrl(new { controller = "Student",action="ViewList" })" title="学生管理" target="_top" onclick="_hmt.push(['_trackEvent', 'main-navigation', 'click', '学生管理'])">学生管理</a></li>
                         }
-                        if (((string[])Session["LoginRole"]).Contains("Course"))
+                        if (((string[])Session["ControlRoles"]).Contains("Course"))
                         {
                         <li role="presentation"><a href="@Url.RouteUrl(new { controller = "Course", action = "Index" })" title="课程管理" target="_top" onclick="_hmt.push(['_trackEvent', 'main-navigation', 'click', '课程管理'])">课程管理</a></li>
-                        }
+                            }
                         }
                     </ul>
                 </div>

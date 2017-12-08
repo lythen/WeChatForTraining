@@ -2,7 +2,7 @@
 using WeChatForTraining.DAL;
 using System.Linq;
 using WeChatForTraining.ViewModel;
-
+using WeChatForTraining.Models;
 namespace WeChatForTraining.Controllers
 {
     public class HomeController : Controller
@@ -14,6 +14,9 @@ namespace WeChatForTraining.Controllers
             if (!User.Identity.IsAuthenticated) return RedirectToRoute(new { controller = "Login", action = "Index" });
             else
             {
+                if(Session["UserInfo"]==null|| Session["LoginRole"] ==null || Session["ControlRoles"] == null) return RedirectToRoute(new { controller = "Login", action = "Index" });
+                User_Info user = (User_Info)Session["UserInfo"];
+                LoginRole role = (LoginRole)Session["LoginRole"];
                 int id = Common.PageValidate.FilterParam(User.Identity.Name);
                 var userInfo = (from u in db.User_Infos
                                 where u.user_id == id
@@ -32,6 +35,7 @@ namespace WeChatForTraining.Controllers
                     userInfo.lastDev = loginInfo.log_device;
                     userInfo.lastIp = loginInfo.log_user_ip;
                     userInfo.lastTime = loginInfo.log_time.ToString("yyyy年MM月dd日 HH时mm分");
+                    userInfo.roleName = role.roleName;
                 }
                 return View(userInfo);
             }

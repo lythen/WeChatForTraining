@@ -17,7 +17,6 @@ namespace WeChatForTraining
 
         protected void Session_Start(object sender, EventArgs e)
         {
-
         }
 
         protected void Application_BeginRequest(object sender, EventArgs e)

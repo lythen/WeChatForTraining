@@ -108,6 +108,9 @@ namespace WeChatForTraining.ViewModel
         public int cgroup { get; set; }
         public List<ListDetailTime> times { get; set; }
     }
+    /// <summary>
+    /// 具体上课时间 id:cvt_id
+    /// </summary>
     public class ListDetailTime
     {
         private int _id = 0;

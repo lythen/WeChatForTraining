@@ -164,11 +164,33 @@
     </div>
     @Html.HiddenFor(page=> pageinfo.pageindex,new { @id = "hid-pageindex" })
     @Html.HiddenFor(page => pageinfo.pagesize, new { @id = "hid-pagesize" })
+    int pagerLen = 20;
+    int begini = 1;
+    int endi = 1;
     if (pageinfo.pages > 1)
     {
+        if (pageinfo.pages <= pagerLen) { endi = pageinfo.pages; }
+        else
+        {
+            var mid = pagerLen / 2;
+            if (pageinfo.pageindex + mid >= pageinfo.pages)
+            {
+                endi = pageinfo.pages;
+                mid = endi - pageinfo.pageindex;
+                begini = pageinfo.pageindex - (pagerLen - mid) + 1;
+            } else {
+                if (pageinfo.pageindex - mid <= 0)
+                {
+                    begini = 1;
+                    mid = pagerLen - (pageinfo.pageindex - begini);
+                }
+                else { begini = pageinfo.pageindex - mid; }
+                endi = pageinfo.pageindex + mid-1;
+            }
+        }
     <nav aria-label="Page navigation">
         <ul class="pagination">
-            @if (pageinfo.pageindex==1){
+            @if (pageinfo.pageindex == 1) {
             <li class="disabled">
                 <span>
                     <span aria-hidden="true">&laquo;</span>
@@ -183,7 +205,7 @@
                     </a>
                 </li>
             }
-            @for (var i = 1; i <= pageinfo.pages; i++)
+            @for (var i = begini; i <= endi; i++)
             {
                 if (i == pageinfo.pageindex)
                 {

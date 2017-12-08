@@ -79,6 +79,7 @@ namespace WeChatForTraining.ViewModel
         public int user_login_times { get; set; }
         public int role_id { get { return _role_id; } set { _role_id = value; } }
         public string role_name { get; set; }
+        public string token { get; set; }
     }
     public class BaseUserModel
     {
@@ -103,5 +104,9 @@ namespace WeChatForTraining.ViewModel
         /// 登陆次数
         /// </summary>
         public int times { get; set; }
+        /// <summary>
+        /// 登陆角色
+        /// </summary>
+        public string roleName { get; set; }
     }
 }

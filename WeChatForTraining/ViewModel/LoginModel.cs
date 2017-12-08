@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace WeChatForTraining.ViewModel
@@ -29,5 +30,15 @@ namespace WeChatForTraining.ViewModel
         /// 是否记住用户名
         /// </summary>
         public bool isRemember { get; set; }
+        public string token { get; set; }
+    }
+    public class ControlRoles
+    {
+       string[] loginRoles { get; set; }
+    }
+    public class LoginRole
+    {
+        public int roleId { get; set; }
+        public string roleName { get; set; }
     }
 }

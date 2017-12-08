@@ -247,6 +247,9 @@ namespace WeChatForTraining.Controllers
             {
                 return HttpNotFound();
             }
+            string token = TokenProccessor.getInstance().makeToken();
+            model.token = token;
+            Session["token"] = token;
             return View(model);
         }
 
@@ -255,10 +258,15 @@ namespace WeChatForTraining.Controllers
         // 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "user_id,user_name,user_phone,user_info,user_email,user_password,user_password,user_home_address")] TeacherEditModel model)
+        public ActionResult Edit([Bind(Include = "user_id,user_name,user_phone,user_info,user_email,user_password,user_password,user_home_address,token")] TeacherEditModel model)
         {
             if (ModelState.IsValid)
             {
+                if (Session["token"] == null || Session["token"].ToString() != model.token)
+                {
+                    ViewBag.msg = "异常操作，请退出当前页面后重新进入操作。";
+                    return View(model);
+                }
                 if (!User.Identity.IsAuthenticated) return RedirectToRoute(new { controller = "Login", action = "Index" });
                 int manager_id = PageValidate.FilterParam(User.Identity.Name);
                 if (!ManagerRoles.CheckHasManageTeacherRole(manager_id, model.user_id))
@@ -290,7 +298,10 @@ namespace WeChatForTraining.Controllers
                 user_Info.user_update_user = manager_id;
                 db.Entry(user_Info).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index", new { id = model.user_id });
+                //return RedirectToAction("Index", new { id = model.user_id });
+                ViewBag.msg = "修改成功。";
+                ViewBag.go = 1;
+                Session.Remove("token");
             }
             return View(model);
         }

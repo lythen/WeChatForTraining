@@ -162,7 +162,10 @@
     <Content Include="Scripts\DateFormat.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery-3.2.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-3.2.1.js" />
+    <Content Include="Scripts\jquery-3.2.1.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -259,12 +262,13 @@
     <Content Include="Views\Shared\teacherLayout.cshtml" />
     <Content Include="Views\Teacher\TeacherCourses.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
-    <Content Include="Views\Shared\errorLayout.cshtml" />
+    <Content Include="Views\Shared\_w_main.cshtml" />
     <Content Include="Views\Shared\_logout.cshtml" />
     <Content Include="Views\Shared\_m_main.cshtml" />
     <Content Include="Views\Course\RollcallList.cshtml" />
     <Content Include="Views\Sys_Info\DeleteCache.cshtml" />
     <Content Include="Views\Sys_Info\ControllerRoles.cshtml" />
+    <Content Include="Views\Course\AddRollCall.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

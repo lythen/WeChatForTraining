@@ -15,7 +15,7 @@ namespace WeChatForTraining.Controllers
         {
             //string code = GetRndStr();
             string code = GetNumAndStr(4);
-            Session["checkCode"] = code;
+            Session["checkCode"] = code.ToUpper() ;
             byte[] imageByte;
             using (Bitmap img = CreateImages(code, "ch"))
             {

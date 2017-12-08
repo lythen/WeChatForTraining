@@ -4,13 +4,11 @@ using System.Web.Mvc;
 using WeChatForTraining.DAL;
 using WeChatForTraining.Models;
 using System.Web.Security;
-using System.Web.SessionState;
 using System;
 using System.Web;
 using WeChatForTraining.ViewModel;
 using WeChatForTraining.Common;
 using System.Data.Entity;
-using System.Collections.Generic;
 
 namespace WeChatForTraining.Controllers
 {
@@ -34,6 +32,9 @@ namespace WeChatForTraining.Controllers
                 model.userName =Server.UrlDecode(Request.Cookies["name"].Value);
                 model.isRemember = true;
             }
+            string token= TokenProccessor.getInstance().makeToken();
+            model.token = token;
+            Session["token"] = token;
             //if (Request.Cookies["role"] != null) model.role = PageValidate.FilterParam(Request.Cookies["role"].Value);
             return View(model);
         }
@@ -45,6 +46,11 @@ namespace WeChatForTraining.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(LoginModel model)
         {
+            if (Session["token"] == null || Session["token"].ToString() != model.token)
+            {
+                ViewBag.msg = "登陆异常，请刷新页面后重新登陆。";
+                return View(model);
+            }
             //List<SelectOption> options = DropDownList.SysRolesSelect();
             //ViewBag.ddlRoles = DropDownList.SetDropDownList(options);
             if (Session["checkCode"] == null)
@@ -52,7 +58,7 @@ namespace WeChatForTraining.Controllers
                 ViewBag.msg = "验证码已过期，请点击验证码刷新后重新输入密码码。";
                 return View(model);
             }
-            if(model.checkCode!= Session["checkCode"].ToString())
+            if(model.checkCode.ToUpper()!= Session["checkCode"].ToString())
             {
                 ViewBag.msg = "验证码不正确。";
                 return View(model);
@@ -84,7 +90,7 @@ namespace WeChatForTraining.Controllers
                          join r in db.Sys_Roles
                          on uvr.uvr_role_id equals r.role_id
                          where uvr.uvr_user_id == user.user_id
-                         select new
+                         select new LoginRole
                          {
                              roleId = r.role_id,
                              roleName = r.role_name
@@ -95,13 +101,15 @@ namespace WeChatForTraining.Controllers
                 return View(model);
             }
             //功能权限
-            var roles = (from r in db.Sys_Roles
+            var controlroles = (from r in db.Sys_Roles
                          join rvc in db.Role_vs_Controllers
                          on r.role_id equals rvc.rvc_role_id
                          where r.role_id == role.roleId
                          select rvc.rvc_controller
                        ).ToArray();
-            Session["LoginRole"] = roles;
+            Session["LoginRole"] = role;
+            Session["ControlRoles"] = controlroles;
+            Session["UserInfo"] = user;
             DataCache.SetCache("user-roles-" + user.user_id, role);
             HttpCookie cookie;
             if (model.isRemember)
@@ -137,6 +145,7 @@ namespace WeChatForTraining.Controllers
             db.Sys_Logs.Add(log);
             db.Entry(user).State = EntityState.Modified;
             db.SaveChanges();
+            Session.Remove("token");
             return RedirectToRoute(new { controller = "Home", action = "Index" });
         }
         public ActionResult LogOut()
