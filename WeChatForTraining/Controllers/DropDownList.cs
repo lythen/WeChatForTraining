@@ -26,6 +26,7 @@ namespace WeChatForTraining.Controllers
         private static string cache_roles = "cache_roles";
         private static string cache_managers = "cache_managers";
         private static string cache_managerTeachers = "cache_managerTeachers";
+        private static string cache_allcontrollers = "cache_allcontrollers";
         public static List<SelectListItem> SetDropDownList(List<Models.SelectOption> options)
         {
             List<SelectListItem> items = new List<SelectListItem>();
@@ -422,6 +423,24 @@ namespace WeChatForTraining.Controllers
                         options.Add(new SelectOption { text = item.name, id = item.id.ToString() });
                     }
                     DataCache.SetCache(_cache_key, options);
+                }
+            }
+            return options;
+        }
+        public static List<SelectOption> GetAllControllers()
+        {
+            List<SelectOption> options = (List<SelectOption>)DataCache.GetCache(cache_allcontrollers);
+            if (options == null)
+            {
+                options = new List<SelectOption>();
+                var t_s = db.Sys_Controllers;
+                if (t_s != null)
+                {
+                    foreach (var item in t_s)
+                    {
+                        options.Add(new SelectOption { text = item.controller_name, id = item.id.ToString() });
+                    }
+                    DataCache.SetCache(cache_allcontrollers, options);
                 }
             }
             return options;

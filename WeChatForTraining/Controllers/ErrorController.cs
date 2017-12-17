@@ -10,6 +10,11 @@ namespace WeChatForTraining.Controllers
         // GET: Error
         public ActionResult Index(string err)
         {
+            if (err == "没有权限!")
+            {
+                if (Session["UserInfo"] == null)
+                    return RedirectToRoute(new { controller = "Login", action = "Logout" });
+            }
             ViewBag.msg = err;
             return View();
         }

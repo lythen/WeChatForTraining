@@ -325,12 +325,12 @@ namespace WeChatForTraining.Controllers
                                       introduce = c.course_introduce,
                                       max = c.course_max_num,
                                       name = c.course_name,
-                                      room = t1.room_id == null ? 0 : t1.room_id,
+                                      room = t1.room_id,
                                       season = (int)c.c_cs_id,
                                       subject = c.c_sub_id,
                                       teacher = c.c_teacher_id,
                                       type = c.c_type_id,
-                                      school = t2.sys_school_id == null ? 0 : t2.sys_school_id
+                                      school = t2.sys_school_id
                                   }).FirstOrDefault();
             if (course == null)
             {
@@ -384,8 +384,8 @@ namespace WeChatForTraining.Controllers
                                        info = cvt.cvt_info,
                                        state = cvt.cvt_state,
                                        isextra = cvt.cvt_is_extra,
-                                       room = t1.room_id == null ? 0 : t1.room_id,
-                                       school = t2.sys_school_id == null ? 0 : t2.sys_school_id,
+                                       room = t1.room_id,
+                                       school = t2.sys_school_id,
                                        stateName = t3.cstate_name
                                    };
                         top.times = list.ToList();

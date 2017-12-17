@@ -115,7 +115,7 @@ namespace WeChatForTraining.Controllers
             if (model.isRemember)
             {
                 cookie = new HttpCookie("name", Server.UrlEncode(model.userName));
-                cookie.Expires = DateTime.Now.AddYears(1);
+                cookie.Expires = DateTime.Now.AddHours(1);
                 Response.AppendCookie(cookie);
             }
             else if (Request.Cookies["username"] != null) Response.Cookies.Remove("username");
@@ -125,6 +125,7 @@ namespace WeChatForTraining.Controllers
             //Response.AppendCookie(cookie);
 
             FormsAuthentication.SetAuthCookie(user.user_id.ToString(), true);
+
             string ip = IpHelper.GetIP();
             string loginDev = string.Format("{0}-{1}-{2}-{3}-{4}"
                 , Request.Browser.Id
@@ -151,6 +152,7 @@ namespace WeChatForTraining.Controllers
         public ActionResult LogOut()
         {
             FormsAuthentication.SignOut();
+            Session.Clear();
             return RedirectToAction("Index");
         }
         protected override void Dispose(bool disposing)

@@ -451,6 +451,14 @@
     <Compile Include="Migrations\201711240309275_add2017112402.Designer.cs">
       <DependentUpon>201711240309275_add2017112402.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712080400093_add1208.cs" />
+    <Compile Include="Migrations\201712080400093_add1208.Designer.cs">
+      <DependentUpon>201712080400093_add1208.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712080955180_add120802.cs" />
+    <Compile Include="Migrations\201712080955180_add120802.Designer.cs">
+      <DependentUpon>201712080955180_add120802.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Sys_Controller.cs" />
     <Compile Include="Models\Course_Info.cs" />
@@ -614,6 +622,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711240309275_add2017112402.resx">
       <DependentUpon>201711240309275_add2017112402.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712080400093_add1208.resx">
+      <DependentUpon>201712080400093_add1208.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712080955180_add120802.resx">
+      <DependentUpon>201712080955180_add120802.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

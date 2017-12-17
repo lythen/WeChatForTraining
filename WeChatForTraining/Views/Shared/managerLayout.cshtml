@@ -66,7 +66,8 @@
                             @Html.RouteLink("系统信息", new { controller = "Sys_Info", action = "Index", id = "1" }, new { @class = "list-group-item sys_info" })
                             @Html.RouteLink("校区设置", new { controller = "Dictionary", action = "SysSchoolList" }, new { @class = "list-group-item sysschool" })
                             @Html.RouteLink("科目设置", new { controller = "Dictionary", action = "SysSubjectList" }, new { @class = "list-group-item syssubject" })
-                            @Html.RouteLink("清除缓存", new { controller = "Sys_Info", action = "DeleteCache" }, new { @class = "list-group-item deletecache" })
+                                                        @Html.RouteLink("清除缓存", new { controller = "Sys_Info", action = "DeleteCache" }, new { @class = "list-group-item deletecache" })
+                                                        @Html.RouteLink("访问权限", new { controller = "Sys_Info", action = "ControllerRoles" }, new { @class = "list-group-item controllerroles" })
                         </div>
                     </div>
                 </aside>

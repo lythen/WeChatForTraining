@@ -7,6 +7,7 @@ namespace WeChatForTraining.Models
     /// <summary>
     /// 用户用，家长用户、教师、管理员基本信息
     /// </summary>
+    [Serializable]
     public class User_Info
     {
         int _state = 1;

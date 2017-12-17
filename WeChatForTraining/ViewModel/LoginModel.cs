@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WeChatForTraining.ViewModel
 {
-    
+    [Serializable]
     public class LoginModel
     {
         /// <summary>
@@ -36,6 +36,7 @@ namespace WeChatForTraining.ViewModel
     {
        string[] loginRoles { get; set; }
     }
+    [Serializable]
     public class LoginRole
     {
         public int roleId { get; set; }
