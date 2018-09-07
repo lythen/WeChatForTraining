@@ -38,6 +38,8 @@ namespace WeChatForTraining.DAL
         public DbSet<Sys_Info> Sys_Info { get; set; }
         public DbSet<Role_vs_Controller> Role_vs_Controllers { get; set; }
         public DbSet<Sys_Controller> Sys_Controllers { get; set; }
+        public DbSet<Sys_Authority> Sys_Authority { get; set; }
+        public DbSet<Role_vs_Authority> Role_vs_Authority { get; set; }
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{
         //    //修改

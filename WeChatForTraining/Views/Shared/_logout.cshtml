@@ -1,5 +1,5 @@
 ﻿@{ 
-    var name = Server.UrlDecode(Request.Cookies["name"].Value.ToString());
+    var name = Session["Name"];
 }
 <style>
     .sidebar .widget2 {

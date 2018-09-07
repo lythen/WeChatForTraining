@@ -269,6 +269,7 @@
     <Content Include="Views\Sys_Info\DeleteCache.cshtml" />
     <Content Include="Views\Sys_Info\ControllerRoles.cshtml" />
     <Content Include="Views\Course\AddRollCall.cshtml" />
+    <Content Include="Views\Shared\parentLayout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -280,6 +281,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Common\IpHelper.cs" />
+    <Compile Include="Common\RoleCheck.cs" />
     <Compile Include="Common\TokenProccessor.cs" />
     <Compile Include="Controllers\wxAuthorizeAttribute.cs" />
     <Compile Include="Common\DataCache.cs" />
@@ -459,7 +461,13 @@
     <Compile Include="Migrations\201712080955180_add120802.Designer.cs">
       <DependentUpon>201712080955180_add120802.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809071623079_addAuth.cs" />
+    <Compile Include="Migrations\201809071623079_addAuth.Designer.cs">
+      <DependentUpon>201809071623079_addAuth.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Role_vs_Authority.cs" />
+    <Compile Include="Models\Sys_Authority.cs" />
     <Compile Include="Models\Sys_Controller.cs" />
     <Compile Include="Models\Course_Info.cs" />
     <Compile Include="Models\Course_Season.cs" />
@@ -628,6 +636,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712080955180_add120802.resx">
       <DependentUpon>201712080955180_add120802.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809071623079_addAuth.resx">
+      <DependentUpon>201809071623079_addAuth.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

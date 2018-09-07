@@ -110,6 +110,7 @@ namespace WeChatForTraining.Controllers
             Session["LoginRole"] = role;
             Session["ControlRoles"] = controlroles;
             Session["UserInfo"] = user;
+            Session["Name"] = model.userName;
             DataCache.SetCache("user-roles-" + user.user_id, role);
             HttpCookie cookie;
             if (model.isRemember)
