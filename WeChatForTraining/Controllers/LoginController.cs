@@ -9,12 +9,13 @@ using System.Web;
 using Lythen.ViewModel;
 using Lythen.Common;
 using System.Data.Entity;
+using Lythen.Common.DEncrypt;
 
 namespace Lythen.Controllers
 {
     public class LoginController : Controller
     {
-        private WXfroTrainingDBContext db = new WXfroTrainingDBContext();
+        private LythenContext db = new LythenContext();
         // GET: Login
         public ActionResult Index()
         {
@@ -64,15 +65,21 @@ namespace Lythen.Controllers
                 return View(model);
             }
             //验证帐号密码
-            string password = FormsAuthentication.HashPasswordForStoringInConfigFile(model.password, "MD5");
             var user = (from p in db.User_Infos
-                          join uvr in db.User_vs_Roles
-                          on p.user_id equals uvr.uvr_user_id
-                          where p.user_name == model.userName && p.user_password == password
-                          select p).FirstOrDefault();
+                        join uvr in db.User_vs_Roles
+                        on p.user_id equals uvr.uvr_user_id
+                        where p.user_name == model.userName
+                        select p
+                        ).FirstOrDefault();
             if (user == null)
             {
                 ViewBag.msg = "姓名或密码输入不正确，请重新输入。";
+                return View(model);
+            }
+            string password = AESEncrypt.Encrypt(PasswordUnit.getPassword(PageValidate.InputText(model.password, 40).ToUpper(), user.user_salt));
+            if (password != user.user_password)
+            {
+                ViewBag.msg = "用户密码不正确，请重新输入。";
                 return View(model);
             }
             if (user.user_state == 0)

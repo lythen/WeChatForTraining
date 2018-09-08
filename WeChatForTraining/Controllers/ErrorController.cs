@@ -5,7 +5,7 @@ namespace Lythen.Controllers
 {
     public class ErrorController : Controller
     {
-        private WXfroTrainingDBContext db = new WXfroTrainingDBContext();
+        private LythenContext db = new LythenContext();
 
         // GET: Error
         public ActionResult Index(string err)

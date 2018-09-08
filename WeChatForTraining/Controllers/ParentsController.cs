@@ -15,7 +15,7 @@ namespace Lythen.Controllers
 {
     public class ParentsController : Controller
     {
-        private WXfroTrainingDBContext db = new WXfroTrainingDBContext();
+        private LythenContext db = new LythenContext();
 
         // GET: Parents
         public ActionResult Index()

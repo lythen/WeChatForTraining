@@ -8,7 +8,7 @@ namespace Lythen.Controllers
 {
     public class wxAuthorizeAttribute: AuthorizeAttribute
     {
-        private WXfroTrainingDBContext db = new WXfroTrainingDBContext();
+        private LythenContext db = new LythenContext();
         public wxAuthorizeAttribute() {
         }
         /// <summary>

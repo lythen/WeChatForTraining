@@ -10,14 +10,14 @@ namespace Lythen.Migrations
     using Models;
     using System.Collections.Generic;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Lythen.DAL.WXfroTrainingDBContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<Lythen.DAL.LythenContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(Lythen.DAL.WXfroTrainingDBContext context)
+        protected override void Seed(Lythen.DAL.LythenContext context)
         {
             //  This method will be called after migrating to the latest version.
 

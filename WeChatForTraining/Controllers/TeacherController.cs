@@ -3,7 +3,6 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web.Security;
 using System.Web.Mvc;
 using Lythen.DAL;
 using Lythen.Models;
@@ -15,8 +14,18 @@ namespace Lythen.Controllers
 {
     public class TeacherController : Controller
     {
-        private WXfroTrainingDBContext db = new WXfroTrainingDBContext();
-
+        private LythenContext db = new LythenContext();
+        public void setSelect()
+        {
+            List<SelectOption> options = DropDownList.SexSelect();
+            ViewBag.Sex = DropDownList.SetDropDownList(options);
+            options = DropDownList.UserStateSelect();
+            ViewBag.State = DropDownList.SetDropDownList(options);
+            options = DropDownList.CardTypeSelect();
+            ViewBag.CardType = DropDownList.SetDropDownList(options);
+            options = DropDownList.RoleSelect("");
+            ViewBag.Role = DropDownList.SetDropDownList(options);
+        }
         // GET: Teacher
         public ActionResult Index()
         {
@@ -35,23 +44,24 @@ namespace Lythen.Controllers
             if (role_id == 1) ViewBag.isdelete = 1;
             if (role_id == 5) ViewBag.isedit = 0;
             list = from user in db.User_Infos
-                                                     join uvr in db.User_vs_Roles
-                                                     on user.user_id equals uvr.uvr_user_id
-                                                     join role in db.Sys_Roles
-                                                     on uvr.uvr_role_id equals role.role_id
-                                                     select new UserModel
-                                                     {
-                                                         user_id = user.user_id,
-                                                         role_name = role.role_name,
-                                                         role_id = role.role_id,
-                                                         user_name = user.user_name,
-                                                         user_phone = user.user_phone,
-                                                         user_photo_path = user.user_photo_path,
-                                                         user_login_times = user.user_login_times
-                                                     };
+                   join uvr in db.User_vs_Roles
+                   on user.user_id equals uvr.uvr_user_id
+                   join role in db.Sys_Roles
+                   on uvr.uvr_role_id equals role.role_id
+                   where user.user_is_teacher == true
+                   select new UserModel
+                   {
+                       user_id = user.user_id,
+                       role_name = role.role_name,
+                       role_id = role.role_id,
+                       user_name = user.user_name,
+                       user_phone = user.user_phone,
+                       user_photo_path = user.user_photo_path,
+                       user_login_times = user.user_login_times
+                   };
 
             if (list != null)
-                return View(list.OrderBy(x=> new{ x.role_id,x.user_name}).ToList());
+                return View(list.OrderBy(x => new { x.role_id, x.user_name }).ToList());
             else return View(list);
 
 
@@ -62,7 +72,7 @@ namespace Lythen.Controllers
         {
             if (!User.Identity.IsAuthenticated) return RedirectToRoute(new { controller = "Login", action = "LogOut" });
             int userid = PageValidate.FilterParam(User.Identity.Name);
-            if (!RoleCheck.CheckHasAuthority(userid, db, "用户查询","用户管理") && id != userid) return RedirectToRoute(new { controller = "Error", action = "Index", err = "没有权限。" });
+            if (!RoleCheck.CheckHasAuthority(userid, db, "用户查询", "用户管理") && id != userid) return RedirectToRoute(new { controller = "Error", action = "Index", err = "没有权限。" });
             TeacherSearch model = new TeacherSearch();
             model.id = id;
             return View(GetInfo(model));
@@ -98,6 +108,7 @@ namespace Lythen.Controllers
             if (!User.Identity.IsAuthenticated) return RedirectToRoute(new { controller = "Login", action = "LogOut" });
             int userid = PageValidate.FilterParam(User.Identity.Name);
             if (!RoleCheck.CheckHasAuthority(userid, db, "用户管理")) return RedirectToRoute(new { controller = "Error", action = "Index", err = "没有权限。" });
+            setSelect();
             return View();
         }
 
@@ -108,22 +119,38 @@ namespace Lythen.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "user_id,user_name,user_photo_path,user_phone,user_info,user_email,user_password,user_Occupation,user_home_address,user_work_unit,user_add_time,user_add_user,user_update_time,user_update_user,user_login_times")] User_Info user_Info)
         {
+            setSelect();
             if (!User.Identity.IsAuthenticated) return RedirectToRoute(new { controller = "Login", action = "LogOut" });
             int userid = PageValidate.FilterParam(User.Identity.Name);
             if (!RoleCheck.CheckHasAuthority(userid, db, "用户管理")) return RedirectToRoute(new { controller = "Error", action = "Index", err = "没有权限。" });
             if (ModelState.IsValid)
             {
+                if (db.User_Infos.Where(x => x.user_email == user_Info.user_email && x.user_id != user_Info.user_id).Count() > 0)
+                {
+                    ViewBag.msg = "该邮箱已注册。";
+                    goto next;
+                }
+                if (db.User_Infos.Where(x => x.user_phone == user_Info.user_phone && x.user_id != user_Info.user_id).Count() > 0)
+                {
+                    ViewBag.msg = "该手机号已注册。";
+                    goto next;
+                }
+
+                var salt = Guid.NewGuid().ToString("N").Substring(0, 10).ToUpper();
+                user_Info.user_password = PasswordUnit.getPassword(user_Info.user_password.ToUpper(), salt);
+                user_Info.user_salt = salt;
                 db.User_Infos.Add(user_Info);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
+            next:
             return View(user_Info);
         }
 
         // GET: Teacher/Edit/5
         public ActionResult Edit(int? id)
         {
+            setSelect();
             if (!User.Identity.IsAuthenticated) return RedirectToRoute(new { controller = "Login", action = "LogOut" });
             if (id == null)
             {
@@ -131,7 +158,7 @@ namespace Lythen.Controllers
             }
             int userid = PageValidate.FilterParam(User.Identity.Name);
             if (id == null) return View();
-            if (!RoleCheck.CheckHasAuthority(userid, db, "用户管理")&&id!=userid) return RedirectToRoute(new { controller = "Error", action = "Index", err = "没有权限。" });
+            if (!RoleCheck.CheckHasAuthority(userid, db, "用户管理") && id != userid) return RedirectToRoute(new { controller = "Error", action = "Index", err = "没有权限。" });
 
             TeacherEditModel model = (from user in db.User_Infos
                                       where user.user_id == id
@@ -170,8 +197,9 @@ namespace Lythen.Controllers
         // 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "user_id,user_name,user_phone,user_info,user_email,user_password,user_password,user_home_address,token")] TeacherEditModel model)
+        public ActionResult Edit([Bind(Include = "user_id,user_name,user_phone,user_info,user_email,user_password,user_password2,user_home_address,token")] TeacherEditModel model)
         {
+            setSelect();
             if (!User.Identity.IsAuthenticated) return RedirectToRoute(new { controller = "Login", action = "LogOut" });
             if (ModelState.IsValid)
             {
@@ -196,7 +224,9 @@ namespace Lythen.Controllers
                         ViewBag.msg = "两次输入的密码不匹配。";
                         return View(model);
                     }
-                    user_Info.user_password = FormsAuthentication.HashPasswordForStoringInConfigFile(model.user_password, "MD5");
+                    var salt = Guid.NewGuid().ToString("N").Substring(0, 10).ToUpper();
+                    user_Info.user_password = PasswordUnit.getPassword(model.user_password.ToUpper(), salt);
+                    user_Info.user_salt = salt;
                 }
                 user_Info.user_name = model.user_name;
                 user_Info.user_phone = model.user_phone;
@@ -237,7 +267,7 @@ namespace Lythen.Controllers
         {
             if (!User.Identity.IsAuthenticated) return RedirectToRoute(new { controller = "Login", action = "LogOut" });
             int userid = PageValidate.FilterParam(User.Identity.Name);
-            if (!RoleCheck.CheckHasAuthority(userid, db,  "用户管理")) return RedirectToRoute(new { controller = "Error", action = "Index", err = "没有权限。" });
+            if (!RoleCheck.CheckHasAuthority(userid, db, "用户管理")) return RedirectToRoute(new { controller = "Error", action = "Index", err = "没有权限。" });
             User_Info user_Info = db.User_Infos.Find(id);
             db.User_Infos.Remove(user_Info);
             db.SaveChanges();
@@ -245,7 +275,7 @@ namespace Lythen.Controllers
         }
         public ActionResult TeacherCourses(int? id)
         {
-            if(!User.Identity.IsAuthenticated) return RedirectToRoute(new { controller = "Login", action = "Index" });
+            if (!User.Identity.IsAuthenticated) return RedirectToRoute(new { controller = "Login", action = "Index" });
             int manager_id = PageValidate.FilterParam(User.Identity.Name);
             List<SelectOption> options = DropDownList.ManagerTeacherSelect(manager_id);
             ViewBag.Teachers = DropDownList.SetDropDownList(options);
@@ -296,7 +326,7 @@ namespace Lythen.Controllers
                            join school in db.Sys_Schools
                            on t2.room_school_id equals school.sys_school_id into T3
                            from t3 in T3.DefaultIfEmpty()
-                           where (c.c_teacher_id == model.id||c.c_assistant_id==model.id) && (se.c_is_used == model.isAll ? se.c_is_used: true)
+                           where (c.c_teacher_id == model.id || c.c_assistant_id == model.id) && (se.c_is_used == model.isAll ? se.c_is_used : true)
                            orderby new { se.c_is_used, se.c_season_id, c.c_sub_id }
                            select new TeacherCourse
                            {
@@ -308,11 +338,11 @@ namespace Lythen.Controllers
                                roomName = t2.room_name == null ? "" : t2.room_name,
                                schoolName = t3.sys_school_name == null ? "" : t3.sys_school_name,
                                c_is_used = se.c_is_used,
-                               season= se.c_season_id,
-                               subject= c.c_sub_id
+                               season = se.c_season_id,
+                               subject = c.c_sub_id
                            }).ToList();
             if (courses.Count() == 0) return null;
-            
+
             foreach (var course in courses)
             {
                 DateTime min = DateTime.Now.AddMinutes(-10);

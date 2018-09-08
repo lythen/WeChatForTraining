@@ -14,7 +14,7 @@ namespace Lythen.Controllers
 {
     public class DictionaryController : Controller
     {
-        private WXfroTrainingDBContext db = new WXfroTrainingDBContext();
+        private LythenContext db = new LythenContext();
 
         // GET: Dictionary
         public ActionResult Index()

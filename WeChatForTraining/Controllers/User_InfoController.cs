@@ -13,7 +13,7 @@ namespace Lythen.Controllers
 {
     public class User_InfoController : Controller
     {
-        private WXfroTrainingDBContext db = new WXfroTrainingDBContext();
+        private LythenContext db = new LythenContext();
 
         // GET: User_Info
         public ActionResult Index()

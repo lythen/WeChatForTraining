@@ -15,7 +15,7 @@ namespace Lythen.Controllers
 {
     public class StudentController : Controller
     {
-        private WXfroTrainingDBContext db = new WXfroTrainingDBContext();
+        private LythenContext db = new LythenContext();
         string cache_student = "cache_student";
         // GET: Student
         public ActionResult Index()

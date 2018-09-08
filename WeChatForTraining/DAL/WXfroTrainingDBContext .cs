@@ -6,9 +6,9 @@ using Lythen.Models;
 
 namespace Lythen.DAL
 {
-    public class WXfroTrainingDBContext :  DbContext
+    public class LythenContext :  DbContext
     {
-        public WXfroTrainingDBContext():base("ConnectionContext") { }
+        public LythenContext():base("ConnectionContext") { }
         public DbSet<User_Info> User_Infos { get; set; }
         public DbSet<Sys_Log> Sys_Logs { get; set; }
         public DbSet<Student_Info> Student_Infos { get; set; }
@@ -40,6 +40,7 @@ namespace Lythen.DAL
         public DbSet<Sys_Controller> Sys_Controllers { get; set; }
         public DbSet<Sys_Authority> Sys_Authority { get; set; }
         public DbSet<Role_vs_Authority> Role_vs_Authority { get; set; }
+        public DbSet<Sys_SiteInfo> Sys_SiteInfo { get; set; }
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{
         //    //修改

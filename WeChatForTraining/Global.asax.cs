@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace WeChatForTraining
+namespace Lythen
 {
     public class Global : System.Web.HttpApplication
     {

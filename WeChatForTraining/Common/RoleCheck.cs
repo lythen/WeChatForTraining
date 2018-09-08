@@ -5,7 +5,7 @@ namespace Lythen.Common
 {
     public static class RoleCheck
     {
-        public static bool CheckHasAuthority(int userid, WXfroTrainingDBContext db,params string[] auths)
+        public static bool CheckHasAuthority(int userid, LythenContext db,params string[] auths)
         {
             if (CheckIsSuperAdmin(userid, db)) return true;
             if (auths.Contains("系统管理员")) return false;
@@ -24,7 +24,7 @@ namespace Lythen.Common
             #endregion
             return false;
         }
-        static string[] GetUserAuthority(int userId, WXfroTrainingDBContext db)
+        static string[] GetUserAuthority(int userId, LythenContext db)
         {
             string[] userRoles;
             string cache_key = "user_vs_roles-" + userId;
@@ -44,7 +44,7 @@ namespace Lythen.Common
             else userRoles = (string[])objUVR;
             return userRoles;
         }
-        static bool CheckIsSuperAdmin(int userId, WXfroTrainingDBContext db)
+        static bool CheckIsSuperAdmin(int userId, LythenContext db)
         {
             var query = from uvr in db.User_vs_Roles
                         where uvr.uvr_user_id == userId && uvr.uvr_role_id == 1

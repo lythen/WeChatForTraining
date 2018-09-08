@@ -9,7 +9,7 @@ namespace Lythen.Controllers
 {
     public static class DropDownList
     {
-        private static WXfroTrainingDBContext db = new WXfroTrainingDBContext();
+        private static LythenContext db = new LythenContext();
         private static string cache_week = "cache_week";
         private static string cache_subjects = "cache_subjects";
         private static string cache_teachers = "cache_teachers";
@@ -27,6 +27,8 @@ namespace Lythen.Controllers
         private static string cache_managers = "cache_managers";
         private static string cache_managerTeachers = "cache_managerTeachers";
         private static string cache_allcontrollers = "cache_allcontrollers";
+        private static string cache_user_state = "cache_user_state";
+        private static string cache_role = "cache_role";
         public static List<SelectListItem> SetDropDownList(List<Models.SelectOption> options)
         {
             List<SelectListItem> items = new List<SelectListItem>();
@@ -444,6 +446,31 @@ namespace Lythen.Controllers
                 }
             }
             return options;
+        }
+        public static List<SelectOption> UserStateSelect()
+        {
+            List<SelectOption> options = (List<SelectOption>)DataCache.GetCache(cache_user_state);
+            if (options == null)
+            {
+                options = new List<SelectOption>();
+                options.Add(new SelectOption { text = "正常", id = "1" });
+                options.Add(new SelectOption { text = "未启用", id = "0" });
+                options.Add(new SelectOption { text = "锁定", id = "2" });
+                DataCache.SetCache(cache_user_state, options);
+            }
+            return options;
+        }
+        public static List<SelectOption> RoleSelect(string ignor)
+        {
+            List<Sys_Roles> depts = DBCaches<Sys_Roles>.getCache(cache_role);
+            List<SelectOption> option = (from ct in depts
+                                         where ct.role_name != ignor
+                                         select new SelectOption
+                                         {
+                                             id = ct.role_id.ToString(),
+                                             text = ct.role_name
+                                         }).ToList();
+            return option;
         }
     }
 }

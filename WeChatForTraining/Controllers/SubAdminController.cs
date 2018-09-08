@@ -9,7 +9,7 @@ namespace Lythen.Controllers
 {
     public class SubAdminController : Controller
     {
-        private WXfroTrainingDBContext db = new WXfroTrainingDBContext();
+        private LythenContext db = new LythenContext();
 
         // GET: SubAdmin
         public ActionResult Index()

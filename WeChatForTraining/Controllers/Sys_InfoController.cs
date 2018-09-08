@@ -15,7 +15,7 @@ namespace Lythen.Controllers
     [wxAuthorizeAttribute(Roles = "系统管理员")]
     public class Sys_InfoController : Controller
     {
-        private WXfroTrainingDBContext db = new WXfroTrainingDBContext();
+        private LythenContext db = new LythenContext();
 
         // GET: Sys_Info
         public ActionResult Index(int? id)

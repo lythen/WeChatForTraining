@@ -7,6 +7,7 @@ namespace Lythen.ViewModel
     public class UserModel
     {
         int _role_id = 0;
+        int _state = 0;
         /// <summary>
         /// 用户ID
         /// </summary>
@@ -80,6 +81,10 @@ namespace Lythen.ViewModel
         public int role_id { get { return _role_id; } set { _role_id = value; } }
         public string role_name { get; set; }
         public string token { get; set; }
+        public int state { get { return _state; } set { _state = value; } }
+            [StringLength(2)]
+            public string gender { get; set; }
+    
     }
     public class BaseUserModel
     {

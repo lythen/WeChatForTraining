@@ -15,7 +15,7 @@ namespace Lythen.Controllers
 {
     public class CourseController : Controller
     {
-        private WXfroTrainingDBContext db = new WXfroTrainingDBContext();
+        private LythenContext db = new LythenContext();
         
         // GET: Course
         public ActionResult Index()

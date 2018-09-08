@@ -7,13 +7,13 @@ namespace Lythen.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class updateteacher : IMigrationMetadata
+    public sealed partial class updatepwd : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(updateteacher));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(updatepwd));
         
         string IMigrationMetadata.Id
         {
-            get { return "201809080224181_updateteacher"; }
+            get { return "201809080247039_updatepwd"; }
         }
         
         string IMigrationMetadata.Source

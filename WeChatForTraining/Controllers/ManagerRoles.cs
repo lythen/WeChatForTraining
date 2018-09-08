@@ -8,7 +8,7 @@ namespace Lythen.Controllers
 {
     public static class ManagerRoles
     {
-        private static WXfroTrainingDBContext db = new WXfroTrainingDBContext();
+        private static LythenContext db = new LythenContext();
         public static bool CheckHasManageTeacherRole(int manager_id,int teacher_id)
         {
             try

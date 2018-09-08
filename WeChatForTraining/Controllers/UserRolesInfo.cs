@@ -7,7 +7,7 @@ namespace Lythen.Controllers
 {
     public class UserRolesInfo : Controller
     {
-        private WXfroTrainingDBContext db = new WXfroTrainingDBContext();
+        private LythenContext db = new LythenContext();
         public bool checkeRole(string roleName)
         {
             if (User == null) return false;

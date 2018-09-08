@@ -160,12 +160,14 @@
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\cookie.js" />
     <Content Include="Scripts\DateFormat.js" />
+    <Content Include="Scripts\extendIndexOf.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery-3.2.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
+    <Content Include="Scripts\jquery.md5.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -286,10 +288,15 @@
     <Compile Include="Common\DEncrypt\HashEncode.cs" />
     <Compile Include="Common\DEncrypt\MD5Encrypt.cs" />
     <Compile Include="Common\DEncrypt\RSACryption.cs" />
+    <Compile Include="Common\ErrorUnit.cs" />
     <Compile Include="Common\IpHelper.cs" />
+    <Compile Include="Common\MyConfiguration.cs" />
     <Compile Include="Common\PasswordUnit.cs" />
     <Compile Include="Common\RoleCheck.cs" />
     <Compile Include="Common\TokenProccessor.cs" />
+    <Compile Include="Controllers\DBCaches.cs" />
+    <Compile Include="Controllers\FileUploadController.cs" />
+    <Compile Include="Controllers\SiteInfo.cs" />
     <Compile Include="Controllers\wxAuthorizeAttribute.cs" />
     <Compile Include="Common\DataCache.cs" />
     <Compile Include="Controllers\DropDownList.cs" />
@@ -316,9 +323,17 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\HandleErrorAttribute.cs" />
-    <Compile Include="Migrations\201809080224181_updateteacher.cs" />
-    <Compile Include="Migrations\201809080224181_updateteacher.Designer.cs">
-      <DependentUpon>201809080224181_updateteacher.cs</DependentUpon>
+    <Compile Include="Migrations\201809080247039_updatepwd.cs" />
+    <Compile Include="Migrations\201809080247039_updatepwd.Designer.cs">
+      <DependentUpon>201809080247039_updatepwd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809080251192_updatepwd2.cs" />
+    <Compile Include="Migrations\201809080251192_updatepwd2.Designer.cs">
+      <DependentUpon>201809080251192_updatepwd2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809080534183_updatesiteinfo.cs" />
+    <Compile Include="Migrations\201809080534183_updatesiteinfo.Designer.cs">
+      <DependentUpon>201809080534183_updatesiteinfo.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Role_vs_Authority.cs" />
@@ -350,6 +365,7 @@
     <Compile Include="Models\Sys_Roles.cs" />
     <Compile Include="Models\Sys_Log.cs" />
     <Compile Include="Models\Sys_School.cs" />
+    <Compile Include="Models\Sys_SiteInfo.cs" />
     <Compile Include="Models\User_Info.cs" />
     <Compile Include="Models\User_vs_Role.cs" />
     <Compile Include="Models\User_vs_Student.cs" />
@@ -367,6 +383,7 @@
     <Compile Include="ViewModel\RegisterModel.cs" />
     <Compile Include="ViewModel\RollCallModel.cs" />
     <Compile Include="ViewModel\StudentsModel.cs" />
+    <Compile Include="ViewModel\SystemSetModel.cs" />
     <Compile Include="ViewModel\TeachersModel.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="ViewModel\UserModel.cs" />
@@ -379,8 +396,14 @@
     <Folder Include="Views\ValidateCode\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201809080224181_updateteacher.resx">
-      <DependentUpon>201809080224181_updateteacher.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201809080247039_updatepwd.resx">
+      <DependentUpon>201809080247039_updatepwd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809080251192_updatepwd2.resx">
+      <DependentUpon>201809080251192_updatepwd2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809080534183_updatesiteinfo.resx">
+      <DependentUpon>201809080534183_updatesiteinfo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,5 +1,8 @@
 ﻿<!DOCTYPE html>
-
+@{ 
+    int userId = Lythen.Common.PageValidate.FilterParam(User.Identity.Name);
+    Lythen.DAL.LythenContext db = new Lythen.DAL.LythenContext();
+}
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -64,6 +67,10 @@
                     @RenderPage("_logout.cshtml")
                     <div class="widget">
                         <div class="list-group">
+@if (Lythen.Common.RoleCheck.CheckHasAuthority(userId, db, "用户管理"))
+{
+                            @Html.RouteLink("教师录入", new { controller = "Teacher", action = "Create" }, new { @class = "list-group-item teacherlist" })
+}
                             @Html.RouteLink("教师列表", new { controller = "Teacher", action = "Index" }, new { @class = "list-group-item teacherlist" })
                             @Html.RouteLink("排课信息", new { controller = "Teacher", action = "TeacherCourses" }, new { @class = "list-group-item teachercourse" })
                         </div>

@@ -47,7 +47,7 @@ namespace Lythen.Models
         /// <summary>
         /// 登陆密码
         /// </summary>
-        [StringLength(32)]
+        [StringLength(200)]
         public string user_password{get;set;}
         /// <summary>
         /// 职业
@@ -91,5 +91,7 @@ namespace Lythen.Models
         public bool user_is_teacher { get; set; }
         [StringLength(10)]
         public string user_salt { get; set; }
+        [StringLength(2)]
+        public string user_gender { get; set; }
     }
 }
