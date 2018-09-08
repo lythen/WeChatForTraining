@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WeChatForTraining.Models
+namespace Lythen.Models
 {
     /// <summary>
     /// 课程类别 如补课，正常课程

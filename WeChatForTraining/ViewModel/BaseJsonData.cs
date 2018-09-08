@@ -1,4 +1,4 @@
-﻿namespace WeChatForTraining.ViewModel
+﻿namespace Lythen.ViewModel
 {
     public class BaseJsonData
     {

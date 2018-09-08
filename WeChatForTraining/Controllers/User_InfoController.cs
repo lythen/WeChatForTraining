@@ -6,10 +6,10 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using WeChatForTraining.DAL;
-using WeChatForTraining.Models;
+using Lythen.DAL;
+using Lythen.Models;
 
-namespace WeChatForTraining.Controllers
+namespace Lythen.Controllers
 {
     public class User_InfoController : Controller
     {

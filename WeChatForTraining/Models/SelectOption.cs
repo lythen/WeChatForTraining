@@ -1,4 +1,4 @@
-﻿namespace WeChatForTraining.Models
+﻿namespace Lythen.Models
 {
     public struct SelectOption
     {

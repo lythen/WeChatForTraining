@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace WeChatForTraining.ViewModel
+namespace Lythen.ViewModel
 {
     [Serializable]
     public class LoginModel

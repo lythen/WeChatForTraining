@@ -1,4 +1,4 @@
-﻿@model WeChatForTraining.ViewModel.SearchModel
+﻿@model Lythen.ViewModel.SearchModel
 
 @{
     ViewBag.Title = "学生列表";
@@ -109,7 +109,7 @@
     </tr>
 @if (ViewData["stu_list"] != null)
 {
-    foreach (var item in (List<WeChatForTraining.ViewModel.ViewStudent>)ViewData["stu_list"])
+    foreach (var item in (List<Lythen.ViewModel.ViewStudent>)ViewData["stu_list"])
     {
     <tr>
         <td>

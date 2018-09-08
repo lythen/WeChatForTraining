@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WeChatForTraining.Models
+namespace Lythen.Models
 {
     /// <summary>
     /// 专业等级 多对多 

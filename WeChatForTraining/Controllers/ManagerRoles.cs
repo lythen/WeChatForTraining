@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using WeChatForTraining.DAL;
-using WeChatForTraining.Common;
-using WeChatForTraining.ViewModel;
+using Lythen.DAL;
+using Lythen.Common;
+using Lythen.ViewModel;
 using System.Collections.Generic;
 
-namespace WeChatForTraining.Controllers
+namespace Lythen.Controllers
 {
     public static class ManagerRoles
     {

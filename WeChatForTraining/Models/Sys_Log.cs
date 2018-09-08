@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-namespace WeChatForTraining.Models
+namespace Lythen.Models
 {
     /// <summary>
     /// 用户的操作日志

@@ -4,9 +4,9 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using WeChatForTraining.Models;
+using Lythen.Models;
 
-namespace WeChatForTraining.ViewModel
+namespace Lythen.ViewModel
 {
     public class TeachersModel:BaseUserModel
     {

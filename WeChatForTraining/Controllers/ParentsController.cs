@@ -7,11 +7,11 @@ using System.Net;
 using System.Web;
 using System.Web.Security;
 using System.Web.Mvc;
-using WeChatForTraining.DAL;
-using WeChatForTraining.Models;
-using WeChatForTraining.ViewModel;
-using WeChatForTraining.Common;
-namespace WeChatForTraining.Controllers
+using Lythen.DAL;
+using Lythen.Models;
+using Lythen.ViewModel;
+using Lythen.Common;
+namespace Lythen.Controllers
 {
     public class ParentsController : Controller
     {

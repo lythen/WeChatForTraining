@@ -5,12 +5,12 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using WeChatForTraining.DAL;
-using WeChatForTraining.Models;
-using WeChatForTraining.Common;
+using Lythen.DAL;
+using Lythen.Models;
+using Lythen.Common;
 using System.Text;
-using WeChatForTraining.ViewModel;
-namespace WeChatForTraining.Controllers
+using Lythen.ViewModel;
+namespace Lythen.Controllers
 {
     public class DictionaryController : Controller
     {

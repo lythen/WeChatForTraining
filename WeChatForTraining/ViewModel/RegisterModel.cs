@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace WeChatForTraining.ViewModel
+namespace Lythen.ViewModel
 {
     public class RegisterModel
     {

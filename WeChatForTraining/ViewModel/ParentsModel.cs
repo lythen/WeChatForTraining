@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace WeChatForTraining.ViewModel
+namespace Lythen.ViewModel
 {
     public class ParentsModel:BaseUserModel
     {

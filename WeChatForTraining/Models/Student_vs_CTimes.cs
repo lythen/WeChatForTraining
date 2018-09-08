@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-namespace WeChatForTraining.Models
+namespace Lythen.Models
 {
     /// <summary>
     /// 学生的上课时间 n:1的关系

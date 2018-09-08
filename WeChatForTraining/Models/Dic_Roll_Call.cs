@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WeChatForTraining.Models
+namespace Lythen.Models
 {
     /// <summary>
     /// 点名情况

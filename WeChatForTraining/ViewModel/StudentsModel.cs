@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WeChatForTraining.ViewModel
+namespace Lythen.ViewModel
 {
     public class StudentsModel
     {

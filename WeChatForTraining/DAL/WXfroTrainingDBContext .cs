@@ -2,9 +2,9 @@
 using System.Data.Entity;
 using System.IO;
 using System.Text;
-using WeChatForTraining.Models;
+using Lythen.Models;
 
-namespace WeChatForTraining.DAL
+namespace Lythen.DAL
 {
     public class WXfroTrainingDBContext :  DbContext
     {

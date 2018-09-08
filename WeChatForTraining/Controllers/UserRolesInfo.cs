@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using WeChatForTraining.Common;
-using WeChatForTraining.DAL;
+using Lythen.Common;
+using Lythen.DAL;
 
-namespace WeChatForTraining.Controllers
+namespace Lythen.Controllers
 {
     public class UserRolesInfo : Controller
     {

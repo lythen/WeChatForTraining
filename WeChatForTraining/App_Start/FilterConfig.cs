@@ -1,6 +1,6 @@
-﻿using WeChatForTraining.Infrastructure;
+﻿using Lythen.Infrastructure;
 
-namespace WeChatForTraining.App_Start
+namespace Lythen.App_Start
 {
     public class FilterConfig
     {

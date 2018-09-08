@@ -1,4 +1,4 @@
-﻿namespace WeChatForTraining.Common
+﻿namespace Lythen.Common
 {
     public static class WeeK
     {

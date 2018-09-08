@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WeChatForTraining.ViewModel
+namespace Lythen.ViewModel
 {
     public class ControllerRolesModel
     {

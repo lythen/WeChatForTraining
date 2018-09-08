@@ -4,7 +4,7 @@ using System.Text;
 using System.Web.Mvc;
 using System.IO;
 using System.Configuration;
-namespace WeChatForTraining.Infrastructure
+namespace Lythen.Infrastructure
 {
     /// <summary>
     /// Apply this attribute to controller actions to log the exception via Trace.

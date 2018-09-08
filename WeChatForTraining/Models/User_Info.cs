@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-namespace WeChatForTraining.Models
+namespace Lythen.Models
 {
     /// <summary>
     /// 用户用，家长用户、教师、管理员基本信息
@@ -85,5 +85,11 @@ namespace WeChatForTraining.Models
         /// </summary>
         public int user_login_times{get;set;}
         public int user_state { get{ return _state; }set { _state = value; } }
+        /// <summary>
+        /// 用户是否是老师
+        /// </summary>
+        public bool user_is_teacher { get; set; }
+        [StringLength(10)]
+        public string user_salt { get; set; }
     }
 }

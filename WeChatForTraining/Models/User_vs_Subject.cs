@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WeChatForTraining.Models
+namespace Lythen.Models
 {
     /// <summary>
     /// 老师管理科目 n:n,默认uvs_role为0,表示某老师归属于当前科目,当uvs_role为1时,表示该老师拥有该科目的管理权利.允许一个老师管理多个科目,一个科目多个老师管理.

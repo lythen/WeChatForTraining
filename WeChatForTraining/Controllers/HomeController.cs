@@ -1,9 +1,9 @@
 ﻿using System.Web.Mvc;
-using WeChatForTraining.DAL;
+using Lythen.DAL;
 using System.Linq;
-using WeChatForTraining.ViewModel;
-using WeChatForTraining.Models;
-namespace WeChatForTraining.Controllers
+using Lythen.ViewModel;
+using Lythen.Models;
+namespace Lythen.Controllers
 {
     public class HomeController : Controller
     {

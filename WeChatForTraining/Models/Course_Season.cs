@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace WeChatForTraining.Models
+namespace Lythen.Models
 {
     public class Course_Season
     {

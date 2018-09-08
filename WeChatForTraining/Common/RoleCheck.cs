@@ -1,7 +1,7 @@
-﻿using WeChatForTraining.DAL;
+﻿using Lythen.DAL;
 using System.Linq;
 
-namespace WeChatForTraining.Common
+namespace Lythen.Common
 {
     public static class RoleCheck
     {

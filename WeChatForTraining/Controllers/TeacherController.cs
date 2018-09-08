@@ -5,13 +5,13 @@ using System.Linq;
 using System.Net;
 using System.Web.Security;
 using System.Web.Mvc;
-using WeChatForTraining.DAL;
-using WeChatForTraining.Models;
-using WeChatForTraining.ViewModel;
-using WeChatForTraining.Common;
+using Lythen.DAL;
+using Lythen.Models;
+using Lythen.ViewModel;
+using Lythen.Common;
 using System.Collections.Generic;
 
-namespace WeChatForTraining.Controllers
+namespace Lythen.Controllers
 {
     public class TeacherController : Controller
     {
@@ -20,9 +20,9 @@ namespace WeChatForTraining.Controllers
         // GET: Teacher
         public ActionResult Index()
         {
-            //if(!User.Identity.IsAuthenticated) return RedirectToRoute(new { controller = "Login", action = "Index" });
-            //int id = PageValidate.FilterParam(User.Identity.Name);
-            //高一级角色自动获得低级角色的所有权限
+            if (!User.Identity.IsAuthenticated) return RedirectToRoute(new { controller = "Login", action = "LogOut" });
+            int userid = PageValidate.FilterParam(User.Identity.Name);
+            if (!RoleCheck.CheckHasAuthority(userid, db, "用户查询", "用户管理")) return RedirectToRoute(new { controller = "Error", action = "Index", err = "没有权限。" });
             int id = 3;
             int role_id = (from u in db.User_Infos
                            join ur in db.User_vs_Roles on u.user_id equals ur.uvr_user_id
@@ -34,12 +34,11 @@ namespace WeChatForTraining.Controllers
             IQueryable<UserModel> list = null;
             if (role_id == 1) ViewBag.isdelete = 1;
             if (role_id == 5) ViewBag.isedit = 0;
-            if (role_id == 1 || role_id == 5) list = from user in db.User_Infos
+            list = from user in db.User_Infos
                                                      join uvr in db.User_vs_Roles
                                                      on user.user_id equals uvr.uvr_user_id
                                                      join role in db.Sys_Roles
                                                      on uvr.uvr_role_id equals role.role_id
-                                                     where uvr.uvr_role_id < 6
                                                      select new UserModel
                                                      {
                                                          user_id = user.user_id,
@@ -50,100 +49,7 @@ namespace WeChatForTraining.Controllers
                                                          user_photo_path = user.user_photo_path,
                                                          user_login_times = user.user_login_times
                                                      };
-            else if (role_id == 2)
-            {
-                int[] sub_list = (from uvs in db.User_vs_Subjects
-                                  join sub in db.Dic_Subjects
-                                  on uvs.uvs_sub_id equals sub.sub_id
-                                  where uvs.uvs_user_id == id
-                                  select sub.sub_id
-                    ).ToArray();
-                list = from user in db.User_Infos
-                       join uvr in db.User_vs_Roles
-                       on user.user_id equals uvr.uvr_user_id
-                       join role in db.Sys_Roles
-                       on uvr.uvr_role_id equals role.role_id
-                       join uvs in db.User_vs_Subjects
-                       on user.user_id equals uvs.uvs_user_id
-                       where user.user_id == id || (uvr.uvr_role_id > 2
-                       && sub_list.Contains(uvs.uvs_sub_id)
-                       )
-                       select new UserModel
-                       {
-                           user_id = user.user_id,
-                           role_name = role.role_name,
-                           role_id = role.role_id,
-                           user_name = user.user_name,
-                           user_phone = user.user_phone,
-                           user_photo_path = user.user_photo_path,
-                           user_login_times = user.user_login_times
-                       };
-                list = list.Union(list);
-                /*
-                 *     group new{ user,role} by new { user.user_id, role.role_name, user.user_name, user.user_phone, user.user_photo_path, user.user_login_times } into g
-                       select new UserModel
-                       {
-                           user_id = g.Key.user_id,
-                           role_name = g.Key.role_name,
-                           user_name = g.Key.user_name,
-                           user_phone = g.Key.user_phone,
-                           user_photo_path = g.Key.user_photo_path,
-                           user_login_times = g.Key.user_login_times
-                       };
-                 * */
-            }
-            else if (role_id == 3)
-            {
-                int[] sub_list = (from uvs in db.User_vs_Subjects
-                                  join sub in db.Dic_Subjects
-                                  on uvs.uvs_sub_id equals sub.sub_id
-                                  where uvs.uvs_user_id == id
-                                  select sub.sub_id
-                   ).ToArray();
-                list = from user in db.User_Infos
-                       join uvr in db.User_vs_Roles
-                       on user.user_id equals uvr.uvr_user_id
-                       join role in db.Sys_Roles
-                       on uvr.uvr_role_id equals role.role_id
-                       join uvs in db.User_vs_Subjects
-                       on user.user_id equals uvs.uvs_user_id
-                       where user.user_id == id || (uvr.uvr_role_id == 4
-                       && sub_list.Contains(uvs.uvs_sub_id)
-                       )
-                       select new UserModel
-                       {
-                           user_id = user.user_id,
-                           role_name = role.role_name,
-                           role_id = role.role_id,
-                           user_name = user.user_name,
-                           user_phone = user.user_phone,
-                           user_photo_path = user.user_photo_path,
-                           user_login_times = user.user_login_times
-                       };
-                list = list.Union(list);
-            }
-            else if (role_id == 4)
-            {
-                list = from user in db.User_Infos
-                       join uvr in db.User_vs_Roles
-                       on user.user_id equals uvr.uvr_user_id
-                       join role in db.Sys_Roles
-                       on uvr.uvr_role_id equals role.role_id
-                       where user.user_id == id
-                       select new UserModel
-                       {
-                           user_id = user.user_id,
-                           role_name = role.role_name,
-                           role_id=role.role_id,
-                           user_name = user.user_name,
-                           user_phone = user.user_phone,
-                           user_photo_path = user.user_photo_path,
-                           user_login_times = user.user_login_times
-                       };
-            }
-            //BaseJsonData json = new BaseJsonData();
-            //json.msg_code = list.Count().ToString();
-            //json.data = list.ToList();
+
             if (list != null)
                 return View(list.OrderBy(x=> new{ x.role_id,x.user_name}).ToList());
             else return View(list);
@@ -154,13 +60,16 @@ namespace WeChatForTraining.Controllers
         // GET: Teacher/Details/5
         public ActionResult Details(int id)
         {
-            if (!User.Identity.IsAuthenticated) return RedirectToRoute(new { controller = "Login", action = "Index" });
+            if (!User.Identity.IsAuthenticated) return RedirectToRoute(new { controller = "Login", action = "LogOut" });
+            int userid = PageValidate.FilterParam(User.Identity.Name);
+            if (!RoleCheck.CheckHasAuthority(userid, db, "用户查询","用户管理") && id != userid) return RedirectToRoute(new { controller = "Error", action = "Index", err = "没有权限。" });
             TeacherSearch model = new TeacherSearch();
             model.id = id;
             return View(GetInfo(model));
         }
-        public TeachersModel GetInfo(TeacherSearch model)
+        TeachersModel GetInfo(TeacherSearch model)
         {
+
             ViewData["search"] = model;
             var userInfo = (from u in db.User_Infos
                             where u.user_id == model.id
@@ -186,6 +95,9 @@ namespace WeChatForTraining.Controllers
         // GET: Teacher/Create
         public ActionResult Create()
         {
+            if (!User.Identity.IsAuthenticated) return RedirectToRoute(new { controller = "Login", action = "LogOut" });
+            int userid = PageValidate.FilterParam(User.Identity.Name);
+            if (!RoleCheck.CheckHasAuthority(userid, db, "用户管理")) return RedirectToRoute(new { controller = "Error", action = "Index", err = "没有权限。" });
             return View();
         }
 
@@ -196,6 +108,9 @@ namespace WeChatForTraining.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "user_id,user_name,user_photo_path,user_phone,user_info,user_email,user_password,user_Occupation,user_home_address,user_work_unit,user_add_time,user_add_user,user_update_time,user_update_user,user_login_times")] User_Info user_Info)
         {
+            if (!User.Identity.IsAuthenticated) return RedirectToRoute(new { controller = "Login", action = "LogOut" });
+            int userid = PageValidate.FilterParam(User.Identity.Name);
+            if (!RoleCheck.CheckHasAuthority(userid, db, "用户管理")) return RedirectToRoute(new { controller = "Error", action = "Index", err = "没有权限。" });
             if (ModelState.IsValid)
             {
                 db.User_Infos.Add(user_Info);
@@ -209,17 +124,14 @@ namespace WeChatForTraining.Controllers
         // GET: Teacher/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!User.Identity.IsAuthenticated) return RedirectToRoute(new { controller = "Login", action = "LogOut" });
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            if (!User.Identity.IsAuthenticated) return RedirectToRoute(new { controller = "Login", action = "Index" });
-            int manager_id = PageValidate.FilterParam(User.Identity.Name);
+            int userid = PageValidate.FilterParam(User.Identity.Name);
             if (id == null) return View();
-            if (!ManagerRoles.CheckHasManageTeacherRole(manager_id, (int)id))
-            {
-                return RedirectToRoute(new { controller = "Error", action = "Index", err = "没有权限!" });
-            }
+            if (!RoleCheck.CheckHasAuthority(userid, db, "用户管理")&&id!=userid) return RedirectToRoute(new { controller = "Error", action = "Index", err = "没有权限。" });
 
             TeacherEditModel model = (from user in db.User_Infos
                                       where user.user_id == id
@@ -260,6 +172,7 @@ namespace WeChatForTraining.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "user_id,user_name,user_phone,user_info,user_email,user_password,user_password,user_home_address,token")] TeacherEditModel model)
         {
+            if (!User.Identity.IsAuthenticated) return RedirectToRoute(new { controller = "Login", action = "LogOut" });
             if (ModelState.IsValid)
             {
                 if (Session["token"] == null || Session["token"].ToString() != model.token)
@@ -267,12 +180,8 @@ namespace WeChatForTraining.Controllers
                     ViewBag.msg = "异常操作，请退出当前页面后重新进入操作。";
                     return View(model);
                 }
-                if (!User.Identity.IsAuthenticated) return RedirectToRoute(new { controller = "Login", action = "Index" });
-                int manager_id = PageValidate.FilterParam(User.Identity.Name);
-                if (!ManagerRoles.CheckHasManageTeacherRole(manager_id, model.user_id))
-                {
-                    return RedirectToRoute(new { controller = "Error", action = "Index", err = "没有权限!" });
-                }
+                int userid = PageValidate.FilterParam(User.Identity.Name);
+                if (!RoleCheck.CheckHasAuthority(userid, db, "用户管理") && model.user_id != userid) return RedirectToRoute(new { controller = "Error", action = "Index", err = "没有权限。" });
 
                 User_Info user_Info = db.User_Infos.Find(model.user_id);
                 if (user_Info == null)
@@ -295,7 +204,7 @@ namespace WeChatForTraining.Controllers
                 user_Info.user_email = model.user_email;
                 user_Info.user_home_address = model.user_home_address;
                 user_Info.user_update_time = DateTime.Now;
-                user_Info.user_update_user = manager_id;
+                user_Info.user_update_user = userid;
                 db.Entry(user_Info).State = EntityState.Modified;
                 db.SaveChanges();
                 //return RedirectToAction("Index", new { id = model.user_id });
@@ -326,6 +235,9 @@ namespace WeChatForTraining.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (!User.Identity.IsAuthenticated) return RedirectToRoute(new { controller = "Login", action = "LogOut" });
+            int userid = PageValidate.FilterParam(User.Identity.Name);
+            if (!RoleCheck.CheckHasAuthority(userid, db,  "用户管理")) return RedirectToRoute(new { controller = "Error", action = "Index", err = "没有权限。" });
             User_Info user_Info = db.User_Infos.Find(id);
             db.User_Infos.Remove(user_Info);
             db.SaveChanges();

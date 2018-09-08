@@ -1,4 +1,4 @@
-namespace WeChatForTraining.Migrations
+namespace Lythen.Migrations
 {
     using System;
     using System.Data.Entity;
@@ -10,14 +10,14 @@ namespace WeChatForTraining.Migrations
     using Models;
     using System.Collections.Generic;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<WeChatForTraining.DAL.WXfroTrainingDBContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<Lythen.DAL.WXfroTrainingDBContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(WeChatForTraining.DAL.WXfroTrainingDBContext context)
+        protected override void Seed(Lythen.DAL.WXfroTrainingDBContext context)
         {
             //  This method will be called after migrating to the latest version.
 
@@ -279,17 +279,17 @@ namespace WeChatForTraining.Migrations
             //            context.Sys_Controllers.AddOrUpdate(x => x.controller_name, c);
             //            context.Role_vs_Controllers.AddOrUpdate(x => new { x.rvc_role_id, x.rvc_controller }, rvc);
             //        }
-            Sys_Authority auth;
-            string[] auths = { "系统管理","用户管理", "学生管理", "课程管理", "用户查询", "学生查询", "课程查询" };
-            foreach (string name2 in auths)
-            {
-                auth = new Sys_Authority()
-                {
-                    auth_name = name2,
-                    auth_is_Controller = true
-                };
-                context.Sys_Authority.AddOrUpdate(x => x.auth_name, auth);
-            }
+            //Sys_Authority auth;
+            //string[] auths = { "系统管理","用户管理", "学生管理", "课程管理", "用户查询", "学生查询", "课程查询" };
+            //foreach (string name2 in auths)
+            //{
+            //    auth = new Sys_Authority()
+            //    {
+            //        auth_name = name2,
+            //        auth_is_Controller = true
+            //    };
+            //    context.Sys_Authority.AddOrUpdate(x => x.auth_name, auth);
+            //}
         }
     }
 }

@@ -3,15 +3,15 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using WeChatForTraining.Common;
-using WeChatForTraining.DAL;
-using WeChatForTraining.Models;
+using Lythen.Common;
+using Lythen.DAL;
+using Lythen.Models;
 using System;
 using System.Text;
 using System.IO;
-using WeChatForTraining.ViewModel;
+using Lythen.ViewModel;
 
-namespace WeChatForTraining.Controllers
+namespace Lythen.Controllers
 {
     public class StudentController : Controller
     {

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using WeChatForTraining.DAL;
-using WeChatForTraining.Models;
+using Lythen.DAL;
+using Lythen.Models;
 using System.Linq;
-using WeChatForTraining.Common;
+using Lythen.Common;
 
-namespace WeChatForTraining.Controllers
+namespace Lythen.Controllers
 {
     public static class DropDownList
     {

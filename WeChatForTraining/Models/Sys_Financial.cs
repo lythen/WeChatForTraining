@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace WeChatForTraining.Models
+namespace Lythen.Models
 {
     /// <summary>
     /// 财务收支

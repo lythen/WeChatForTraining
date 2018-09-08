@@ -1,4 +1,4 @@
-﻿using WeChatForTraining.App_Start;
+﻿using Lythen.App_Start;
 using System;
 using System.Diagnostics;
 using System.Web.Mvc;

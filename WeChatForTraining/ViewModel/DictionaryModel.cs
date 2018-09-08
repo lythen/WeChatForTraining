@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace WeChatForTraining.ViewModel
+namespace Lythen.ViewModel
 {
     public class DictionaryModel
     {

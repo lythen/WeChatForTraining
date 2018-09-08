@@ -5,7 +5,7 @@ using System.IO;
 using System.Web.Mvc;
 using System.Web;
 using System.Web.Security;
-namespace WeChatForTraining.Controllers
+namespace Lythen.Controllers
 {
     public class ValidateCodeController : Controller
     {

@@ -1,16 +1,16 @@
 ﻿using System.Data;
 using System.Linq;
 using System.Web.Mvc;
-using WeChatForTraining.DAL;
-using WeChatForTraining.Models;
+using Lythen.DAL;
+using Lythen.Models;
 using System.Web.Security;
 using System;
 using System.Web;
-using WeChatForTraining.ViewModel;
-using WeChatForTraining.Common;
+using Lythen.ViewModel;
+using Lythen.Common;
 using System.Data.Entity;
 
-namespace WeChatForTraining.Controllers
+namespace Lythen.Controllers
 {
     public class LoginController : Controller
     {
@@ -154,6 +154,7 @@ namespace WeChatForTraining.Controllers
         {
             FormsAuthentication.SignOut();
             Session.Clear();
+            Response.Cookies.Clear();
             return RedirectToAction("Index");
         }
         protected override void Dispose(bool disposing)

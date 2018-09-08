@@ -2,7 +2,7 @@
 using System.Text;
 using System.Web.Security;
 
-namespace WeChatForTraining.Common
+namespace Lythen.Common
 {
     public class TokenProccessor
     {

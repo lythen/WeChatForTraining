@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
-using WeChatForTraining.DAL;
+using Lythen.DAL;
 
-namespace WeChatForTraining.Controllers
+namespace Lythen.Controllers
 {
     public class ErrorController : Controller
     {

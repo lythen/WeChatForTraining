@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace WeChatForTraining.ViewModel
+namespace Lythen.ViewModel
 {
     public class RollCallModel
     {

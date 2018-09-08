@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WeChatForTraining.Models
+namespace Lythen.Models
 {
     public class Sys_School
     {
