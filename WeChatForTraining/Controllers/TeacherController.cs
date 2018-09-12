@@ -9,6 +9,8 @@ using Lythen.Models;
 using Lythen.ViewModel;
 using Lythen.Common;
 using System.Collections.Generic;
+using System.IO;
+using Lythen.Common.DEncrypt;
 
 namespace Lythen.Controllers
 {
@@ -38,26 +40,34 @@ namespace Lythen.Controllers
                            where u.user_id == id
                            select ur.uvr_role_id
                                 ).Min();
-            ViewBag.isdelete = 0;
-            ViewBag.isedit = 1;
+            if (RoleCheck.CheckIsSuperAdmin(userid, db))
+                ViewBag.isdelete = 1;
+            else ViewBag.isdelete = 0;
+            if (RoleCheck.CheckHasAuthority(userid, db, "用户管理"))
+                ViewBag.isedit = 1;
+            else ViewBag.isedit = 0;
             IQueryable<UserModel> list = null;
             if (role_id == 1) ViewBag.isdelete = 1;
             if (role_id == 5) ViewBag.isedit = 0;
             list = from user in db.User_Infos
                    join uvr in db.User_vs_Roles
-                   on user.user_id equals uvr.uvr_user_id
+                   on user.user_id equals uvr.uvr_user_id into UVR
+                   from ur in UVR.DefaultIfEmpty()
                    join role in db.Sys_Roles
-                   on uvr.uvr_role_id equals role.role_id
+                   on ur.uvr_role_id equals role.role_id into R
+                   from r in R.DefaultIfEmpty()
                    where user.user_is_teacher == true
                    select new UserModel
                    {
                        user_id = user.user_id,
-                       role_name = role.role_name,
-                       role_id = role.role_id,
+                       role_name = r.role_name,
+                       role_id = r.role_id,
                        user_name = user.user_name,
                        user_phone = user.user_phone,
                        user_photo_path = user.user_photo_path,
-                       user_login_times = user.user_login_times
+                       user_login_times = user.user_login_times,
+                       real_name=user.real_name,
+                       gender=user.user_gender
                    };
 
             if (list != null)
@@ -96,7 +106,7 @@ namespace Lythen.Controllers
             if (loginInfo != null)
             {
                 userInfo.lastDev = loginInfo.log_device;
-                userInfo.lastIp = loginInfo.log_user_ip;
+                userInfo.lastIp = loginInfo.log_ip;
                 userInfo.lastTime = loginInfo.log_time.ToString("yyyy年MM月dd日 HH时mm分");
             }
             userInfo.courses = getTeacherCourse(model);
@@ -168,6 +178,8 @@ namespace Lythen.Controllers
                                       join u2 in db.User_Infos
                                       on user.user_update_user equals u2.user_id into T2
                                       from t2 in T2.DefaultIfEmpty()
+                                      join uvr in db.User_vs_Roles on user.user_id equals uvr.uvr_user_id into R
+                                      from r in R.DefaultIfEmpty()
                                       select new TeacherEditModel
                                       {
                                           user_add_time = user.user_add_time,
@@ -180,7 +192,11 @@ namespace Lythen.Controllers
                                           user_name = user.user_name,
                                           user_phone = user.user_phone,
                                           user_update_time = user.user_update_time,
-                                          user_update_user = t2.user_name
+                                          user_update_user = t2.user_name,
+                                          user_photo_path=user.user_photo_path,
+                                          role_id=r.uvr_role_id,
+                                          real_name=user.real_name,
+                                          gender=user.user_gender
                                       }).FirstOrDefault();
             if (model == null)
             {
@@ -197,24 +213,29 @@ namespace Lythen.Controllers
         // 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "user_id,user_name,user_phone,user_info,user_email,user_password,user_password2,user_home_address,token")] TeacherEditModel model)
+        public ActionResult Edit([Bind(Include = "user_id,user_name,real_name,gender,user_phone,user_info,user_email,user_password,user_password2,user_home_address,user_photo_path,role_id,state")] TeacherEditModel model)
         {
             setSelect();
             if (!User.Identity.IsAuthenticated) return RedirectToRoute(new { controller = "Login", action = "LogOut" });
             if (ModelState.IsValid)
             {
-                if (Session["token"] == null || Session["token"].ToString() != model.token)
-                {
-                    ViewBag.msg = "异常操作，请退出当前页面后重新进入操作。";
-                    return View(model);
-                }
+                //if (Session["token"] == null || Session["token"].ToString() != model.token)
+                //{
+                //    ViewBag.msg = "异常操作，请退出当前页面后重新进入操作。";
+                //    return View(model);
+                //}
                 int userid = PageValidate.FilterParam(User.Identity.Name);
                 if (!RoleCheck.CheckHasAuthority(userid, db, "用户管理") && model.user_id != userid) return RedirectToRoute(new { controller = "Error", action = "Index", err = "没有权限。" });
-
                 User_Info user_Info = db.User_Infos.Find(model.user_id);
                 if (user_Info == null)
                 {
                     ViewBag.msg = "没有找到相关信息，资料可能被删除。";
+                    return View(model);
+                }
+                
+                if (db.User_Infos.Where(x => x.user_id != model.user_id && x.user_phone == model.user_phone).Count()>0)
+                {
+                    ViewBag.msg = "该手机号码已存在。";
                     return View(model);
                 }
                 if (!string.IsNullOrEmpty(model.user_password))
@@ -225,8 +246,25 @@ namespace Lythen.Controllers
                         return View(model);
                     }
                     var salt = Guid.NewGuid().ToString("N").Substring(0, 10).ToUpper();
-                    user_Info.user_password = PasswordUnit.getPassword(model.user_password.ToUpper(), salt);
+                    user_Info.user_password = AESEncrypt.Encrypt(PasswordUnit.getPassword(model.user_password.ToUpper(), salt));
                     user_Info.user_salt = salt;
+                }
+                string err = "";
+                if (!string.IsNullOrEmpty(model.user_photo_path) && model.user_photo_path != user_Info.user_photo_path)
+                {
+                    string photoDir = MyConfiguration.GetPhotoPath();
+                    if (!Directory.Exists(photoDir)) Directory.CreateDirectory(photoDir);
+                    string photoTempDir = MyConfiguration.GetTempPhotoPath();
+                    string file_name = string.Format("{0}{1}", photoDir, model.user_photo_path).Replace("_temp", "");
+                    string temp_file_name = string.Format("{0}{1}", photoTempDir, model.user_photo_path);
+                    if (System.IO.File.Exists(temp_file_name))
+                    {
+                        FileInfo fi = new FileInfo(temp_file_name);
+                        fi.CopyTo(file_name, true);
+                        model.user_photo_path = Path.GetFileName(file_name);
+                        user_Info.user_photo_path = model.user_photo_path;
+                    }
+                    else err = "图片保存失败。";
                 }
                 user_Info.user_name = model.user_name;
                 user_Info.user_phone = model.user_phone;
@@ -235,12 +273,50 @@ namespace Lythen.Controllers
                 user_Info.user_home_address = model.user_home_address;
                 user_Info.user_update_time = DateTime.Now;
                 user_Info.user_update_user = userid;
+                user_Info.user_gender = model.gender;
+                user_Info.real_name = model.real_name;
+                user_Info.user_is_teacher = true;
+                if (string.IsNullOrEmpty(user_Info.user_bindCode)) user_Info.user_bindCode = Guid.NewGuid().ToString("N").Substring(0, 8);
                 db.Entry(user_Info).State = EntityState.Modified;
-                db.SaveChanges();
-                //return RedirectToAction("Index", new { id = model.user_id });
-                ViewBag.msg = "修改成功。";
-                ViewBag.go = 1;
-                Session.Remove("token");
+                try
+                {
+                    db.SaveChanges();
+                }catch(Exception e)
+                {
+                    err = "资料保存失败。";
+                    ErrorUnit.WriteErrorLog(e.ToString(), this.GetType().ToString());
+                }
+                //权限设置
+                if (RoleCheck.CheckIsSuperAdmin(model.user_id,db))
+                {
+                    if(model.role_id != 1)
+                        err = "系统管理员权限不允许更改。";
+                    goto next;
+                }
+                if(model.role_id==1&&!RoleCheck.CheckIsSuperAdmin(userid,db))//添加系统管理员权限
+                    err = "只有系统管理员才可以添加系统管理员权限。";
+                else
+                {
+                    var uvr = db.User_vs_Roles.Where(x => x.uvr_user_id == model.user_id);
+                    db.User_vs_Roles.RemoveRange(uvr);
+                    User_vs_Role Nuvr = new User_vs_Role
+                    {
+                        uvr_user_id = model.user_id,
+                        uvr_role_id = model.role_id
+                    };
+                    db.User_vs_Roles.Add(Nuvr);
+                    try
+                    {
+                        db.SaveChanges();
+                    }catch(Exception e)
+                    {
+                        err = "角色添加失败。";
+                    }
+                }
+                next:
+                if (err == "")
+                    ViewBag.msg = "修改成功。";
+                else ViewBag.msg = err;
             }
             return View(model);
         }
@@ -352,6 +428,31 @@ namespace Lythen.Controllers
                 else course.cvt = 0;
             }
             return courses;
+        }
+        public JsonResult UploadPicture()
+        {
+            ViewModel.BaseJsonData json = new ViewModel.BaseJsonData();
+            var file = Request.Files["data"];
+            if (file == null)
+            {
+                json.state = 0;
+                json.msg_text = "没有文件，请重新上传。";
+            }
+            if (Path.GetExtension(file.FileName).ToLower() != ".jpg")
+            {
+                json.state = 0;
+                json.msg_text = "请上传jpg格式文件。";
+            }
+            string photoTempDir = MyConfiguration.GetTempPhotoPath();
+            if (!Directory.Exists(photoTempDir)) Directory.CreateDirectory(photoTempDir);
+            string guid = Guid.NewGuid().ToString("N");
+            string file_name = string.Format("{0}{1}.jpg", photoTempDir, guid);
+            string file_name_temp = string.Format("{0}{1}_temp.jpg", photoTempDir, guid);
+            file.SaveAs(file_name);
+            ImageFun.MakeThumbnail(file_name, file_name_temp, 106, 0, "W");
+            json.state = 1;
+            json.data = Path.GetFileName(file_name_temp);
+            return Json(json);
         }
         protected override void Dispose(bool disposing)
         {

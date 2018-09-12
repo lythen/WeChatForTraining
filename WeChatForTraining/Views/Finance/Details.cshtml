@@ -1,0 +1,255 @@
+﻿@model Lythen.ViewModel.ApplyListModel
+
+@{
+    ViewBag.Title = Lythen.Controllers.SiteInfo.getSiteName() + "报销单详细信息";
+    string thisRespondUser = "";
+    Layout = "~/Views/Shared/financeLayout.cshtml";
+}
+<style>
+    .detail-table>tbody>tr>td,.th-table>tbody>tr>th{border:none;}
+     .detail-table,.th-table{margin-bottom:0px;}
+    .th-table>tbody>tr>th{padding-top:0px;padding-bottom:0px;}
+    .txt-bold{font-weight:bold;}
+    .content-table>tbody>tr>th,.th-table>tbody>tr>th,.respond-table>tbody>tr>th{background: lightblue;}
+    .main-table td,.respond-table td,.content-table td{background-color: aliceblue;}
+    .main-table .txt-bold{background: lightblue;}
+    .detail-table td{background-color: aquamarine;}
+    .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+        vertical-align: middle;
+}
+    .ddl-users{width:150px;}
+    
+    .fl {
+        display: inline-block;
+    }
+</style>
+
+<h4>@Model.reimbursementCode - 报帐单详细信息</h4>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.userId)
+        @Html.HiddenFor(model => model.reimbursementCode)
+
+        <div class="form-group">
+            <label class="control-label col-md-2">基本信息</label>
+
+            <div class="col-md-10">
+                <table class="table main-table">
+                    <tr>
+                        <td class="txt-bold">填表人</td>
+                        <td>@Html.DisplayFor(model => model.userName)</td>
+                        <td class="txt-bold">填表时间</td>
+                        <td>@Html.DisplayFor(model => model.time)</td>
+                    </tr>
+                    <tr>
+                        <td class="txt-bold">报销金额</td>
+                        <td>@Html.DisplayFor(model => model.amount) 元</td>
+                        <td class="txt-bold">所选经费</td>
+                        <td>@Html.DisplayFor(model => model.fundsName, new { htmlAttributes = new { Value = Model.fundsName + "(" + Model.fundsCode + ")" } })</td>
+                    </tr>
+                    <tr>
+                        <td class="txt-bold">报销事由</td>
+                        <td colspan="3">@Html.DisplayFor(model => model.info)</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">报销内容</label>
+            <div class="col-md-10">
+                <table class="table content-table">
+                    <tr>
+                        <th>报销内容</th>
+                        <th>报销金额</th>
+                        <th>
+                        <table class="table th-table">
+                            <tr>
+                                <th colspan="3" style="text-align:center;border-bottom:1px solid #ddd;">报销明细</th>
+                            </tr>
+                            <tr>
+                                <th>时间</th>
+                                <th>事项</th>
+                                <th>金额</th>
+                            </tr>
+                        </table>
+                        </th>
+                        <th>附件</th>
+                    </tr>
+                    @foreach (var item in Model.contents)
+                    {
+                        <tr id="tr_@item.contentId">
+                            <td>
+                                @Html.DisplayFor(citem => item.contentTitle, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td>
+                                @Html.DisplayFor(@citem => item.amount, new { htmlAttributes = new { @class = "form-control" } }) &nbsp;元
+                            </td>
+                            <td>
+                                @if (item.details != null && item.details.Count() > 0)
+                                {
+                                    <table class="table detail-table">
+                                        @foreach (var detail in item.details)
+                                        {
+                                            <tr>
+                                                <td>
+                                                   @Html.DisplayFor(ditem => detail.detailDate, new { htmlAttributes = new { value = ((DateTime)detail.detailDate).ToString("yyyy-MM-dd")}})
+                                                    </td>
+                                                <td>
+                                                    @Html.DisplayFor(ditem => detail.detailInfo, new { htmlAttributes = new { @class = "form-control" } })
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(ditem => detail.amount, new { htmlAttributes = new { @class = "form-control" } })
+
+                                                </td>
+                                            </tr>
+                                        }
+                                    </table>
+                                }
+                            </td>
+                            <td>
+                                @if (item.attachments != null && item.attachments.Count() > 0)
+                                {
+                                    foreach (var aitem in item.attachments)
+                                    {
+                                        string path = "../../attachments/" + Model.reimbursementCode + "/" + @aitem.fileName;
+                                        <p>
+                                            <span class="glyphicon glyphicon-paperclip"></span>
+                                            <a href="@path" attaid="@aitem.id" target="_blank" title="点击预览 @Path.GetFileName(aitem.fileName)" file="@aitem.fileName" class="det-attachment">@Path.GetFileName(aitem.fileName)</a>
+                                        </p>
+                                    }
+                                }
+                            </td>
+                        </tr>
+
+                    }
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">其它附件</label>
+            <div class="col-md-10">
+                @if (Model.attachments != null && Model.attachments.Count() > 0)
+                {
+                    foreach (var aitem in Model.attachments)
+                    {
+                        string path = "../../attachments/" + Model.reimbursementCode + "/" + @aitem.fileName;
+                        <div>
+                            <span class="glyphicon glyphicon-paperclip"></span>
+                            <a href="@path" attaid="@aitem.id" target="_blank" title="点击预览 @Path.GetFileName(aitem.fileName)" file="@aitem.fileName" class="det-attachment">@Path.GetFileName(aitem.fileName)</a>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+            <div class="form-group">
+                <label class="control-label col-md-2" for="amount">审核情况</label>
+                <div class="col-md-10">
+                   @if (Model.responds != null && Model.responds.Count() > 0)
+                   {
+                       <table class="table respond-table">
+                           <tr>
+                               <th>审批人</th>
+                               <th>结果</th>
+                               <th>审批时间</th>
+                               <th>备注</th>
+                           </tr>
+                           @foreach (var ritem in Model.responds)
+                           {
+                               if (thisRespondUser == "")
+                               {
+                                   if (ritem.state == 0)
+                                   {
+                                       thisRespondUser = ritem.respondUserId.ToString();
+                                   }
+                               }
+                               if (ritem.respondUserId.ToString() == User.Identity.Name)
+                               {
+                                <input type="hidden" id="hidRespondId" value="@ritem.id" />
+                               }
+                               <tr>
+                                   <td>@Html.DisplayFor(Ritem => ritem.respondUser, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                   <td>@Html.DisplayFor(Ritem => ritem.strState, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                   <td>@Html.DisplayFor(Ritem => ritem.respondDate, new { htmlAttributes = new { @class = "form-control", Value = ritem.respondDate==null?"":((DateTime)ritem.respondDate).ToString("yyyy-MM-dd") } })</td>
+                                   <td>@Html.DisplayFor(Ritem => ritem.reason, new { htmlAttributes = new { @class = "form-control" } })</td>
+                               </tr>
+                           }
+                       </table>
+                   }
+                </div>
+            </div>
+
+        @if (thisRespondUser == User.Identity.Name&&Model.state!=1)
+        {
+        <div class="form-group">
+            <label class="control-label col-md-2" for="amount">审批操作</label>
+            <div class="col-md-10">
+                <table class="table main-table">
+                    <tr>
+                        <td width="120px" class="txt-bold">审批结果</td>
+                        <td><select id="ddlResult" class="form-control" style="width:120px;display:inline-block">
+    <option value="1">通过</option>
+    <option value="2">不通过</option>
+</select></td>
+                    </tr>
+                    <tr>
+                        <td class="txt-bold">备注</td>
+                        <td><input id="inpReason" class="form-control fl" type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td class="txt-bold">下一步审批</td>
+                        <td>@Html.DropDownListFor(model => Model.next, Model.next, ViewData["ViewUsers"] as List<SelectListItem>, "请选择", new Dictionary<string, object> { { "class", "select form-control ddl-users" }, { "ID", "ddlUser" } })
+                        @Html.ValidationMessageFor(model => model.next, "", new { @class = "text-danger" })</td>
+                    </tr>
+                </table>
+            </div>
+           
+        </div>
+        }
+        <div class="form-group btn-div">
+            <div class="col-md-offset-2 col-md-10">
+                @if (thisRespondUser == User.Identity.Name)
+                {
+                    <button type="button" id="fat-btn" onclick="AddRespond(this);" data-loading-text="提交中..." class="btn btn-primary" autocomplete="off">
+                        提 交
+                    </button>
+                }
+                <a href="javascript:void(0)" onclick="GoBack();"  class="btn btn-warning">返 回</a>
+            </div>
+        </div>
+    </div>
+}
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script src="~/scripts/extendindexof.js"></script>
+<script>
+    function GoBack() {
+        history.go(-1);
+    }
+    function AddRespond() {
+        var respond = new Object();
+        respond.id = $('#hidRespondId').val();
+        if (!respond.id) {
+            alert("非当前批复人，无法审批。");
+            return;
+        }
+        respond.reason = $('#inpReason').val();
+        try{
+            var next = parseInt($('#ddlUser').val());
+            if (next > 0) respond.next = next;
+        } catch (err) { }
+        respond.state = $('#ddlResult').val();
+        
+        $.post("../../RespondManager/SetAgree", respond, function (data) {
+            if (data.state == 1) {
+                alert("操作成功");
+                location.reload();
+            } else alert(data.msg_text);
+        });
+    }
+</script>

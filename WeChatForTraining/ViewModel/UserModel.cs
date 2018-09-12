@@ -78,12 +78,16 @@ namespace Lythen.ViewModel
         /// </summary>
         [DisplayName("登陆次数")]
         public int user_login_times { get; set; }
+        [DisplayName("角色")]
         public int role_id { get { return _role_id; } set { _role_id = value; } }
         public string role_name { get; set; }
         public string token { get; set; }
+        [DisplayName("状态")]
         public int state { get { return _state; } set { _state = value; } }
-            [StringLength(2)]
+            [StringLength(2),DisplayName("性别")]
             public string gender { get; set; }
+        [DisplayName("真实姓名")]
+        public string real_name { get; set; }
     
     }
     public class BaseUserModel

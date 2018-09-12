@@ -10,7 +10,7 @@ namespace Lythen.DAL
     {
         public LythenContext():base("ConnectionContext") { }
         public DbSet<User_Info> User_Infos { get; set; }
-        public DbSet<Sys_Log> Sys_Logs { get; set; }
+        public DbSet<Sys_Logs> Sys_Logs { get; set; }
         public DbSet<Student_Info> Student_Infos { get; set; }
         public DbSet<Course_Info> Course_Infos { get; set; }
         public DbSet<Course_vs_Time> Course_vs_Times { get; set; }
@@ -41,6 +41,14 @@ namespace Lythen.DAL
         public DbSet<Sys_Authority> Sys_Authority { get; set; }
         public DbSet<Role_vs_Authority> Role_vs_Authority { get; set; }
         public DbSet<Sys_SiteInfo> Sys_SiteInfo { get; set; }
+        public DbSet<Reimbursement> Reimbursement { get; set; }
+        public DbSet<Reimbursement_Attachment> Reimbursement_Attachment { get; set; }
+        public DbSet<Reimbursement_Content> Reimbursement_Content { get; set; }
+        public DbSet<Reimbursement_Detail> Reimbursement_Detail { get; set; }
+        public DbSet<Dic_Respond_State> Dic_Respond_State { get; set; }
+        public DbSet<Process_Respond> Process_Respond { get; set; }
+        public DbSet<Dic_Reimbursement_Content> Dic_Reimbursement_Content { get; set; }
+        public DbSet<User_vs_OpenId> User_vs_OpenId { get; set; }
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{
         //    //修改

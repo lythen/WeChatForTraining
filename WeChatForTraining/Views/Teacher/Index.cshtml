@@ -5,16 +5,21 @@
     Layout = "~/Views/Shared/teacherLayout.cshtml";
 }
 <h4>教师列表</h4>
-<hr />
 <table class="table">
     <tr>
+        <th style="width:110px;"></th>
         <th>
             教师ID
         </th>
         <th>
-            姓名
+            用户名
         </th>
-
+        <th>
+            真实姓名
+        </th>
+        <th>
+            性别
+        </th>
         <th>
             角色
         </th>
@@ -32,13 +37,21 @@
     {
         <tr>
             <td>
+                <img src="./photo/@item.user_photo_path" style="width:106px;" />
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.user_id)
             </td>
 
             <td>
                 @Html.DisplayFor(modelItem => item.user_name)
             </td>
-
+            <td>
+                @Html.DisplayFor(modelItem => item.real_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.gender)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.role_name)
             </td>
@@ -53,9 +66,6 @@
                 {
                     @Html.ActionLink("编辑", "Edit", new { id = item.user_id })
                 }
-                
-                @Html.ActionLink("详细", "Details", new { id = item.user_id }) 
-
                 @if (ViewBag.isdelete == 1)
                 {
                 @Html.ActionLink("删除", "Delete", new { id = item.user_id })

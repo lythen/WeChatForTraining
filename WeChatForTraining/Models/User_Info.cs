@@ -37,7 +37,10 @@ namespace Lythen.Models
         /// <summary>
         /// 用户介绍，一般用于老师
         /// </summary>
+        [StringLength(100)]
         public string user_info{get;set;}
+        [StringLength(100)]
+        public string real_name { get; set; }
         /// <summary>
         /// 用户电子邮箱
         /// </summary>
@@ -93,5 +96,7 @@ namespace Lythen.Models
         public string user_salt { get; set; }
         [StringLength(2)]
         public string user_gender { get; set; }
+        [StringLength(8)]
+        public string user_bindCode { get; set; }
     }
 }

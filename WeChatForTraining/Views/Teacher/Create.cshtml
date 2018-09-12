@@ -1,6 +1,9 @@
 ﻿@model Lythen.ViewModel.TeacherEditModel
 @{
     ViewBag.Title = Lythen.Controllers.SiteInfo.getSiteName() + "-教师信息录入";
+    Lythen.ViewModel.LoginRole role = (Lythen.ViewModel.LoginRole)Session["LoginRole"];
+    int userId = Lythen.Common.PageValidate.FilterParam(User.Identity.Name);
+    Lythen.DAL.LythenContext db = new Lythen.DAL.LythenContext();
     Layout = "~/Views/Shared/teacherLayout.cshtml";
 }
 <style>

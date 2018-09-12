@@ -117,7 +117,7 @@ namespace Lythen.Controllers
             Session["LoginRole"] = role;
             Session["ControlRoles"] = controlroles;
             Session["UserInfo"] = user;
-            Session["Name"] = model.userName;
+            Session["realname"] = user.real_name;
             DataCache.SetCache("user-roles-" + user.user_id, role);
             HttpCookie cookie;
             if (model.isRemember)
@@ -142,12 +142,12 @@ namespace Lythen.Controllers
                 , Request.Browser.Platform
                 , Request.Browser.Type
                 );
-            Sys_Log log = new Sys_Log
+            Sys_Logs log = new Sys_Logs
             {
-                log_info = "登陆",
+                log_content = "登陆",
                 log_time = DateTime.Now,
                 log_user_id = user.user_id,
-                log_user_ip = ip,
+                log_ip = ip,
                 log_device = loginDev
             };
             user.user_login_times++;

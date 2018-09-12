@@ -1,5 +1,9 @@
 ﻿@{ 
-    var name = Session["Name"];
+    string name = "";
+    if (Session["realname"] != null)
+    {
+        name = Server.UrlDecode(Session["realname"].ToString());
+    }
 }
 <style>
     .sidebar .widget2 {

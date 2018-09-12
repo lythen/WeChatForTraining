@@ -44,7 +44,7 @@ namespace Lythen.Common
             else userRoles = (string[])objUVR;
             return userRoles;
         }
-        static bool CheckIsSuperAdmin(int userId, LythenContext db)
+        public static bool CheckIsSuperAdmin(int userId, LythenContext db)
         {
             var query = from uvr in db.User_vs_Roles
                         where uvr.uvr_user_id == userId && uvr.uvr_role_id == 1

@@ -37,7 +37,7 @@ namespace Lythen.Controllers
             if (loginInfo != null)
             {
                 userInfo.lastDev = loginInfo.log_device;
-                userInfo.lastIp = loginInfo.log_user_ip;
+                userInfo.lastIp = loginInfo.log_ip;
                 userInfo.lastTime = loginInfo.log_time.ToString("yyyy年MM月dd日 HH时mm分");
             }
             userInfo.guardianships = (from uvs in db.User_vs_Students

@@ -13,7 +13,7 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WeChatForTraining</RootNamespace>
+    <RootNamespace>Lythen</RootNamespace>
     <AssemblyName>WeChatForTraining</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <UseIISExpress>false</UseIISExpress>
@@ -172,6 +172,52 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.ar.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.az.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.bg.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.bn.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.ca.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.cs.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.da.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.de.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.ee.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.el.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.es.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.fi.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.fr.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.he.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.hr.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.hu.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.hy.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.id.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.is.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.it.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.ja.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.ka.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.ko.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.lt.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.lv.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.ms.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.nb.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.nl.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.no.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.pl.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.pt-BR.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.pt.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.ro.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.rs-latin.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.rs.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.ru.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.sk.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.sl.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.sv.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.sw.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.th.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.tr.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.ua.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.uk.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.zh-CN.js" />
+    <Content Include="Scripts\locales\bootstrap-datetimepicker.zh-TW.js" />
     <Content Include="Views\Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -272,6 +318,18 @@
     <Content Include="Views\Sys_Info\ControllerRoles.cshtml" />
     <Content Include="Views\Course\AddRollCall.cshtml" />
     <Content Include="Views\Shared\parentLayout.cshtml" />
+    <Content Include="Views\Finance\Create.cshtml" />
+    <Content Include="Views\Finance\Details.cshtml" />
+    <Content Include="Views\Finance\Edit.cshtml" />
+    <Content Include="Views\Statistics\Detail.cshtml" />
+    <Content Include="Views\Statistics\FundsStatistics.cshtml" />
+    <Content Include="Views\Statistics\TimesStaticstics.cshtml" />
+    <Content Include="Views\Shared\financeLayout.cshtml" />
+    <Content Include="Views\Finance\MyBills.cshtml" />
+    <Content Include="Views\Sys_Info\SiteInfo.cshtml" />
+    <Content Include="Views\Sys_Info\SiteSet.cshtml" />
+    <Content Include="Views\Sys_Info\Role.cshtml" />
+    <Content Include="Views\Sys_Info\RoleAuthSet.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -296,7 +354,10 @@
     <Compile Include="Common\TokenProccessor.cs" />
     <Compile Include="Controllers\DBCaches.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
+    <Compile Include="Controllers\FinanceController.cs" />
     <Compile Include="Controllers\SiteInfo.cs" />
+    <Compile Include="Controllers\StatisticsController.cs" />
+    <Compile Include="Controllers\SysLog.cs" />
     <Compile Include="Controllers\wxAuthorizeAttribute.cs" />
     <Compile Include="Common\DataCache.cs" />
     <Compile Include="Controllers\DropDownList.cs" />
@@ -318,7 +379,9 @@
     <Compile Include="Controllers\UserRolesInfo.cs" />
     <Compile Include="Controllers\User_InfoController.cs" />
     <Compile Include="Controllers\ValidateCodeController.cs" />
-    <Compile Include="DAL\WXfroTrainingDBContext .cs" />
+    <Compile Include="DAL\Bills.cs" />
+    <Compile Include="DAL\Statistics.cs" />
+    <Compile Include="DAL\LythenContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -335,7 +398,22 @@
     <Compile Include="Migrations\201809080534183_updatesiteinfo.Designer.cs">
       <DependentUpon>201809080534183_updatesiteinfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809111638254_addfinace.cs" />
+    <Compile Include="Migrations\201809111638254_addfinace.Designer.cs">
+      <DependentUpon>201809111638254_addfinace.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809120840051_addopenid.cs" />
+    <Compile Include="Migrations\201809120840051_addopenid.Designer.cs">
+      <DependentUpon>201809120840051_addopenid.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Dic_Reimbursement_Content.cs" />
+    <Compile Include="Models\Dic_Respond_State.cs" />
+    <Compile Include="Models\Process_Respond.cs" />
+    <Compile Include="Models\Reimbursement.cs" />
+    <Compile Include="Models\Reimbursement_Attachment.cs" />
+    <Compile Include="Models\Reimbursement_Content.cs" />
+    <Compile Include="Models\Reimbursement_Detail.cs" />
     <Compile Include="Models\Role_vs_Authority.cs" />
     <Compile Include="Models\Sys_Authority.cs" />
     <Compile Include="Models\Sys_Controller.cs" />
@@ -363,10 +441,11 @@
     <Compile Include="Models\Sys_Info.cs" />
     <Compile Include="Models\Sys_Refund.cs" />
     <Compile Include="Models\Sys_Roles.cs" />
-    <Compile Include="Models\Sys_Log.cs" />
+    <Compile Include="Models\Sys_Logs.cs" />
     <Compile Include="Models\Sys_School.cs" />
     <Compile Include="Models\Sys_SiteInfo.cs" />
     <Compile Include="Models\User_Info.cs" />
+    <Compile Include="Models\User_vs_OpenId.cs" />
     <Compile Include="Models\User_vs_Role.cs" />
     <Compile Include="Models\User_vs_Student.cs" />
     <Compile Include="Models\User_vs_Subject.cs" />
@@ -381,6 +460,8 @@
     <Compile Include="ViewModel\LoginModel.cs" />
     <Compile Include="ViewModel\ParentsModel.cs" />
     <Compile Include="ViewModel\RegisterModel.cs" />
+    <Compile Include="ViewModel\ReimbursementModel.cs" />
+    <Compile Include="ViewModel\ResponseModel.cs" />
     <Compile Include="ViewModel\RollCallModel.cs" />
     <Compile Include="ViewModel\StudentsModel.cs" />
     <Compile Include="ViewModel\SystemSetModel.cs" />
@@ -391,7 +472,6 @@
   <ItemGroup>
     <Folder Include="Images\stu\" />
     <Folder Include="Images\temp\" />
-    <Folder Include="Scripts\locales\" />
     <Folder Include="Views\Top\" />
     <Folder Include="Views\ValidateCode\" />
   </ItemGroup>
@@ -404,6 +484,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809080534183_updatesiteinfo.resx">
       <DependentUpon>201809080534183_updatesiteinfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809111638254_addfinace.resx">
+      <DependentUpon>201809111638254_addfinace.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809120840051_addopenid.resx">
+      <DependentUpon>201809120840051_addopenid.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

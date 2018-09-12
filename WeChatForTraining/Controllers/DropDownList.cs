@@ -4,6 +4,8 @@ using Lythen.DAL;
 using Lythen.Models;
 using System.Linq;
 using Lythen.Common;
+using Lythen.Common.DEncrypt;
+using Lythen.ViewModel;
 
 namespace Lythen.Controllers
 {
@@ -29,6 +31,24 @@ namespace Lythen.Controllers
         private static string cache_allcontrollers = "cache_allcontrollers";
         private static string cache_user_state = "cache_user_state";
         private static string cache_role = "cache_role";
+        private static string cache_user = "cache_user-";
+        private static string cache_response_user = "cache_response_user_";
+        private static string cache_content = "cache_content";
+        private static string respond_state = "respond_state";
+        private static string cache_authority = "cache_authority";
+        public static List<SelectOption> UserStateSelect()
+        {
+            List<SelectOption> options = (List<SelectOption>)DataCache.GetCache(cache_user_state);
+            if (options == null)
+            {
+                options = new List<SelectOption>();
+                options.Add(new SelectOption { text = "正常", id = "1" });
+                options.Add(new SelectOption { text = "未启用", id = "0" });
+                options.Add(new SelectOption { text = "锁定", id = "2" });
+                DataCache.SetCache(cache_user_state, options);
+            }
+            return options;
+        }
         public static List<SelectListItem> SetDropDownList(List<Models.SelectOption> options)
         {
             List<SelectListItem> items = new List<SelectListItem>();
@@ -447,16 +467,33 @@ namespace Lythen.Controllers
             }
             return options;
         }
-        public static List<SelectOption> UserStateSelect()
+        public static List<SelectOption> UserSelect(int userId)
         {
-            List<SelectOption> options = (List<SelectOption>)DataCache.GetCache(cache_user_state);
+            string key = cache_user + userId;
+            bool isManager = RoleCheck.CheckHasAuthority(userId, db, "经费管理","用户管理");
+            if (isManager) key = cache_user;
+            else key = cache_user + userId;
+            List<SelectOption> options = (List<SelectOption>)DataCache.GetCache(key);
             if (options == null)
             {
-                options = new List<SelectOption>();
-                options.Add(new SelectOption { text = "正常", id = "1" });
-                options.Add(new SelectOption { text = "未启用", id = "0" });
-                options.Add(new SelectOption { text = "锁定", id = "2" });
-                DataCache.SetCache(cache_user_state, options);
+                var query = (from user in db.User_Infos
+                            where user.user_state == 1
+                            select new
+                            {
+                                userId=user.user_id,
+                                userName= user.real_name
+                            }).ToList();
+                if (userId > 0 && !isManager)
+                    query = query.Where(x => x.userId == userId).ToList();
+
+                options = (from user in query
+                           select new SelectOption
+                           {
+                               id = user.userId.ToString(),
+                               text = AESEncrypt.Decrypt(user.userName)
+                           }).ToList();
+                if (isManager) options.Insert(0,new SelectOption { id = "0", text = "全部" });
+                if (options.Count() > 0) DataCache.SetCache(key, options);
             }
             return options;
         }
@@ -470,6 +507,69 @@ namespace Lythen.Controllers
                                              id = ct.role_id.ToString(),
                                              text = ct.role_name
                                          }).ToList();
+            return option;
+        }
+        public static List<SelectOption> RespondUserSelect()
+        {
+            string key = cache_response_user + "0";
+            List<SelectOption> options = (List<SelectOption>)DataCache.GetCache(key);
+            if (options == null)
+            {
+                string[] auths = { "财务管理", "系统管理" };
+                options = (from op in (from user in db.User_Infos
+                                       join uvr in db.User_vs_Roles on user.user_id equals uvr.uvr_user_id
+                                       join rva in db.Role_vs_Authority on uvr.uvr_role_id equals rva.rva_role_id
+                                       join auth in db.Sys_Authority on rva.rva_auth_id equals auth.auth_id
+                                       where user.user_state == 1 && auths.Contains(auth.auth_name)
+                                       group user by new { user.user_id, user.real_name } into p
+                                       select new
+                                       {
+                                           id = p.Key.user_id,
+                                           text = p.Key.real_name
+                                       }).ToList()
+                           select new SelectOption
+                           {
+                               id = op.id.ToString(),
+                               text =AESEncrypt.Decrypt(op.text)
+                           }).ToList();
+                if (options.Count() > 0) DataCache.SetCache(key, options);
+            }
+            return options;
+        }
+        public static List<SelectOption> ContentSelect()
+        {
+            List<Dic_Reimbursement_Content> contents = DBCaches<Dic_Reimbursement_Content>.getCache(cache_content);
+            List<SelectOption> option = (from content in contents
+                                         select new SelectOption
+                                         {
+                                             id = content.content_id.ToString(),
+                                             text = content.content_title
+                                         }).ToList();
+            return option;
+        }
+        public static List<SelectOption> RespondStateSelect()
+        {
+            List<Dic_Respond_State> depts = DBCaches<Dic_Respond_State>.getCache(respond_state);
+            List<SelectOption> option = (from ct in depts
+                                         select new SelectOption
+                                         {
+                                             id = ct.drs_state_id.ToString(),
+                                             text = ct.drs_state_name
+                                         }).ToList();
+            return option;
+        }
+        public static List<AuthInfo> AuthoritySelect()
+        {
+            List<Sys_Authority> funds = DBCaches<Sys_Authority>.getCache(cache_authority);
+            List<AuthInfo> option = (from auth in funds
+                                     select new AuthInfo
+                                     {
+                                         authId = auth.auth_id,
+                                         authInfo = auth.auth_info,
+                                         authName = auth.auth_name,
+                                         isController = auth.auth_is_Controller,
+                                         mapController = auth.auth_map_Controller
+                                     }).ToList();
             return option;
         }
     }

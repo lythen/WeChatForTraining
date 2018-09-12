@@ -56,5 +56,35 @@ namespace Lythen.Common
             }
             return _attachmentTempPath;
         }
+        public static string GetPhotoPath()
+        {
+            if (_photoPath == null)
+            {
+                try
+                {
+                    _photoPath = ConfigurationManager.AppSettings["photoPath"];
+                }
+                catch (Exception ex)
+                {
+                    ErrorUnit.WriteErrorLog(ex.ToString(), "GetPhotoPath");
+                }
+            }
+            return _photoPath;
+        }
+        public static string GetTempPhotoPath()
+        {
+            if (_tempPhotoPath == null)
+            {
+                try
+                {
+                    _tempPhotoPath = ConfigurationManager.AppSettings["tempPhotoPath"];
+                }
+                catch (Exception ex)
+                {
+                    ErrorUnit.WriteErrorLog(ex.ToString(), "GetTempPhotoPath");
+                }
+            }
+            return _tempPhotoPath;
+        }
     }
 }

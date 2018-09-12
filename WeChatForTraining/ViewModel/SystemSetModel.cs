@@ -5,7 +5,7 @@ using Lythen.Common;
 using System.Collections.Generic;
 using System;
 
-namespace Lythen.ViewModels
+namespace Lythen.ViewModel
 {
     public class SystemSetModel
     {

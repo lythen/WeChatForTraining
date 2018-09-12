@@ -290,6 +290,10 @@ namespace Lythen.Migrations
             //    };
             //    context.Sys_Authority.AddOrUpdate(x => x.auth_name, auth);
             //}
+            //context.Dic_Respond_State.AddOrUpdate(x => x.drs_state_name,
+            //    new Dic_Respond_State() { drs_state_id = 0, drs_state_name = "未查看" },
+            //    new Dic_Respond_State() { drs_state_id = 1, drs_state_name = "通过" },
+            //    new Dic_Respond_State() { drs_state_id = 2, drs_state_name = "不通过" });
         }
     }
 }

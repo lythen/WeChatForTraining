@@ -1,0 +1,159 @@
+﻿@{
+    ViewBag.Title = Lythen.Controllers.SiteInfo.getSiteName() + "权限设置";
+    List<SelectListItem> roleInfo = ViewData["Roles"] as List<SelectListItem>;
+    List<Lythen.ViewModels.AuthInfo> auths = ViewData["Auths"] as List<Lythen.ViewModels.AuthInfo>;
+    Layout = "~/Views/Shared/_systemset.cshtml";
+}
+<style>
+    .in-lab {
+        float: left;
+        display: inline-block;
+        width: 100px;
+    }
+
+        .in-lab span, .in-lab label {
+            float: left;
+            display: inline-block;
+            width: auto;
+            padding: 0px;
+            height: 50px;
+            line-height: 50px;
+        }
+
+    .table .in-lab label {
+        padding-top: 0px;
+    }
+
+    .table th {
+        text-align: center;
+    }
+    .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{height:67px;line-height:67px;vertical-align:middle;padding:0px;}
+    .form-horizontal .form-group {
+        margin-left: 2px;
+        margin-right: 2px;
+    }
+    .w200{width:200px;}
+</style>
+<h2>权限设置</h2>
+
+<div class="col-md-10" style="color:red;width:100%;text-align:center;">
+    @ViewBag.msg
+</div>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            <table class="table">
+                <tr>
+                    <td colspan="3">
+                        @Html.DropDownList("ddlRole", roleInfo as List<SelectListItem>, "请选择", new { @class = "select form-control w200",@onchange="RoleChange();" })
+                    </td>
+                </tr>
+
+                @foreach (var item in auths)
+                {
+                    var @id = "cbk" + @item.authId;
+                    <tr class="tr-c">         
+                        <td width="80px" align="center">
+                            <input type="hidden" id="hid_@item.authId" value="@item.mapController" />
+                            <span>
+                                <input type="checkbox" id="@id" name="@id" class="cbk-auth" onchange="SetChange(this);"/>
+                            </span>
+                        </td>
+                        <td width="180px">
+                            <div class="in-lab">
+                                <label class="control-label col-md-2" for="@id">@item.authName</label>
+                            </div>
+
+                        </td>
+                        <td>
+                            <div>
+                                @Html.EditorFor(Itemmodel => item.authInfo, new { htmlAttributes = new { @class = "form-control", @readOnly = "readOnly" } })
+                                @Html.ValidationMessageFor(Itemmodel => item.authInfo, "", new { @class = "text-danger" })
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="保存更改" class="btn btn-default" onclick="Edit()" />
+            </div>
+        </div>
+    </div>
+}
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script>
+
+    function SetChange(obj) {
+        if (!obj.checked) return;
+        var hid = $(obj).parent().parent().find('input[type="hidden"]');
+        if (hid.val()&&hid.val() != '0')
+            document.getElementById('cbk' + hid.val()).checked = true;
+    }
+    function RoleChange() {
+        var id = $('#ddlRole').val();
+        if (!id || id == '0') {
+            alert('没有选择角色。');
+            return;
+        }
+        var cbk = $('.cbk-auth:checked');
+        var len = cbk.length;
+        for (var i = 0; i < len; i++) {
+            cbk[i].checked = false;
+        }
+        //GetRoleAuth
+        $.get("@Url.RouteUrl(new { controller = "SystemSet", action = "GetRoleAuth" })?roleId="+id, function (data) {
+            if (data.state == 1) {
+                if (data.data) {
+                    var list = data.data;
+                    len = list.length;
+                    var id;
+                    for (var i = 0; i < len; i++) {
+                        id = 'cbk' + list[i].authId;
+                        document.getElementById(id).checked = true;
+                    }
+                }
+            }else
+            {
+                $('.err').text(data.msg_text);
+            }
+        }).fail(function (err) {
+            alert(err.status+':'+err.statusText);
+        });
+    }
+    function Edit() {
+        if (!confirm("是否确认当前修改？。")) return;
+        var id = $('#ddlRole').val();
+        if (!id || id == '0') {
+            alert('没有选择角色。');
+            return;
+        }
+        var list = new Array();
+        var cbk = $('.cbk-auth:checked');
+        var len = cbk.length;
+        var minfo, roles,boxes,rinfo;
+        for (var i = 0; i < len; i++) {
+            var ViewRoleAuthority = new Object();
+            ViewRoleAuthority.roleId = id;
+            ViewRoleAuthority.authId = cbk[i].id.replace('cbk', '');
+            list.push(ViewRoleAuthority);
+        }
+        var data = new Object();
+        data.auths = list;
+        $.post("@Url.RouteUrl(new { controller = "SystemSet", action = "SetRoleAuth" })", data, function (data) {
+            if (data.state == 1) {
+                alert('更新成功。');
+            }else
+            {
+                $('.err').text(data.msg_text);
+            }
+        }).fail(function (err) {
+            alert(err.status+':'+err.statusText);
+        });
+    }
+</script>

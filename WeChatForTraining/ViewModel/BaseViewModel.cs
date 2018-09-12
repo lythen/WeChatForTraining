@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Lythen.ViewModels
+namespace Lythen.ViewModel
 {
     public class BaseViewModel
     {
